@@ -1,0 +1,179 @@
+<?xml version="1.0"?>
+<rdf:RDF
+    xmlns:profile="http://www.daml.org/services/owl-s/1.2/Profile.owl#"
+    xmlns:service="http://www.daml.org/services/owl-s/1.2/Service.owl#"
+    xmlns:process="http://www.daml.org/services/owl-s/1.2/Process.owl#"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:grounding="http://www.daml.org/services/owl-s/1.2/Grounding.owl#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:daml="http://www.daml.org/2001/03/daml+oil#"
+	xmlns:expr="http://www.daml.org/services/owl-s/1.2/generic/Expression.owl#"
+	xmlns:swrl="http://www.w3.org/2003/11/swrl#"
+  xml:base="http://magus.online/repositories/orderprocessing/services/RequestShippingPS.xml">
+  <owl:Ontology rdf:about="">
+    <owl:imports rdf:resource="http://www.daml.org/services/owl-s/1.2/Grounding.owl"/>
+    <owl:imports rdf:resource="http://www.daml.org/services/owl-s/1.2/Process.owl"/>
+    <owl:imports rdf:resource="http://www.daml.org/services/owl-s/1.2/Service.owl"/>
+    <owl:imports rdf:resource="http://www.daml.org/services/owl-s/1.2/Profile.owl"/>
+    <owl:imports rdf:resource="http://magus.online/repositories/orderprocessing/orderprocessing.xml"/>
+  </owl:Ontology>
+  <service:Service rdf:ID="RequestShippingPS">
+    <service:describedBy  rdf:ID="RequestShippingPSProcess1"> 
+      <process:AtomicProcess rdf:ID="RequestShippingPSProcess">
+        <process:hasInput>
+          <process:Input rdf:ID="purchaseOrder">
+            <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >purchaseOrder</rdfs:label>
+            <process:parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI"
+            >http://magus.online/repositories/orderprocessing/orderprocessing.xml#PurchaseOrder</process:parameterType>
+          </process:Input>
+	  <process:Input rdf:ID="productionSchedule">
+                <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                >productionSchedule</rdfs:label>
+                <process:parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI"
+                >http://magus.online/repositories/orderprocessing/orderprocessing.xml#ProductionSchedule</process:parameterType>
+           </process:Input>
+           <process:Input rdf:ID="shippingCourier">
+                <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                >shippingCourier</rdfs:label>
+                <process:parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI"
+                >http://magus.online/repositories/orderprocessing/orderprocessing.xml#CourierInfo</process:parameterType>
+           </process:Input>
+           
+        </process:hasInput>
+        <service:describes rdf:resource="#RequestShippingPS"/>
+		 <process:hasPrecondition>
+			  <expr:SWRL-Condition rdf:ID="RequestShippingPSServicePrec">
+				<expr:expressionObject>
+				  <swrl:AtomList>
+					<rdf:rest>
+					  <swrl:AtomList>
+						<rdf:first>
+						  <swrl:ClassAtom>
+							<swrl:argument1>
+							  <swrl:Variable rdf:ID="customerInfo"/>
+							</swrl:argument1>
+							<swrl:classPredicate rdf:resource="http://magus.online/repositories/orderprocessing/orderprocessing.xml#Customer"/>
+						  </swrl:ClassAtom>
+						</rdf:first>
+						<rdf:rest>
+						  <swrl:AtomList>
+							<rdf:first>
+							  <swrl:IndividualPropertyAtom>
+								<swrl:propertyPredicate rdf:resource="http://magus.online/repositories/orderprocessing/orderprocessing.xml#InvoiceCreationRequested"/>
+								<swrl:argument1 rdf:resource="#customerInfo"/>
+								<swrl:argument2 rdf:resource="http://magus.online/repositories/orderprocessing/services/RequestShippingPS.xml#purchaseOrder"/>
+							  </swrl:IndividualPropertyAtom>
+							</rdf:first>
+							<rdf:rest>
+						  <swrl:AtomList>
+							<rdf:first>
+							  <swrl:ClassAtom>
+								<swrl:argument1 rdf:resource="http://magus.online/repositories/orderprocessing/services/RequestShippingPS.xml#purchaseOrder"/>
+								<swrl:classPredicate rdf:resource="http://magus.online/repositories/orderprocessing/orderprocessing.xml#PurchaseOrder"/>
+							  </swrl:ClassAtom>
+							</rdf:first>
+							<rdf:rest>
+						  <swrl:AtomList>
+							<rdf:first>
+							  <swrl:IndividualPropertyAtom>
+								<swrl:propertyPredicate rdf:resource="http://magus.online/repositories/orderprocessing/orderprocessing.xml#HasProductionSchedule"/>
+								<swrl:argument1 rdf:resource="http://magus.online/repositories/orderprocessing/services/RequestShippingPS.xml#purchaseOrder"/>
+								<swrl:argument2 rdf:resource="http://magus.online/repositories/orderprocessing/services/RequestShippingPS.xml#productionSchedule"/>
+							  </swrl:IndividualPropertyAtom>
+							</rdf:first>
+							<rdf:rest>
+							  <swrl:AtomList>
+								<rdf:first>
+								  <swrl:ClassAtom>
+									<swrl:classPredicate rdf:resource="http://magus.online/repositories/orderprocessing/orderprocessing.xml#ProductionSchedule"/>
+									<swrl:argument1 rdf:resource="http://magus.online/repositories/orderprocessing/services/RequestShippingPS.xml#productionSchedule"/>
+								  </swrl:ClassAtom>
+								</rdf:first>
+									<rdf:rest>
+									  <swrl:AtomList>
+										<rdf:first>
+										  <swrl:IndividualPropertyAtom>
+											<swrl:propertyPredicate rdf:resource="http://magus.online/repositories/orderprocessing/orderprocessing.xml#HasCourierInfo"/>
+											<swrl:argument1 rdf:resource="http://magus.online/repositories/orderprocessing/services/RequestShippingPS.xml#purchaseOrder"/>
+											<swrl:argument2 rdf:resource="http://magus.online/repositories/orderprocessing/services/RequestShippingPS.xml#shippingCourier"/>
+										  </swrl:IndividualPropertyAtom>
+										</rdf:first>
+										<rdf:rest>
+										  <swrl:AtomList>
+											<rdf:first>
+											  <swrl:ClassAtom>
+												<swrl:classPredicate rdf:resource="http://magus.online/repositories/orderprocessing/orderprocessing.xml#ShippingCourier"/>
+												<swrl:argument1 rdf:resource="http://magus.online/repositories/orderprocessing/services/RequestShippingPS.xml#shippingCourier"/>
+											  </swrl:ClassAtom>
+											</rdf:first>
+											<rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+										  </swrl:AtomList>
+										</rdf:rest>
+									  </swrl:AtomList>
+									</rdf:rest>
+							  </swrl:AtomList>
+							</rdf:rest>
+						  </swrl:AtomList>
+						</rdf:rest>
+						  </swrl:AtomList>
+						</rdf:rest>
+						  </swrl:AtomList>
+						</rdf:rest>
+					  </swrl:AtomList>
+					</rdf:rest>
+				  </swrl:AtomList>
+				</expr:expressionObject>
+				<expr:expressionLanguage rdf:resource="http://www.daml.org/services/owl-s/1.2/generic/Expression.owl#SWRL"/>
+				<rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+				>Precondition for Request Shipping Service</rdfs:comment>
+			  </expr:SWRL-Condition>
+		 </process:hasPrecondition>
+<process:hasOutput>
+          <process:Output rdf:ID="shippingSchedule">
+            <process:parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI"
+            >http://magus.online/repositories/orderprocessing/orderprocessing.xml#Schedule</process:parameterType>
+            <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >shippingSchedule</rdfs:label>
+          </process:Output>
+        </process:hasOutput>
+		  <process:hasResult>
+			  <expr:SWRL-Condition rdf:ID="RequestShippingPSServiceEff">
+				<expr:expressionObject>
+				  <swrl:AtomList>
+					<rdf:first>
+					  <swrl:ClassAtom>
+						<swrl:argument1 rdf:resource="http://magus.online/repositories/orderprocessing/services/RequestShippingPS.xml#shippingSchedule"/>
+						<swrl:classPredicate rdf:resource="http://magus.online/repositories/orderprocessing/orderprocessing.xml#ShippingSchedule"/>
+					  </swrl:ClassAtom>
+					</rdf:first>
+					<rdf:rest>
+					  <swrl:AtomList>
+						<rdf:first>
+						  <swrl:IndividualPropertyAtom>
+							<swrl:propertyPredicate rdf:resource="http://magus.online/repositories/orderprocessing/orderprocessing.xml#HasShippingAfterProductionSchedule"/>
+							<swrl:argument2 rdf:resource="http://magus.online/repositories/orderprocessing/services/RequestShippingPS.xml#shippingSchedule"/>
+							<swrl:argument1 rdf:resource="http://magus.online/repositories/orderprocessing/services/RequestShippingPS.xml#purchaseOrder"/>
+						  </swrl:IndividualPropertyAtom>
+						</rdf:first>
+						<rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+					  </swrl:AtomList>
+					</rdf:rest>
+				  </swrl:AtomList>
+				</expr:expressionObject>
+				<expr:expressionLanguage rdf:resource="http://www.daml.org/services/owl-s/1.2/generic/Expression.owl#SWRL"/>
+				<rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+				>Effect for Request Shipping Service</rdfs:comment>
+			  </expr:SWRL-Condition>
+		 </process:hasResult>
+
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >RequestShippingPSProcess</rdfs:label>
+      </process:AtomicProcess>
+    </service:describedBy>
+    
+  </service:Service>
+</rdf:RDF>
+
+

@@ -1,0 +1,49 @@
+.bpelnode{
+			/*stroke:rgb(205,205,205);stroke-width:1;shape-rendering:crispEdges;*/
+			
+			
+		}
+		
+		.seqheader{
+			/*stroke:rgb(205,205,205);stroke-width:1;shape-rendering:crispEdges;*/
+		}
+		
+		
+		.seqheadertext{
+			/*font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;text-anchor:middle;font-size: 0.8em;*/
+		}
+		
+		.seqconnector{
+			/*stroke:rgb(205,205,205);stroke-width:0.8;marker-end: url(#markerArrow);*/
+		}
+		
+		.bpeltext{
+			/*font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;text-anchor:middle;font-size: 0.8em;*/
+		}
+		.bpeltype{
+			/*text-anchor:middle;	font-size: 0.8em;font-family: 'Courier New', sans-serif;*/
+		}
+		
+		.flowline{
+			/*stroke:rgb(112,152,224);stroke-width:2;*/
+		}
+		
+		.connector{
+			/*stroke:rgb(205,205,205);stroke-width:0.8;marker-end: url(#markerArrow);*/
+		}
+		
+		.invokeimg{
+		
+		}
+		
+		.receiveimg{
+		
+		}
+		
+		.sequenceimg{
+		
+		}
+		
+		.replyimg{
+		
+		}

@@ -1,0 +1,212 @@
+<?xml version="1.0"?>
+<rdf:RDF
+    xmlns:profile="http://www.daml.org/services/owl-s/1.2/Profile.owl#"
+    xmlns:service="http://www.daml.org/services/owl-s/1.2/Service.owl#"
+    xmlns:process="http://www.daml.org/services/owl-s/1.2/Process.owl#"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:grounding="http://www.daml.org/services/owl-s/1.2/Grounding.owl#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:daml="http://www.daml.org/2001/03/daml+oil#"
+    xmlns:expr="http://www.daml.org/services/owl-s/1.2/generic/Expression.owl#"
+    xmlns:swrl="http://www.w3.org/2003/11/swrl#"
+  xml:base="http://magus.online/repositories/orderprocessing/services/RequestInvoiceCreationTSSS.xml">
+  <owl:Ontology rdf:about="">
+    <owl:imports rdf:resource="http://www.daml.org/services/owl-s/1.2/Profile.owl"/>
+    <owl:imports rdf:resource="http://www.daml.org/services/owl-s/1.2/Service.owl"/>
+    <owl:imports rdf:resource="http://www.daml.org/services/owl-s/1.2/Process.owl"/>
+    <owl:imports rdf:resource="http://www.daml.org/services/owl-s/1.2/Grounding.owl"/>
+    <owl:imports rdf:resource="http://magus.online/repositories/orderprocessing/orderprocessing.xml"/>
+  </owl:Ontology>
+  <service:Service rdf:ID="RequestInvoiceCreationTSSS">
+    <service:describedBy >
+	 <process:AtomicProcess rdf:ID="RequestInvoiceCreationTSSSProcess">
+                <service:describes rdf:resource="#RequestInvoiceCreationTSSS"/>
+                <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">RequestInvoiceCreationTSSSProcess</rdfs:label>
+				<process:hasInput>
+				  <process:Input rdf:ID="customerInfo">
+					<process:parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI"
+					>http://magus.online/repositories/orderprocessing/orderprocessing.xml#Customer</process:parameterType>
+					<rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+					>customerInfo</rdfs:label>
+				  </process:Input>
+				</process:hasInput>
+				<process:hasInput>
+				  <process:Input rdf:ID="purchaseOrder">
+					<process:parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI"
+					>http://magus.online/repositories/orderprocessing/orderprocessing.xml#PurchaseOrder</process:parameterType>
+					<rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+					>purchaseOrder</rdfs:label>
+				  </process:Input>
+				</process:hasInput>
+				<process:hasPrecondition>
+					  <expr:SWRL-Condition rdf:ID="RequestInvoiceCreationTSSSServicePrec">
+						<expr:expressionObject>
+						  <swrl:AtomList>
+							<rdf:first>
+							  <swrl:IndividualPropertyAtom>
+								<swrl:propertyPredicate rdf:resource="http://magus.online/repositories/orderprocessing/orderprocessing.xml#Ordered"/>
+								<swrl:argument1 rdf:resource="http://magus.online/repositories/orderprocessing/services/RequestInvoiceCreationTSSS.xml#customerInfo"/>
+								<swrl:argument2 rdf:resource="http://magus.online/repositories/orderprocessing/services/RequestInvoiceCreationTSSS.xml#purchaseOrder"/>
+							  </swrl:IndividualPropertyAtom>
+							</rdf:first>
+							<rdf:rest >
+								<swrl:AtomList>
+									<rdf:first>
+									  <swrl:IndividualPropertyAtom>
+										<swrl:propertyPredicate rdf:resource="http://magus.online/repositories/orderprocessing/orderprocessing.xml#!InvoiceCreationRequested"/>
+										<swrl:argument1 rdf:resource="http://magus.online/repositories/orderprocessing/services/RequestInvoiceCreationTSSS.xml#customerInfo"/>
+										<swrl:argument2 rdf:resource="http://magus.online/repositories/orderprocessing/services/RequestInvoiceCreationTSSS.xml#purchaseOrder"/>
+									  </swrl:IndividualPropertyAtom>
+									</rdf:first>
+									<rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+						  		</swrl:AtomList>
+							</rdf:rest>
+						  </swrl:AtomList>
+						</expr:expressionObject>
+						<expr:expressionLanguage rdf:resource="http://www.daml.org/services/owl-s/1.2/generic/Expression.owl#SWRL"/>
+						<rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+						></rdfs:comment>
+					  </expr:SWRL-Condition>
+				 </process:hasPrecondition>
+				 <process:hasResult>
+					  <expr:SWRL-Condition rdf:ID="RequestInvoiceCreationTSSSServicePrec">
+						<expr:expressionObject>
+						  <swrl:AtomList>
+							<rdf:first>
+							  <swrl:IndividualPropertyAtom>
+								<swrl:propertyPredicate rdf:resource="http://magus.online/repositories/orderprocessing/orderprocessing.xml#InvoiceCreationRequested"/>
+								<swrl:argument1 rdf:resource="http://magus.online/repositories/orderprocessing/services/RequestInvoiceCreationTSSS.xml#customerInfo"/>
+								<swrl:argument2 rdf:resource="http://magus.online/repositories/orderprocessing/services/RequestInvoiceCreationTSSS.xml#purchaseOrder"/>
+							  </swrl:IndividualPropertyAtom>
+							</rdf:first>
+							<rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+						  </swrl:AtomList>
+						</expr:expressionObject>
+						<expr:expressionLanguage rdf:resource="http://www.daml.org/services/owl-s/1.2/generic/Expression.owl#SWRL"/>
+						<rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+						></rdfs:comment>
+					  </expr:SWRL-Condition>
+				 </process:hasResult>
+              </process:AtomicProcess>
+	 </service:describedBy>
+  </service:Service>
+  <service:Service rdf:ID="RequestInvoiceCreationTSSSCallback">
+        <service:describedBy>
+          <process:AtomicProcess rdf:ID="RequestInvoiceCreationTSSSCallbackProcess">
+            <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >RequestInvoiceCreationTSSSCallbackProcess</rdfs:label>
+            <service:describes rdf:resource="#RequestInvoiceCreationTSSSCallback"/>
+            <process:hasOutput>
+              <process:Output rdf:ID="IVC">
+                <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                >IVC</rdfs:label>
+                <process:parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI"
+                >http://magus.online/repositories/orderprocessing/orderprocessing.xml#Invoice</process:parameterType>
+              </process:Output>
+            </process:hasOutput>
+			 <process:hasPrecondition>
+				  <expr:SWRL-Condition rdf:ID="RequestInvoiceCreationTSSSCallbackServicePrec">
+					<expr:expressionObject>
+					  <swrl:AtomList>
+					<rdf:rest>
+					  <swrl:AtomList>
+						<rdf:rest>
+						  <swrl:AtomList>
+							<rdf:first>
+							  <swrl:ClassAtom>
+								<swrl:argument1>
+								  <swrl:Variable rdf:ID="x"/>
+								</swrl:argument1>
+								<swrl:classPredicate rdf:resource="http://magus.online/repositories/orderprocessing/orderprocessing.xml#TaxInfo"/>
+							  </swrl:ClassAtom>
+							</rdf:first>
+							<rdf:rest>
+							  <swrl:AtomList>
+								<rdf:first>
+								  <swrl:ClassAtom>
+									<swrl:argument1>
+									  <swrl:Variable rdf:ID="y"/>
+									</swrl:argument1>
+									<swrl:classPredicate rdf:resource="http://magus.online/repositories/orderprocessing/orderprocessing.xml#Schedule"/>
+								  </swrl:ClassAtom>
+								</rdf:first>
+								<rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+							  </swrl:AtomList>
+							</rdf:rest>
+						  </swrl:AtomList>
+						</rdf:rest>
+						<rdf:first>
+						  <swrl:IndividualPropertyAtom>
+							<swrl:propertyPredicate rdf:resource="http://magus.online/repositories/orderprocessing/orderprocessing.xml#TaxInfoSentToInvoicing"/>
+							<swrl:argument2 rdf:resource="#x"/>
+							 
+							<swrl:argument1 rdf:resource="http://magus.online/repositories/orderprocessing/services/RequestInvoiceCreationTSSS.xml#purchaseOrder"/>
+						  </swrl:IndividualPropertyAtom>
+						</rdf:first>
+					  </swrl:AtomList>
+					</rdf:rest>
+					<rdf:first>
+					  <swrl:IndividualPropertyAtom>
+						<swrl:argument1 rdf:resource="http://magus.online/repositories/orderprocessing/services/RequestInvoiceCreationTSSS.xml#purchaseOrder"/>
+						<swrl:argument2 rdf:resource="#y"  />
+							  
+						<swrl:propertyPredicate rdf:resource="http://magus.online/repositories/orderprocessing/orderprocessing.xml#ShippingScheduleSentToInvoicing"/>
+					  </swrl:IndividualPropertyAtom>
+					</rdf:first>
+				  </swrl:AtomList>
+					</expr:expressionObject>
+					<expr:expressionLanguage rdf:resource="http://www.daml.org/services/owl-s/1.2/generic/Expression.owl#SWRL"/>
+					<rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+					></rdfs:comment>
+				  </expr:SWRL-Condition>
+			 </process:hasPrecondition>
+			 <process:hasResult>
+				  <expr:SWRL-Condition rdf:ID="RequestInvoiceCreationTSSSCallbackServiceEff">
+					<expr:expressionObject>
+					  
+						  <swrl:AtomList>
+							<rdf:rest>
+							  <swrl:AtomList>
+								<rdf:rest>
+								  <swrl:AtomList>
+									<rdf:first>
+									  <swrl:IndividualPropertyAtom>
+										<swrl:propertyPredicate rdf:resource="http://magus.online/repositories/orderprocessing/orderprocessing.xml#IncludesTaxInfo"/>
+										<swrl:argument2 rdf:resource="#x"/>
+										<swrl:argument1 rdf:resource="#IVC"/>
+									  </swrl:IndividualPropertyAtom>
+									</rdf:first>
+									<rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+								  </swrl:AtomList>
+								</rdf:rest>
+								<rdf:first>
+								  <swrl:IndividualPropertyAtom>
+									<swrl:argument1 rdf:resource="#IVC"/>
+									<swrl:argument2 rdf:resource="#y"/>
+									<swrl:propertyPredicate rdf:resource="http://magus.online/repositories/orderprocessing/orderprocessing.xml#IncludesShippingSchedule"/>
+								  </swrl:IndividualPropertyAtom>
+								</rdf:first>
+							  </swrl:AtomList>
+							</rdf:rest>
+							<rdf:first>
+							  <swrl:IndividualPropertyAtom>
+								<swrl:propertyPredicate rdf:resource="http://magus.online/repositories/orderprocessing/orderprocessing.xml#HasInvoice"/>
+								<swrl:argument2 rdf:resource="#IVC"/>
+								<swrl:argument1 rdf:resource="http://magus.online/repositories/orderprocessing/services/RequestInvoiceCreationTSSS.xml#purchaseOrder"/>
+							  </swrl:IndividualPropertyAtom>
+							</rdf:first>
+						  </swrl:AtomList>
+						
+					</expr:expressionObject>
+					<expr:expressionLanguage rdf:resource="http://www.daml.org/services/owl-s/1.2/generic/Expression.owl#SWRL"/>
+					<rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+					></rdfs:comment>
+				  </expr:SWRL-Condition>
+			 </process:hasResult>
+          </process:AtomicProcess>
+        </service:describedBy>
+   </service:Service>
+</rdf:RDF>
+
+

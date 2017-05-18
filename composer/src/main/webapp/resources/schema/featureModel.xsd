@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+<xs:element name="featureModel">
+	<xs:complexType >
+	
+	<xs:sequence minOccurs="1" maxOccurs="1">
+		<xs:element name="feature" type="featureType"></xs:element>
+		<xs:element name="integrityconstraints" type="integrityconstraintsType" ></xs:element>
+		<xs:element name="annotations" type="annotationsType" ></xs:element>
+		
+	</xs:sequence>
+</xs:complexType>
+
+</xs:element>
+
+
+<xs:complexType name="featureType">
+	
+	<xs:sequence minOccurs="0" maxOccurs="unbounded">
+		<xs:element name="feature" minOccurs="0" maxOccurs="unbounded"  type="featureType"></xs:element>
+	
+		<xs:element name="orgroup" minOccurs="0" maxOccurs="1">
+			<xs:complexType>
+				<xs:sequence minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="feature" type="featureType"></xs:element>
+				</xs:sequence>
+			</xs:complexType>
+		</xs:element>
+		<xs:element name="alternative" minOccurs="0" maxOccurs="1">
+			<xs:complexType>
+				<xs:sequence minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="feature" type="featureType"></xs:element>
+				</xs:sequence>
+			</xs:complexType>
+		</xs:element>
+	</xs:sequence>
+	<xs:attribute name="name" type="xs:string" use="required"/>
+	<xs:attribute name="type" type="xs:string" />
+	<xs:attribute name="uuid" type="xs:string" />
+</xs:complexType>
+
+<xs:complexType name="integrityconstraintsType">
+	<xs:sequence minOccurs="0" maxOccurs="unbounded">
+		<xs:element name="integrityconstraint" >
+		<xs:complexType>
+            <xs:attribute name="name" type="xs:string" />
+			<xs:attribute name="type" use="required" >
+				<xs:simpleType>
+				     <xs:restriction base="xs:string">
+				      <xs:enumeration value="requires"/>
+				      <xs:enumeration value="excludes"/>
+
+				    </xs:restriction>
+				  </xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="source" type="xs:string" use="required" />
+			<xs:attribute name="target" type="xs:string" use="required" />
+        </xs:complexType>
+			
+		</xs:element>
+	</xs:sequence>
+</xs:complexType>
+
+
+<xs:complexType name="annotationsType">
+	
+	<xs:sequence minOccurs="0" maxOccurs="unbounded">
+		<xs:element name="annotation">
+			<xs:complexType>	
+			
+				<xs:sequence minOccurs="1" maxOccurs="1">
+					<xs:element name="entities" >
+						<xs:complexType>
+							<xs:sequence minOccurs="0" maxOccurs="unbounded">
+								<xs:element name="entity" >
+									<xs:complexType>     
+										<xs:attribute name="name" type="xs:string" use="required" />
+										<xs:attribute name="type" type="xs:string" use="required" />
+										<xs:attribute name="io" type="xs:string" use="required" />
+									</xs:complexType>						
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="precondition" type="conditionType" />
+					<xs:element name="effect" type="conditionType" />
+					
+					
+				</xs:sequence>
+				<xs:attribute name="feature" type="xs:string" use="required" />
+			</xs:complexType>
+		</xs:element>
+	</xs:sequence>
+	<xs:attribute name="baseURI" type="xs:string" use="required" />
+</xs:complexType>
+
+<xs:complexType name="conditionType">	
+	<xs:sequence minOccurs="1" maxOccurs="1	">
+		<xs:element name="facts" >
+			<xs:complexType>
+				<xs:sequence minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="fact" >
+						<xs:complexType>     
+							<xs:attribute name="fact" type="xs:string" use="required" />
+							<xs:attribute name="firstEntity" type="xs:string" use="required" />
+							<xs:attribute name="secondEntity" type="xs:string" use="required" />
+						</xs:complexType>						
+					</xs:element>
+				</xs:sequence>
+			</xs:complexType>
+		</xs:element>
+		
+	</xs:sequence>
+
+</xs:complexType>
+</xs:schema>
+

@@ -1,0 +1,67 @@
+<rdf:RDF xmlns:process="http://www.daml.org/services/owl-s/1.2/Process.owl#"
+	xmlns:service="http://www.daml.org/services/owl-s/1.2/Service.owl#"
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+	xmlns:owl="http://www.w3.org/2002/07/owl#" xmlns:daml="http://www.daml.org/2001/03/daml+oil"
+	xmlns:expr="http://www.daml.org/services/owl-s/1.2/generic/Expression.owl#"
+	xmlns:swrl="http://www.w3.org/2003/11/swrl#"
+	xml:base="http://magus.online/repositories/uploadimage/services/UploadTinyPic.xml">
+	<service:Service rdf:ID="UploadTinyPic">
+		<service:describedBy>
+			<process:AtomicProcess rdf:ID="UploadTinyPicProcess">
+				<service:describes rdf:resource="#UploadTinyPic" />
+				<process:hasInput>
+					<process:Input rdf:ID="image">
+						<process:parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://magus.online/repositories/uploadimage/contextModel.xml#Image
+						</process:parameterType>
+					</process:Input>
+				</process:hasInput>
+				<process:hasOutput>
+					<process:Output rdf:ID="url">
+						<process:parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://magus.online/repositories/uploadimage/contextModel.xml#URL
+						</process:parameterType>
+					</process:Output>
+				</process:hasOutput>
+				<process:hasPrecondition>
+					<expr:SWRL-Condition rdf:ID="UploadTinyPicPrec">
+						<expr:expressionObject>
+							<swrl:AtomList>
+								<rdf:first>
+									<swrl:ClassAtom>
+										<swrl:classPredicate
+											rdf:resource="http://magus.online/repositories/uploadimage/contextModel.xml#Image" />
+										<swrl:argument1
+											rdf:resource="http://magus.online/repositories/uploadimage/services/UploadTinyPic.xml#image" />
+									</swrl:ClassAtom>
+								</rdf:first>
+								<rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil" />
+							</swrl:AtomList>
+						</expr:expressionObject>
+						<expr:expressionLanguage
+							rdf:resource="http://www.daml.org/services/owl-s/1.2/generic/Expression.owl#SWRL" />
+					</expr:SWRL-Condition>
+				</process:hasPrecondition>
+				<process:hasResult>
+					<expr:SWRL-Condition rdf:ID="UploadTinyPicEff">
+						<expr:expressionObject>
+							<swrl:AtomList>
+								<rdf:first>
+									<swrl:IndividualPropertyAtom>
+										<swrl:propertyPredicate
+											rdf:resource="http://magus.online/repositories/uploadimage/contextModel.xml#Stored" />
+										<swrl:argument1
+											rdf:resource="http://magus.online/repositories/uploadimage/services/UploadTinyPic.xml#image" />
+										<swrl:argument2
+											rdf:resource="http://magus.online/repositories/uploadimage/services/UploadTinyPic.xml#url" />
+									</swrl:IndividualPropertyAtom>
+								</rdf:first>
+								<rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil" />
+							</swrl:AtomList>
+						</expr:expressionObject>
+						<expr:expressionLanguage
+							rdf:resource="http://www.daml.org/services/owl-s/1.2/generic/Expression.owl#SWRL" />
+					</expr:SWRL-Condition>
+				</process:hasResult>
+			</process:AtomicProcess>
+		</service:describedBy>
+	</service:Service>
+</rdf:RDF>

@@ -1,0 +1,209 @@
+<featureModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://magus.online/resources/schema/featureModel.xsd">
+	<feature name="Upload Image" uuid="7bfcf452-bee3-6745-9fdd-d549a8356af8"
+		type="mandatory">
+		<feature name="Tagging" uuid="ad46be9a-0566-1c5d-30d7-eb13b9f1d0e2"
+			type="optional">
+			<alternative>
+				<feature name="Metadata - based" uuid="c91b2318-9135-533c-707f-4c687abc13e2"
+					type="mandatory" />
+				<feature name="External" uuid="f58707a4-c28e-5dc3-64d3-a6a8216c4ece"
+					type="mandatory" />
+			</alternative>
+		</feature>
+		<feature name="Filtering" uuid="c9a4f3dc-310e-9dbd-19a2-7338e030d486"
+			type="optional">
+			<orgroup>
+				<feature name="Nudity" uuid="85321d10-0ba0-1a75-2d91-1d79e5267389"
+					type="mandatory" />
+				<feature name="Profanity" uuid="5e0b887f-cfef-91b3-8855-c09a0493a66c"
+					type="mandatory" />
+			</orgroup>
+		</feature>
+		<feature name="Storage" uuid="9ac24279-afa8-4227-14a9-8925ddeaf565"
+			type="mandatory" />
+		<feature name="Editting" uuid="0c5b715a-5a3a-a3eb-762d-43ce6ecae5ab"
+			type="optional">
+			<orgroup>
+				<feature name="Watermark" uuid="250dc792-bed2-3f3b-9bfd-55782e16949b"
+					type="mandatory" />
+				<feature name="Face Blur" uuid="267a8878-e174-586d-2994-02b73e5ab296"
+					type="mandatory" />
+			</orgroup>
+		</feature>
+	</feature>
+	<integrityconstraints />
+	<annotations
+		baseURI="http://magus.online/repositories/uploadimage/featureModel.xml">
+		<annotation feature="Upload Image">
+			<entities>
+				<entity name="im"
+					type="http://magus.online/repositories/uploadimage/contextModel.xml#Image"
+					io="input" />
+			</entities>
+			<precondition>
+				<facts />
+			</precondition>
+			<effect>
+				<facts />
+			</effect>
+		</annotation>
+		<annotation feature="Tagging">
+			<entities>
+				<entity name="tl"
+					type="http://magus.online/repositories/uploadimage/contextModel.xml#TagList"
+					io="output" />
+			</entities>
+			<precondition>
+				<facts />
+			</precondition>
+			<effect>
+				<facts />
+			</effect>
+		</annotation>
+		<annotation feature="Metadata - based">
+			<entities>
+				<entity name="td"
+					type="http://magus.online/repositories/uploadimage/contextModel.xml#InImageTextList"
+					io="none" />
+				<entity name="od"
+					type="http://magus.online/repositories/uploadimage/contextModel.xml#InImageObjectList"
+					io="none" />
+			</entities>
+			<precondition>
+				<facts />
+			</precondition>
+			<effect>
+				<facts>
+					<fact
+						fact="http://magus.online/repositories/uploadimage/contextModel.xml#HasMetadataTags"
+						firstEntity="#im" secondEntity="#tl" />
+				</facts>
+			</effect>
+		</annotation>
+		<annotation feature="External">
+			<entities />
+			<precondition>
+				<facts />
+			</precondition>
+			<effect>
+				<facts>
+					<fact
+						fact="http://magus.online/repositories/uploadimage/contextModel.xml#HasTags"
+						firstEntity="#im" secondEntity="#tl" />
+				</facts>
+			</effect>
+		</annotation>
+		<annotation feature="Filtering">
+			<entities />
+			<precondition>
+				<facts />
+			</precondition>
+			<effect>
+				<facts />
+			</effect>
+		</annotation>
+		<annotation feature="Nudity">
+			<entities>
+				<entity name="nr"
+					type="http://magus.online/repositories/uploadimage/contextModel.xml#DetectionList"
+					io="output" />
+			</entities>
+			<precondition>
+				<facts />
+			</precondition>
+			<effect>
+				<facts>
+					<fact
+						fact="http://magus.online/repositories/uploadimage/contextModel.xml#HasNudityDetectionList"
+						firstEntity="#im" secondEntity="#nr" />
+				</facts>
+			</effect>
+		</annotation>
+		<annotation feature="Profanity">
+			<entities>
+				<entity name="pr"
+					type="http://magus.online/repositories/uploadimage/contextModel.xml#DetectionList"
+					io="output" />
+				<entity name="texts"
+					type="http://magus.online/repositories/uploadimage/contextModel.xml#InImageTextList"
+					io="none" />
+			</entities>
+			<precondition>
+				<facts />
+			</precondition>
+			<effect>
+				<facts>
+					<fact
+						fact="http://magus.online/repositories/uploadimage/contextModel.xml#HasProfanityDetectionList"
+						firstEntity="#im" secondEntity="#pr" />
+				</facts>
+			</effect>
+		</annotation>
+		<annotation feature="Storage">
+			<entities>
+				<entity name="url"
+					type="http://magus.online/repositories/uploadimage/contextModel.xml#URL"
+					io="output" />
+			</entities>
+			<precondition>
+				<facts />
+			</precondition>
+			<effect>
+				<facts>
+					<fact
+						fact="http://magus.online/repositories/uploadimage/contextModel.xml#Stored"
+						firstEntity="#im" secondEntity="#url" />
+				</facts>
+			</effect>
+		</annotation>
+		<annotation feature="Editting">
+			<entities />
+			<precondition>
+				<facts />
+			</precondition>
+			<effect>
+				<facts />
+			</effect>
+		</annotation>
+		<annotation feature="Watermark">
+			<entities>
+				<entity name="wt"
+					type="http://magus.online/repositories/uploadimage/contextModel.xml#Text"
+					io="input" />
+			</entities>
+			<precondition>
+				<facts>
+					<fact
+						fact="http://magus.online/repositories/uploadimage/contextModel.xml#WatermarkRequested"
+						firstEntity="#im" secondEntity="#wt" />
+				</facts>
+			</precondition>
+			<effect>
+				<facts>
+					<fact
+						fact="http://magus.online/repositories/uploadimage/contextModel.xml#Watermarked"
+						firstEntity="#im" secondEntity="#wt" />
+				</facts>
+			</effect>
+		</annotation>
+		<annotation feature="Face Blur">
+			<entities>
+				<entity name="ol"
+					type="http://magus.online/repositories/uploadimage/contextModel.xml#InImageObjectList"
+					io="none" />
+			</entities>
+			<precondition>
+				<facts />
+			</precondition>
+			<effect>
+				<facts>
+					<fact
+						fact="http://magus.online/repositories/uploadimage/contextModel.xml#Blurred"
+						firstEntity="#im"
+						secondEntity="http://magus.online/repositories/uploadimage/contextModel.xml#Face" />
+				</facts>
+			</effect>
+		</annotation>
+	</annotations>
+</featureModel>

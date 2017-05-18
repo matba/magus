@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration base="http://magus.online/repositories/orderprocessing/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://magus.online/resources/schema/servicemashupconfiguration.xsd" >
+<ontologies>
+<ontology address="orderprocessing.xml" />
+</ontologies>
+<featuremodel address="featureModel.xml" />
+<services>
+<service address="services/CalculateTaxforOrder.xml" />
+<service address="services/RequestEligibleShipping.xml" />
+<service address="services/RequestProductionSchedule.xml" />
+<service address="services/RequestShipping.xml" />
+<service address="services/RequestShippingPS.xml" />
+<service address="services/SendProductionSchedule.xml" />
+<service address="services/SendShippingSchedule.xml" />
+<service address="services/SendShippingSchedulePS.xml" />
+<service address="services/SendTaxInfo.xml" />
+<service address="services/ConvertCurrency.xml" />
+<service address="services/RequestInvoiceCreationTIPSSS.xml" />
+<service address="services/RequestInvoiceCreationPSSS.xml" />
+<service address="services/RequestInvoiceCreationSS.xml" />
+<service address="services/RequestInvoiceCreationPS.xml" />
+<service address="services/RequestInvoiceCreation.xml" />
+<service address="services/RequestInvoiceCreationTSSS.xml" />
+<service address="services/RequestInvoiceCreationTSPS.xml" />
+<service address="services/RequestInvoiceCreationTS.xml" />
+<service address="services/GoogleWallet.xml" />
+<service address="services/PayPal.xml" />
+
+</services>
+</configuration>

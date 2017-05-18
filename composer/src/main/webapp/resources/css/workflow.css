@@ -1,0 +1,31 @@
+.workflownode {
+  stroke: #e05038;
+  stroke-width: 1.5px;
+  fill:white;
+}
+
+.workflowlink {
+  stroke: #999;
+  stroke-opacity: .6;
+  stroke-width:2px;
+  marker-end: url(#markerArrow);
+}
+
+.workflowlink2 {
+  stroke: #999;
+  stroke-opacity: .6;
+  stroke-width:2px;
+}
+
+.actiontext{
+	font-family: 'Courier New', sans-serif;
+	text-anchor:middle;
+	cursor:default;
+	font-size: 0.8em;
+}
+
+.operationtext{
+	text-anchor:middle;
+	cursor:default;
+	font-size: 0.8em;
+}

@@ -1,0 +1,71 @@
+<rdf:RDF xmlns="http://magus.online/repositories/uploadimage/contextModel.xml"
+	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:owl="http://www.w3.org/2002/07/owl#"
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+	xml:base="http://magus.online/repositories/uploadimage/contextModel.xml">
+	<owl:Class rdf:ID="Image" />
+	<owl:Class rdf:ID="TagList" />
+	<owl:Class rdf:ID="ObjectType" />
+	<owl:Class rdf:ID="InImageTextList" />
+	<owl:Class rdf:ID="InImageObjectList" />
+	<owl:Class rdf:ID="Text" />
+	<owl:Class rdf:ID="URL" />
+	<owl:Class rdf:ID="DetectionList" />
+	<owl:ObjectProperty rdf:ID="HasTags">
+		<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty" />
+		<rdfs:domain rdf:resource="#Image" />
+		<rdfs:range rdf:resource="#TagList" />
+	</owl:ObjectProperty>
+	<owl:ObjectProperty rdf:ID="HasText">
+		<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty" />
+		<rdfs:domain rdf:resource="#Image" />
+		<rdfs:range rdf:resource="#InImageTextList" />
+	</owl:ObjectProperty>
+	<owl:ObjectProperty rdf:ID="HasObject">
+		<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty" />
+		<rdfs:domain rdf:resource="#Image" />
+		<rdfs:range rdf:resource="#InImageObjectList" />
+	</owl:ObjectProperty>
+	<owl:ObjectProperty rdf:ID="Watermarked">
+		<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty" />
+		<rdfs:domain rdf:resource="#Image" />
+		<rdfs:range rdf:resource="#Text" />
+	</owl:ObjectProperty>
+	<owl:ObjectProperty rdf:ID="WatermarkRequested">
+		<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty" />
+		<rdfs:domain rdf:resource="#Image" />
+		<rdfs:range rdf:resource="#Text" />
+	</owl:ObjectProperty>
+	<owl:ObjectProperty rdf:ID="Blurred">
+		<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty" />
+		<rdfs:domain rdf:resource="#Image" />
+		<rdfs:range rdf:resource="#ObjectType" />
+	</owl:ObjectProperty>
+	<owl:ObjectProperty rdf:ID="HasType">
+		<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty" />
+		<rdfs:domain rdf:resource="#InImageObjectList" />
+		<rdfs:range rdf:resource="#ObjectType" />
+	</owl:ObjectProperty>
+	<owl:ObjectProperty rdf:ID="HasProfanityDetectionList">
+		<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty" />
+		<rdfs:domain rdf:resource="#Image" />
+		<rdfs:range rdf:resource="#DetectionList" />
+	</owl:ObjectProperty>
+	<owl:ObjectProperty rdf:ID="Stored">
+		<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty" />
+		<rdfs:domain rdf:resource="#Image" />
+		<rdfs:range rdf:resource="#URL" />
+	</owl:ObjectProperty>
+	<owl:ObjectProperty rdf:ID="HasMetadataTags">
+		<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty" />
+		<rdfs:domain rdf:resource="#Image" />
+		<rdfs:range rdf:resource="#TagList" />
+	</owl:ObjectProperty>
+	<owl:ObjectProperty rdf:ID="HasNudityDetectionList">
+		<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty" />
+		<rdfs:domain rdf:resource="#Image" />
+		<rdfs:range rdf:resource="#DetectionList" />
+	</owl:ObjectProperty>
+	<owl:Thing rdf:about="#Face">
+		<rdf:type rdf:resource="#ObjectType" />
+	</owl:Thing>
+</rdf:RDF>

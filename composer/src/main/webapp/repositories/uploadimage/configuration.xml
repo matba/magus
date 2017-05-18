@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration base="http://magus.online/repositories/orderprocessing/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://magus.online/resources/schema/servicemashupconfiguration.xsd" >
+<ontologies>
+<ontology address="contextModel.xml" />
+</ontologies>
+<featuremodel address="featureModel.xml" />
+<services>
+
+<service address="services/ObjectDetection.xml" />
+<service address="services/TextExtraction.xml" />
+<service address="services/FilterObjects.xml" />
+<service address="services/BlurObjects.xml" />
+<service address="services/DetectTextProfanity.xml" />
+<service address="services/DetectNudity.xml" />
+<service address="services/UploadImgUr.xml" />
+<service address="services/UploadTinyPic.xml" />
+<service address="services/GenerateTagExternal.xml" />
+<service address="services/GenerateTagMetadata.xml" />
+<service address="services/DetectProfanity.xml" />
+<service address="services/WatermarkImage.xml" />
+
+</services>
+</configuration>

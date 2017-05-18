@@ -1,0 +1,102 @@
+
+.starter-template {
+  padding: 40px 15px;
+  text-align: center;
+}
+
+
+.logo-font{
+font-family: 'Fjalla One', sans-serif;
+}
+.math-font{
+font-family: 'Dancing Script', sans-serif;
+}
+.courier{
+
+font-family: 'Courier New', sans-serif;
+}
+.logging{
+
+font-family: 'Courier New', sans-serif;
+}
+
+.bold{
+	font-weight: bold;
+}
+
+.maincontainer{
+height:800px;
+padding-left:0px;
+padding-right:0px;
+padding-top:0px;
+padding-bottom:0px;
+}
+.editor-container{
+height:75%;
+padding-left:0px;
+padding-right:0px;
+padding-top:0px;
+padding-bottom:0px;
+min-height: 150px;
+}
+.console-container{
+height:25%;
+padding-left:0px;
+padding-right:0px;
+padding-top:0px;
+padding-bottom:0px;
+min-height: 150px;
+}
+.fm-container{
+height:100%;
+padding-left:0px;
+padding-right:0px;
+padding-top:0px;
+padding-bottom:0px;
+border-right: 1px solid rgb(200,200,200);
+
+
+}
+.flow-container{
+height:100%;
+padding-left:0px;
+padding-right:0px;
+padding-top:0px;
+padding-bottom:0px;
+
+}
+.scrollable{
+	overflow: auto;
+}
+.nopadding{
+	 padding: 0px 0px 0px 0px;
+}
+.nomargin{
+	margin-left:0px;
+	margin-right:0px;
+	margin-top:0px;
+	margin-bottom:0px;
+}
+
+.inpage-nav-tab>li>a{
+	padding: 3px 10px;
+}
+
+.toolbar{
+	padding:  2px 5px 2px 5px;
+	background-color:#EEEEEE;
+	 height:28px;
+}
+
+
+.addDivContainer{
+	border-width: 1px;
+    border-color: black;
+    display: none;
+    border-style: dotted;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    margin-bottom: 15px;
+    margin-top: 20px;
+    border-radius: 5px;
+}

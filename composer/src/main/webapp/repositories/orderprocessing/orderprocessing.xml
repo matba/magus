@@ -1,0 +1,149 @@
+<?xml version="1.0"?>
+<rdf:RDF
+
+    xmlns="http://magus.online/repositories/orderprocessing/orderprocessing.xml"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+  xml:base="http://magus.online/repositories/orderprocessing/orderprocessing.xml">
+
+
+  
+  <owl:Class rdf:ID="TaxInfo"/>
+  <owl:Class rdf:ID="PaymentInfo"/>
+  <owl:Class rdf:ID="PaymentService"/>
+  <owl:Class rdf:ID="Schedule"/>
+  <owl:Class rdf:ID="CourierInfo"/>
+  <owl:Class rdf:ID="ProductionSchedule"/>
+  <owl:Class rdf:ID="Invoice"/>
+  <owl:Class rdf:ID="PurchaseOrder"/>
+  <owl:Class rdf:ID="Customer"/>
+  <owl:Class rdf:ID="Location"/>
+  
+  <owl:ObjectProperty rdf:ID="Ordered">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="#Customer"/>
+    <rdfs:range rdf:resource="#PurchaseOrder"/>
+  </owl:ObjectProperty>
+  
+  <owl:ObjectProperty rdf:ID="HasDestination">
+    <rdfs:domain rdf:resource="#PurchaseOrder"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:range rdf:resource="#Location"/>
+  </owl:ObjectProperty>
+  
+  <owl:ObjectProperty rdf:ID="IncludesProductionSchedule">
+  	<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  	<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:domain rdf:resource="#Invoice"/>
+    <rdfs:range rdf:resource="#ProductionSchedule"/>
+  </owl:ObjectProperty>
+  
+  <owl:ObjectProperty rdf:ID="IncludesShippingSchedule">
+  	<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  	<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:domain rdf:resource="#Invoice"/>
+    <rdfs:range rdf:resource="#Schedule"/>
+  </owl:ObjectProperty>
+  
+  <owl:ObjectProperty rdf:ID="HasPaymentInfo">
+  	<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  	<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:domain rdf:resource="#PurchaseOrder"/>
+    <rdfs:range rdf:resource="#PaymentInfo"/>
+  </owl:ObjectProperty>
+  
+  <owl:ObjectProperty rdf:ID="PaidWith">
+  	<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="#PurchaseOrder"/>
+    <rdfs:range rdf:resource="#PaymentService"/>
+  </owl:ObjectProperty>
+  
+  <owl:ObjectProperty rdf:ID="HasInvoice">
+    <rdfs:domain rdf:resource="#PurchaseOrder"/>
+    <rdfs:range rdf:resource="#Invoice"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </owl:ObjectProperty>
+  
+  <owl:ObjectProperty rdf:ID="IncludesTaxInfo">
+    <rdfs:domain rdf:resource="#Invoice"/>
+    <rdfs:range rdf:resource="#TaxInfo"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </owl:ObjectProperty>
+  
+  
+  <owl:ObjectProperty rdf:ID="HasCurrency">
+  	
+    <rdfs:domain rdf:resource="#Invoice"/>
+    <rdfs:range rdf:resource="#PurchaseOrder"/>
+  </owl:ObjectProperty>
+  
+  <owl:ObjectProperty rdf:ID="InvoiceCreationRequested">
+    <rdfs:domain rdf:resource="#Customer"/>
+    <rdfs:range rdf:resource="#PurchaseOrder"/>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:ID="HasCourierInfo">
+    <rdfs:domain rdf:resource="#PurchaseOrder"/>
+    <rdfs:range rdf:resource="#CourierInfo"/>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:ID="HasProductionSchedule">
+    <rdfs:domain rdf:resource="#PurchaseOrder"/>
+    <rdfs:range rdf:resource="#ProductionSchedule"/>
+  </owl:ObjectProperty>
+  
+  <owl:ObjectProperty rdf:ID="HasShippingSchedule">
+    <rdfs:domain rdf:resource="#PurchaseOrder"/>
+    <rdfs:range rdf:resource="#Schedule"/>
+  </owl:ObjectProperty>
+  
+  <owl:ObjectProperty rdf:ID="HasShippingAfterProductionSchedule">
+    <rdfs:domain rdf:resource="#PurchaseOrder"/>
+    <rdfs:range rdf:resource="#Schedule"/>
+  </owl:ObjectProperty>
+
+
+  <owl:ObjectProperty rdf:ID="HasTaxInfo">
+    <rdfs:domain rdf:resource="#PurchaseOrder"/>
+    <rdfs:range rdf:resource="#TaxInfo"/>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:ID="ProductionScheduleSentToInvoicing">
+    <rdfs:domain rdf:resource="#PurchaseOrder"/>
+    <rdfs:range rdf:resource="#ProductionSchedule"/>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:ID="TaxInfoSentToInvoicing">
+    <rdfs:domain rdf:resource="#PurchaseOrder"/>
+    <rdfs:range rdf:resource="#TaxInfo"/>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:ID="ShippingScheduleSentToInvoicing">
+    <rdfs:domain rdf:resource="#PurchaseOrder"/>
+    <rdfs:range rdf:resource="#Schedule"/>
+  </owl:ObjectProperty>
+  
+  <owl:ObjectProperty rdf:ID="ShippingAPScheduleSentToInvoicing">
+    <rdfs:domain rdf:resource="#PurchaseOrder"/>
+    <rdfs:range rdf:resource="#Schedule"/>
+  </owl:ObjectProperty>
+  
+  <owl:Thing rdf:about="#Canada"> 
+   <rdf:type rdf:resource="#Location"/> 
+  </owl:Thing>
+  
+  <owl:Thing rdf:about="#PayPal"> 
+   <rdf:type rdf:resource="#PaymentService"/> 
+  </owl:Thing>
+  
+  <owl:Thing rdf:about="#GoogleWallet"> 
+   <rdf:type rdf:resource="#PaymentService"/> 
+  </owl:Thing>
+</rdf:RDF>
+
+
