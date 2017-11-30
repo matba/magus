@@ -11,6 +11,7 @@ import javax.ws.rs.core.MediaType;
 import edu.ls3.magus.web.composer.core.CompositionRequest;
 
 @Path("/mashupgeneration")
+
 public class GenerateMashup {
 	@POST
 	@Path("/generatemashup")

@@ -45,6 +45,7 @@ public class AdaptationRequest {
 	public AdaptationRequest(String ontologyXml,String featureModelXml,String[] serviceAnnotationXmls,String[] selectedFeatures,String[] availableServiceURIs, String failedServiceURI, String failedWorkflow, String failedBPELXml) throws Exception{
 		setRequestLog(new StringBuilder());
 		
+
 		
 //		long curTime = System.currentTimeMillis();
 		this.setOntologyXml(ontologyXml);
@@ -64,15 +65,11 @@ public class AdaptationRequest {
 		this.requestDomainModel.setContextModel(new ContextModel());
 		this.requestDomainModel.setServiceCollection(new ServiceCollection());
 		
-		
-		
-		
-		
-		
+
 		requestDomainModel.getContextModel().AddToContextModel(ontologyXml);
 		
 		
-		
+		contextStateModel = new ContextStateModel();
 		
 		
 		for(String saXml:this.serviceAnnotationXmls){
@@ -84,6 +81,7 @@ public class AdaptationRequest {
 			
 			
 		}
+		
 		
 		for(String st: availableServiceURIs){
 			contextStateModel.getServiceAvailabilty().put(st, true);
@@ -141,7 +139,7 @@ public class AdaptationRequest {
 			this.setAdaptationType(1);
 			List<OperationNode> optimizedGraph= fmcmg.getServiceMashupWorkflow();
 			this.setWorkflowJSON(OperationNode.serializedToJSON(optimizedGraph));
-			this.setBpelXML(fmcmg.getServiceMashupBPELProcess().serializeToXML(requestDomainModel.getFeatureModelAnnotation().findEntities(this.featureModelConfiguration)));
+			this.setBpelXML(fmcmg.getServiceMashupBPELProcess().serializeToBpel(requestDomainModel.getFeatureModelAnnotation().findEntities(this.featureModelConfiguration)));
 			
 			List<String> usedServices = new ArrayList<String>();
 			
@@ -173,7 +171,7 @@ public class AdaptationRequest {
 			fmcmg.buildServiceMashup();
 			List<OperationNode> optimizedGraph= fmcmg.getServiceMashupWorkflow();
 			this.setWorkflowJSON(OperationNode.serializedToJSON(optimizedGraph));
-			this.setBpelXML(fmcmg.getServiceMashupBPELProcess().serializeToXML(requestDomainModel.getFeatureModelAnnotation().findEntities(this.featureModelConfiguration)));
+			this.setBpelXML(fmcmg.getServiceMashupBPELProcess().serializeToBpel(requestDomainModel.getFeatureModelAnnotation().findEntities(this.featureModelConfiguration)));
 			List<String> usedServices = new ArrayList<String>();
 			
 			for(OperationNode on : optimizedGraph){

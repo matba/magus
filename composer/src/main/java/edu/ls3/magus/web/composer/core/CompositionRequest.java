@@ -274,7 +274,7 @@ public class CompositionRequest {
 		
 		duration = System.currentTimeMillis()-curTime;
 		
-		this.setBpelXML(fcn1.serializeToXML(dm.getFeatureModelAnnotation().findEntities(this.featureModelConfiguration)));
+		this.setBpelXML(fcn1.serializeToBpel(dm.getFeatureModelAnnotation().findEntities(this.featureModelConfiguration)));
 		getRequestLog().append("Conversion to BPEL Finished: "+duration +"ms." +System.lineSeparator() );
 		
 		getRequestLog().append("Structure of Generated BPEL"+System.lineSeparator()+"Flows: "+fcn1.GetNoOfFlows()+" Sequence: "+ fcn1.GetNoOfSequence() + " Link: "+ fcn1.GetNoOfLink()+System.lineSeparator() );
