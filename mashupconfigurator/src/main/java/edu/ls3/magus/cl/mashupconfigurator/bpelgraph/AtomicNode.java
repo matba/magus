@@ -70,7 +70,7 @@ public class AtomicNode extends Node {
 	}
 
 	@Override
-	public String serializeToXMLComponent(String tab, List<Link> plinks) {
+	public String serializeToBpelComponent(String tab, List<Link> plinks) {
 		StringBuilder result = new StringBuilder();
 		
 		

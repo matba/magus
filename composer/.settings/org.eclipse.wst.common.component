@@ -4,7 +4,19 @@
         <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
-        <property name="java-output-path" value="/composer/target/classes"/>
+        <dependent-module archiveName="utility-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/utility/utility">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="contextmanager-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/contextmanager/contextmanager">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="mashupconfigurator-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/mashupconfigurator/mashupconfigurator">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="fmconfigurator-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/fmconfigurator/fmconfigurator">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="context-root" value="composer"/>
+        <property name="java-output-path" value="/composer/target/classes"/>
     </wb-module>
 </project-modules>

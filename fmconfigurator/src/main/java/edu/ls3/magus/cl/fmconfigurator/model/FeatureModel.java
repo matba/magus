@@ -171,7 +171,7 @@ public class FeatureModel {
 		return result;
 	}
 
-	private Feature findFeatureByName(String FeatureName) {
+	public Feature findFeatureByName(String FeatureName) {
 
 		return this.getRootFeature().findFeatureByName(FeatureName);
 	}
@@ -1320,7 +1320,7 @@ public class FeatureModel {
 			
 			Feature curFeature = processingQueue.remove();
 			
-			if(!processedFeatures.contains(curFeature) && (!curFeature.isGroupingFeature() || (curFeature.isGroupingFeature() && curFeature.getChildren().size()<2)) ){
+			if(!processedFeatures.contains(curFeature) && (!curFeature.isAlternative() || (curFeature.isAlternative() && curFeature.getChildren().size()<2)) ){
 				
 				
 				AtomicSet curAS = new AtomicSet();
@@ -1331,7 +1331,7 @@ public class FeatureModel {
 
 				Feature pf = getFeatureParent(curFeature);
 				
-				while((pf!=null )&&(pf.isGroupingFeature())){
+				while((pf!=null )&&(pf.isAlternative())){
 					if(!atomicFeatures.contains(pf))
 						atomicFeatures.add(pf);
 					pf =getFeatureParent(pf);

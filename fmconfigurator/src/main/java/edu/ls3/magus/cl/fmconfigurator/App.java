@@ -34,6 +34,7 @@ import edu.ls3.magus.cl.contextmanager.context.ContextModel;
 import edu.ls3.magus.cl.exceptions.UnsuccessfulMashupGeneration;
 import edu.ls3.magus.cl.fmconfigurator.model.AdaptationResult;
 import edu.ls3.magus.cl.fmconfigurator.model.AtomicSet;
+import edu.ls3.magus.cl.fmconfigurator.model.AtomicSetNFAnnotationMap;
 import edu.ls3.magus.cl.fmconfigurator.model.Feature;
 import edu.ls3.magus.cl.fmconfigurator.model.FeatureAnnotationSet;
 import edu.ls3.magus.cl.fmconfigurator.model.FeatureAtomicSetMap;
@@ -47,12 +48,13 @@ import edu.ls3.magus.cl.mashupconfigurator.bpelgraph.ServiceCall;
 import edu.ls3.magus.cl.mashupconfigurator.nonfunctional.ExecutionTimeType;
 import edu.ls3.magus.cl.mashupconfigurator.nonfunctional.NonfunctionalConstraint;
 import edu.ls3.magus.cl.mashupconfigurator.nonfunctional.NonfunctionalMetric;
+import edu.ls3.magus.cl.mashupconfigurator.nonfunctional.ReliabilityType;
 import edu.ls3.magus.cl.mashupconfigurator.nonfunctional.ServiceNonfunctionalAnnotationMap;
 import edu.ls3.magus.cl.mashupconfigurator.service.Service;
 import edu.ls3.magus.cl.mashupconfigurator.service.ServiceCollection;
 import edu.ls3.magus.cl.planning.Problem;
 import edu.ls3.magus.cl.planning.ProblemDomain;
-import edu.ls3.magus.configuration.PlannerConfiguration;
+import edu.ls3.magus.configuration.Configuration;
 import edu.ls3.magus.generators.ServiceGenerator;
 import edu.ls3.magus.utility.Holder;
 import edu.ls3.magus.utility.SimpleLogger;
@@ -108,7 +110,8 @@ public class App
 //		readFamaWritXml3();
 //		testGeneratedFM();
 //		evaluateNonfunctionalHeuristicPrecisionInTermsofTrainingDatasizeDis1();
-		runEvaluationFMSizeNF();
+		//runEvaluationFMSizeNF();
+		testFeatureContributionEstimation3();
 	}
 	
 	public static void testLinearRegression() throws Exception{
@@ -3045,8 +3048,8 @@ public class App
 		resultDir = upDirAddress+resultDir+"/";
 		
 		System.out.println(dirAddress);
-		PlannerConfiguration.plannerAddress = dirAddress;
-		PlannerConfiguration.tempFolder = dirAddress+ "temp/";
+		Configuration.plannerAddress = dirAddress;
+		Configuration.tempFolder = dirAddress+ "temp/";
 		SimpleLogger log= new SimpleLogger(dirAddress+"log.txt", true);
 		 
 		log.log("Starting");
@@ -3144,8 +3147,8 @@ public class App
 		System.out.println("Hello");
 		
 		System.out.println(dirAddress);
-		PlannerConfiguration.plannerAddress = dirAddress;
-		PlannerConfiguration.tempFolder = dirAddress+ "temp/";
+		Configuration.plannerAddress = dirAddress;
+		Configuration.tempFolder = dirAddress+ "temp/";
 		SimpleLogger log= new SimpleLogger(dirAddress+"log.txt", true);
 		 
 		
@@ -4416,21 +4419,256 @@ public class App
 		
 		FeatureAtomicSetMap fasm= dm.getFeatureModel().findAtomicSets();
 		
+		List<FeatureModelConfiguration> adequateTrainingList = dm.getFeatureModel().generateRegressionConfigurations(1, fasm);
+		
+		System.out.println("Number of training set size:"+ adequateTrainingList.size());
+		
+		
 		List<AtomicSet> asl =  fasm.getAllAtomicSets(false);
 		
 		for(AtomicSet as:asl)
 			System.out.println(as.getFeatureList());
 		
-		Map<AtomicSet, Double> cv = dm.findAtomicSetContributionValue(fasm, annotationMap, ExecutionTimeType.getInstance(), new HashMap<FeatureModelConfiguration, FlowComponentNode>());
+		
+		
+		Map<AtomicSet, Double> cv = new HashMap<AtomicSet, Double>();
+		
+		dm.findAtomicSetContributionValueOLS(fasm, annotationMap, ExecutionTimeType.getInstance(), adequateTrainingList, new HashMap<FeatureModelConfiguration, FlowComponentNode>(),cv);
 		
 		for(AtomicSet as: cv.keySet()){
 			System.out.println(as.getFeatureList()+" : "+cv.get(as));
 		}
 	}
 	
+public static void testFeatureContributionEstimation2() throws Exception{
+		
+		DomainModels dm = DomainModels.readFromDirectory(new File( "/home/mbashari/Dropbox/Thesis/impl/magus/composer/src/main/webapp/repositories/uploadimage/"));
+		
+		
+		
+		
+		Map<String, Double> serviceReliability = new HashMap<String, Double>();
+		
+		serviceReliability.put("ObjectDetection", 0.991d);
+		serviceReliability.put("TextExtraction", 0.985d);
+		serviceReliability.put("FilterObjects", 0.998d);
+		serviceReliability.put("BlurObjects", 0.993d);
+		serviceReliability.put("DetectTextProfanity", 0.99d);
+		serviceReliability.put("DetectNudity", 0.991d);
+		serviceReliability.put("UploadImgUr", 0.990d);
+		serviceReliability.put("UploadTinyPic", 0.983d);
+		serviceReliability.put("GenerateTagExternal", 0.992d);
+		serviceReliability.put("GenerateTagMetadata", 0.981d);
+		serviceReliability.put("DetectProfanity", 0.989d);
+		serviceReliability.put("WatermarkImage", 0.997d);
+		
+		ServiceNonfunctionalAnnotationMap annotationMap = new ServiceNonfunctionalAnnotationMap(dm.getServiceCollection().getServices());
+		
+		
+		annotationMap.generateAnnotationFromMap(serviceReliability,ReliabilityType.getInstance());
+		
+		
+		
+		
+		//ExecutionTime.GenerateExecutionTime(annotationMap, 200, 50, 50, 30);
+		
+		System.out.println("Number of possible configurations:"+ dm.getFeatureModel().getAllValidConfiguration(-1).size());
+		
+		FeatureAtomicSetMap fasm= dm.getFeatureModel().findAtomicSets();
+		
+		List<FeatureModelConfiguration> adequateTrainingList = dm.getFeatureModel().generateRegressionConfigurations(1, fasm);
+		
+		System.out.println("Number of training set size:"+ adequateTrainingList.size());
+		
+		List<AtomicSet> asl =  fasm.getAllAtomicSets(false);
+		
+		int numberOfAtomicSet = asl.size();
+		
+		for(AtomicSet as:asl)
+			System.out.println(as.getFeatureList());
+		
+		Map<AtomicSet, Double> cv = new HashMap<AtomicSet, Double>();
+				
+		dm.findAtomicSetContributionValueOLS(fasm, annotationMap, ReliabilityType.getInstance(), adequateTrainingList, new HashMap<FeatureModelConfiguration, FlowComponentNode>(),cv);
+				
+		
+		for(AtomicSet as: cv.keySet()){
+			System.out.println(as.getFeatureList()+" : "+cv.get(as));
+		}
+		
+		List<Feature> flc = new ArrayList<Feature>();
+		
+		String[] featureNames = {"Upload Image","Storage","Editting","Face Blur","Tagging","Metadata - based","Filtering","Profanity"}; 
+		
+		Feature taggingFeature = dm.getFeatureModel().findFeatureByName("Tagging");
+		
+		for(String fn : featureNames){
+			flc.add(dm.getFeatureModel().findFeatureByName(fn));
+			
+		}
+		
+		FeatureModelConfiguration smfmc = new FeatureModelConfiguration(flc);
+		smfmc.getCriticalFeatureSet().add(taggingFeature);
+		
+		double estimatedReliability = smfmc.estimateNonfunctionalValue(fasm, cv, ReliabilityType.getInstance());
+		
+		System.out.println("Estimated Reliability for Feature Model Configuration : " +estimatedReliability);
+		
+		FeatureModelConfigurationMashupGeneration fmcmg = new FeatureModelConfigurationMashupGeneration(dm, smfmc);
+		
+		FlowComponentNode smfcn =  fmcmg.buildServiceMashup();
+		
+		double actualReliability = ReliabilityType.getInstance().getAggregatedValue(annotationMap.getAnnotationMap(), smfcn);
+		
+		System.out.println("Actual Reliability for Feature Model Configuration : " +actualReliability);
+		
+		System.out.println("Reduction in Object dectection reliability");
+		
+		
+		serviceReliability.put("ObjectDetection", 0.941d);
+		
+		annotationMap = new ServiceNonfunctionalAnnotationMap(dm.getServiceCollection().getServices());
+			
+			
+		annotationMap.generateAnnotationFromMap(serviceReliability,ReliabilityType.getInstance());
+		
+		actualReliability = ReliabilityType.getInstance().getAggregatedValue(annotationMap.getAnnotationMap(), smfcn);
+		
+		System.out.println("Reduced Reliability for Feature Model Configuration : " +actualReliability);
+		
+		cv = new HashMap<AtomicSet, Double>();
+		
+		dm.findAtomicSetContributionValueOLS(fasm, annotationMap, ReliabilityType.getInstance(), adequateTrainingList, new HashMap<FeatureModelConfiguration, FlowComponentNode>(),cv);
+				
+		
+		for(AtomicSet as: cv.keySet()){
+			System.out.println(as.getFeatureList()+" : "+cv.get(as));
+		}
+		
+		estimatedReliability = smfmc.estimateNonfunctionalValue(fasm, cv, ReliabilityType.getInstance());
+		
+		System.out.println("Reduced Estimated Reliability for Feature Model Configuration : " +estimatedReliability);
+		
+		
+		ContextStateModel contextStateModelMain = new ContextStateModel(dm.getServiceCollection(), annotationMap);
+		
+		NonfunctionalConstraint nfc  = new NonfunctionalConstraint(ReliabilityType.getInstance(), 0.9d, false);
+		
+		List<NonfunctionalConstraint> nfcList = new ArrayList<NonfunctionalConstraint>();
+		nfcList.add(nfc);
+		
+		Map<FeatureModelConfiguration,FlowComponentNode> trainingListMap = new HashMap<FeatureModelConfiguration, FlowComponentNode>();
+		
+		
+		for(FeatureModelConfiguration fmc: adequateTrainingList){
+			fmcmg = new FeatureModelConfigurationMashupGeneration(dm, fmc, contextStateModelMain);
+			try{
+			FlowComponentNode fcn =	fmcmg.buildServiceMashup();
+			trainingListMap.put(fmc, fcn);
+			}
+			catch(UnsuccessfulMashupGeneration ex){
+				System.out.println("UNSUCCESSFUL MASHUP GENERATION!");
+			}
+			
+			
+		}
+		
+		long curTime = System.currentTimeMillis();
+		Holder<Integer> holder = new Holder<Integer>(0);				
+		FeatureModelConfiguration alternateFMC =  smfmc.findAlternateConfigurationNF(dm,contextStateModelMain,nfcList,trainingListMap,fasm, holder);
+		
+		System.out.println(alternateFMC);
+		
+		estimatedReliability = alternateFMC.estimateNonfunctionalValue(fasm, cv, ReliabilityType.getInstance());
+		
+		System.out.println("Estimated Reliability for Feature Model Configuration After Adaptation: " +estimatedReliability);
+		
+		
+		fmcmg = new FeatureModelConfigurationMashupGeneration(dm, alternateFMC, contextStateModelMain);
+		
+		smfcn =	fmcmg.buildServiceMashup();
+		
+		
+		actualReliability = ReliabilityType.getInstance().getAggregatedValue(annotationMap.getAnnotationMap(), smfcn);
+		
+		System.out.println("Actual Reliability for Feature Model Configuration After Adaptation: " +actualReliability);
+		
+		
+		
+		
+		
+		
+		
+	}
 	
 
+public static void testFeatureContributionEstimation3() throws Exception{
 	
+	DomainModels dm = DomainModels.readFromDirectory(new File( "/home/mbashari/Dropbox/Thesis/impl/magus/composer/src/main/webapp/repositories/uploadimage/"));
+	
+	
+	
+	
+	Map<String, Double> serviceReliability = new HashMap<String, Double>();
+	
+	serviceReliability.put("ObjectDetection", 0.991d);
+	serviceReliability.put("TextExtraction", 0.985d);
+	serviceReliability.put("FilterObjects", 0.998d);
+	serviceReliability.put("BlurObjects", 0.993d);
+	serviceReliability.put("DetectTextProfanity", 0.99d);
+	serviceReliability.put("DetectNudity", 0.991d);
+	serviceReliability.put("UploadImgUr", 0.990d);
+	serviceReliability.put("UploadTinyPic", 0.983d);
+	serviceReliability.put("GenerateTagExternal", 0.992d);
+	serviceReliability.put("GenerateTagMetadata", 0.981d);
+	serviceReliability.put("DetectProfanity", 0.989d);
+	serviceReliability.put("WatermarkImage", 0.997d);
+	
+	ServiceNonfunctionalAnnotationMap annotationMap = new ServiceNonfunctionalAnnotationMap(dm.getServiceCollection().getServices());
+	
+	
+	annotationMap.generateAnnotationFromMap(serviceReliability,ReliabilityType.getInstance());
+	
+	
+	
+	List<String[]> fms = new ArrayList<String[]>();
+	
+	fms.add(new String[] {"Upload Image", "Storage", "Tagging", "External", "Filtering", "Profanity", "Editting", "Watermark", "Face Blur"});
+	fms.add(new String[] {"Upload Image", "Storage", "Tagging", "External"});
+	fms.add(new String[] {"Upload Image", "Storage", "Editting", "Watermark", "Filtering", "Nudity", "Profanity"});
+	fms.add(new String[] {"Upload Image", "Storage", "Editting", "Watermark", "Filtering", "Nudity"});
+	fms.add(new String[] {"Upload Image", "Storage", "Tagging", "Metadata - based", "Editting", "Face Blur"});
+	fms.add(new String[] {"Upload Image", "Storage", "Filtering", "Profanity", "Tagging", "External"});
+	fms.add(new String[] {"Upload Image", "Storage", "Tagging", "External", "Filtering", "Nudity", "Editting", "Watermark", "Face Blur"});
+	fms.add(new String[] {"Upload Image", "Storage", "Filtering", "Nudity"});
+	fms.add(new String[] {"Upload Image", "Storage", "Tagging", "Metadata - based", "Editting", "Watermark", "Face Blur"});
+	fms.add(new String[] {"Upload Image", "Storage", "Filtering", "Nudity", "Profanity"});
+	fms.add(new String[] {"Upload Image", "Storage", "Tagging", "External", "Filtering", "Profanity", "Editting", "Face Blur"});
+	
+	
+	List<FeatureModelConfiguration> fmlist = new ArrayList<FeatureModelConfiguration>();
+	
+	for(String[] fmc: fms)
+		fmlist.add(FeatureModelConfiguration.getFeatureModelConfigurationByFeatureNames(fmc,dm.getFeatureModel()));
+	
+	ContextStateModel contextStateModelMain = new ContextStateModel(dm.getServiceCollection(), annotationMap);
+	
+	for(FeatureModelConfiguration fmc: fmlist){
+		FeatureModelConfigurationMashupGeneration fmcmg = new FeatureModelConfigurationMashupGeneration(dm, fmc, contextStateModelMain);
+		try{
+		FlowComponentNode fcn =	fmcmg.buildServiceMashup();
+		
+		System.out.println(ReliabilityType.getInstance().getAggregatedValue(annotationMap.getAnnotationMap(), fcn));
+		
+		}
+		catch(UnsuccessfulMashupGeneration ex){
+			System.out.println("UNSUCCESSFUL MASHUP GENERATION!");
+		}
+		
+		
+	}
+	
+}
 	public static void evaluateNonfunctionalHeuristicPrecisionInTermsofTrainingDatasize() throws Exception{
 		WritableWorkbook wb = Workbook.createWorkbook(new File(homeAddress+ "evaluationPrecisionTraing.xls"));
 		WritableSheet curSheet = wb.createSheet("Evaluation", 1);
@@ -4710,8 +4948,8 @@ public class App
 		System.out.println(jarAddress);
 		String dirAddress = jarAddress.substring(0 ,jarAddress.lastIndexOf('/')+1);
 		
-		PlannerConfiguration.plannerAddress = dirAddress;
-		PlannerConfiguration.tempFolder = dirAddress+ "temp/";
+		Configuration.plannerAddress = dirAddress;
+		Configuration.tempFolder = dirAddress+ "temp/";
 		
 		SimpleLogger log= new SimpleLogger(dirAddress+"log.txt", true);
 		
@@ -5008,8 +5246,8 @@ public class App
 //		dirAddress = "/home/mbashari/EVAL_FOLDER/";
 //		int curfmSizeList =30;
 		
-		PlannerConfiguration.plannerAddress = dirAddress;
-		PlannerConfiguration.tempFolder = dirAddress+ "temp/";
+		Configuration.plannerAddress = dirAddress;
+		Configuration.tempFolder = dirAddress+ "temp/";
 		
 		SimpleLogger log= new SimpleLogger(dirAddress+"log.txt", true);
 		
@@ -5306,8 +5544,8 @@ public class App
 //		dirAddress = "/home/mbashari/EVAL_FOLDER/";
 //		int curfmSizeList =30;
 		
-		PlannerConfiguration.plannerAddress = dirAddress;
-		PlannerConfiguration.tempFolder = dirAddress+ "temp/";
+		Configuration.plannerAddress = dirAddress;
+		Configuration.tempFolder = dirAddress+ "temp/";
 		
 		SimpleLogger log= new SimpleLogger(dirAddress+"log.txt", true);
 		

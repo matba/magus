@@ -113,7 +113,7 @@ public class SequenceComponentNode extends ComponentNode {
 		
 	}
 	@Override
-	public String serializeToXMLComponent(String inpTab, List<Link> plink) {
+	public String serializeToBpelComponent(String inpTab, List<Link> plink) {
 		
 		StringBuilder result= new StringBuilder();
 		String currentTab = inpTab;
@@ -121,7 +121,7 @@ public class SequenceComponentNode extends ComponentNode {
 		result.append(currentTab+"<bpel:sequence>"+System.lineSeparator());
 		result.append(this.addSourceAndTargetLinks(currentTab,plink));
 		for(Node n: this.getNodes()){
-			result.append(n.serializeToXMLComponent(currentTab+"\t",plink));
+			result.append(n.serializeToBpelComponent(currentTab+"\t",plink));
 		}
 		
 		

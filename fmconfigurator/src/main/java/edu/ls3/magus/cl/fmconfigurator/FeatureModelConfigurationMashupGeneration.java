@@ -24,7 +24,7 @@ import edu.ls3.magus.cl.mashupconfigurator.service.Service;
 import edu.ls3.magus.cl.mashupconfigurator.service.ServiceCollection;
 import edu.ls3.magus.cl.planning.Problem;
 import edu.ls3.magus.cl.planning.ProblemDomain;
-import edu.ls3.magus.configuration.PlannerConfiguration;
+import edu.ls3.magus.configuration.Configuration;
 import edu.ls3.magus.utility.UtilityClass;
 
 public class FeatureModelConfigurationMashupGeneration {
@@ -109,8 +109,8 @@ public class FeatureModelConfigurationMashupGeneration {
 				sftl.add(sfis.getStateFactInstance().getType());
 		String problemDomainPDDL =  pd.PDDL3Serialize(null,sftl,insType);
 
-		this.problemAddress = PlannerConfiguration.tempFolder+ "pt.pddl";
-		this.domainAddress = PlannerConfiguration.tempFolder+ "pta.pddl";
+		this.problemAddress = Configuration.tempFolder+ "pt.pddl";
+		this.domainAddress = Configuration.tempFolder+ "pta.pddl";
 
 		UtilityClass.writeFile(new File(problemAddress),problemPDDL);
 		UtilityClass.writeFile(new File(domainAddress),problemDomainPDDL);
@@ -129,7 +129,7 @@ public class FeatureModelConfigurationMashupGeneration {
 		
 		rawPlan = new ArrayList<String[]>();
 
-		Process p = Runtime.getRuntime().exec(PlannerConfiguration.plannerAddress+ "FF-v2.32/ff -o "+this.domainAddress+" -f "+this.problemAddress);
+		Process p = Runtime.getRuntime().exec(Configuration.plannerAddress+ "FF-v2.32/ff -o "+this.domainAddress+" -f "+this.problemAddress);
 		p.waitFor();
 
 		BufferedReader reader = 

@@ -20,7 +20,7 @@ import edu.ls3.magus.cl.fmconfigurator.FeatureModelConfigurationMashupGeneration
 import edu.ls3.magus.cl.mashupconfigurator.bpelgraph.FlowComponentNode;
 import edu.ls3.magus.cl.mashupconfigurator.nonfunctional.NonfunctionalConstraint;
 import edu.ls3.magus.cl.mashupconfigurator.nonfunctional.NonfunctionalMetricType;
-import edu.ls3.magus.configuration.PlannerConfiguration;
+import edu.ls3.magus.configuration.Configuration;
 import edu.ls3.magus.utility.Holder;
 import edu.ls3.magus.utility.UtilityClass;
 
@@ -241,12 +241,12 @@ public class FeatureModelConfiguration {
 	
 	private FeatureModelConfiguration callNaPS(FeatureModel featureModel, String serializedProblem) throws IOException, InterruptedException {
 		
-		String problemAddress = PlannerConfiguration.tempFolder+ "adaptation.pb";
+		String problemAddress = Configuration.tempFolder+ "adaptation.pb";
 		
 
 		UtilityClass.writeFile(new File(problemAddress),serializedProblem);
 		
-		Process p = Runtime.getRuntime().exec(PlannerConfiguration.plannerAddress+ "naps-1.02b/naps "+problemAddress);
+		Process p = Runtime.getRuntime().exec(Configuration.plannerAddress+ "naps-1.02b/naps "+problemAddress);
 		p.waitFor();
 
 		BufferedReader reader = 
@@ -722,6 +722,15 @@ public class FeatureModelConfiguration {
 	}
 	public Set<Feature> getCriticalFeatureSet() {
 		return criticalFeatureSet;
+	}
+
+	public static FeatureModelConfiguration getFeatureModelConfigurationByFeatureNames(String[] fms,FeatureModel fm) {
+		List<Feature> fl = new ArrayList<Feature>();
+		
+		for(String st: fms)
+			fl.add(fm.findFeatureByName(st));
+		
+		return new FeatureModelConfiguration(fl);
 	}
 	
 	

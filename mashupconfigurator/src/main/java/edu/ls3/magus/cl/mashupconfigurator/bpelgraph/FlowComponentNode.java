@@ -932,7 +932,7 @@ public class FlowComponentNode extends ComponentNode {
 		
 		
 	}
-	public String serializeToXML(List<Instance> vars){
+	public String serializeToBpel(List<Instance> vars){
 		StringBuilder result= new StringBuilder();
 		String currentTab ="";
 		result.append(currentTab+"<?xml version=\"1.0\" encoding=\"UTF-8\"?>"+System.lineSeparator());
@@ -1016,7 +1016,7 @@ public class FlowComponentNode extends ComponentNode {
 	        
 	        
 	        
-	    result.append(this.serializeToXMLComponent(currentTab+"\t", new ArrayList<Link>()));
+	    result.append(this.serializeToBpelComponent(currentTab+"\t", new ArrayList<Link>()));
 	    //Create Flow
 	    
 	    sep="";
@@ -1049,7 +1049,7 @@ public class FlowComponentNode extends ComponentNode {
 		
 		
 	}
-	public String serializeToXMLComponent(String inpTab, List<Link> plink) {
+	public String serializeToBpelComponent(String inpTab, List<Link> plink) {
 		
 		StringBuilder result= new StringBuilder();
 		String currentTab = inpTab;
@@ -1065,7 +1065,7 @@ public class FlowComponentNode extends ComponentNode {
 		result.append(currentTab+"</bpel:links>"+System.lineSeparator());
 		result.append(this.addSourceAndTargetLinks(currentTab,plink));
 		for(Node n: this.getNodes()){
-			result.append(n.serializeToXMLComponent(inpTab+"\t",clink));
+			result.append(n.serializeToBpelComponent(inpTab+"\t",clink));
 		}
 		
 		

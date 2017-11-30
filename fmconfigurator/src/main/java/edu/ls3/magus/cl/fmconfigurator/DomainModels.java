@@ -151,15 +151,19 @@ public class DomainModels {
 		this.featureModelAnnotation = featureModelAnnotation;
 	}
 
-
-
 	public static DomainModels readFromDirectory(File curDir) throws Exception {
 		String curDirAddress = curDir.getAbsolutePath();
 		if (!curDirAddress.endsWith("/"))
 			curDirAddress = curDirAddress + "/";
+		String configurationFileAddress = curDirAddress + "configuration.xml";
+		return readFromConfigurationFile(configurationFileAddress);
+	}
+
+	public static DomainModels readFromConfigurationFile(String configurationFileAddress) throws Exception {
+		String curDirAddress = configurationFileAddress.substring(0, configurationFileAddress.lastIndexOf("/")+1 );
 		DomainModels dm = new DomainModels();
 
-		String configurationXml = UtilityClass.readFile(curDirAddress + "configuration.xml");
+		String configurationXml = UtilityClass.readFile(configurationFileAddress);
 
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -280,181 +284,191 @@ public class DomainModels {
 		UtilityClass.writeFile(new File(directory+"configuration.xml") , dmc.serializeToConfigurationFileXml());
 		
 	}
-	
-	public  Map<AtomicSet, Double> findAtomicSetContributionValue(FeatureAtomicSetMap fasm, ServiceNonfunctionalAnnotationMap am, NonfunctionalMetricType nmt, Map<FeatureModelConfiguration, FlowComponentNode> serviceMashupCache) throws Exception{
-		Map<AtomicSet,Double> result = new HashMap<AtomicSet, Double>();
-		
-		Map<Service, ServiceNonfunctionalAnnotation> map = am.getAnnotationMap();
-		
-		
-		
-		// create the dataset
-		
-		List<FeatureModelConfiguration> observationFMCs  = getFeatureModel().generateRegressionConfigurations(noOfObservationPerRegressand,fasm);
-		
-		
-		List<AtomicSet> allAtomicSets = fasm.getAllAtomicSets(false);
-		
-		int noOfRegressors = allAtomicSets.size();
-		
-		int noOfObservation =observationFMCs.size();
-		
-		
-		
-		
-		// create the matrix
-		
-		double[] y = new double[noOfObservation];
-		double[][] x = new double[noOfObservation][noOfRegressors];
-		
-		
-		for(int cntr=0;cntr<noOfObservation; cntr++){
-			
-			
-			
-			
-			System.out.println(observationFMCs.get(cntr).toString());
-			
-			y[cntr] = findFeatureModelConfigurationNonfunctionalValue(observationFMCs.get(cntr),  nmt,  map,serviceMashupCache);
-			
-			//find atomic set assignment array
-			
-			for(int ascntr =0; ascntr< allAtomicSets.size(); ascntr++){
-				AtomicSet as = allAtomicSets.get(ascntr);
-				if(observationFMCs.get(cntr).getFeatureAtomicSetStatus(as.getFeatureList())){
-					x[cntr][ascntr]=1;
-				}
-				else
-				{
-					x[cntr][ascntr]=0;
-				}
-			}
-			
-		}
-		
-		
-		
-		OLSMultipleLinearRegression regression = new OLSMultipleLinearRegression();
-		
-		regression.setNoIntercept(true);
-		
-		
-		regression.newSampleData(y, x);
-		
-		double[] beta = regression.estimateRegressionParameters();    
-		
-		double regressandVariance = regression.estimateRegressandVariance();
-
-		double rSquared = regression.calculateRSquared();
-
-		double sigma = regression.estimateRegressionStandardError();
-		
-		double adjRSquared = regression.calculateAdjustedRSquared();
-		
-		System.out.println("Regressand variance:" +regressandVariance + " Rsquared: "+ rSquared +" Adjusted RSquared: "+ adjRSquared+ " sigma: "+ sigma);
-		
-		
-		
-		for(int cnt=0; cnt<allAtomicSets.size(); cnt++){
-			result.put(allAtomicSets.get(cnt), beta[cnt]);
-		}
-		
-		return result;
-	}
-	
-	
-	public  Map<AtomicSet, Double> findAtomicSetContributionValue(FeatureAtomicSetMap fasm, ServiceNonfunctionalAnnotationMap am, NonfunctionalMetricType nmt, List<FeatureModelConfiguration> observationFMCs,Map<FeatureModelConfiguration, FlowComponentNode> serviceMashupCache) throws Exception{
-		Map<AtomicSet,Double> result = new HashMap<AtomicSet, Double>();
-		
-		Map<Service, ServiceNonfunctionalAnnotation> map = am.getAnnotationMap();
-		
-		List<AtomicSet> allAtomicSets = fasm.getAllAtomicSets(true);
-		
-		int noOfRegressors = allAtomicSets.size();
-		
-		// create the dataset
-		
-		
-		
-		int noOfObservation =observationFMCs.size();
-		
-		
-		
-		
-		// create the matrix
-		
-		double[] y = new double[noOfObservation];
-		double[][] x = new double[noOfObservation][noOfRegressors];
-		
-		
-		for(int cntr=0;cntr<noOfObservation; cntr++){
-			
-			
-			System.out.println(observationFMCs.get(cntr).toString());
-			
-			y[cntr] = findFeatureModelConfigurationNonfunctionalValue(observationFMCs.get(cntr),  nmt,  map,serviceMashupCache);
-			
-			//find atomic set assignment array
-			
-			for(int ascntr =0; ascntr< allAtomicSets.size(); ascntr++){
-				AtomicSet as = allAtomicSets.get(ascntr);
-				if(observationFMCs.get(cntr).getFeatureAtomicSetStatus(as.getFeatureList())){
-					x[cntr][ascntr]=1;
-				}
-				else
-				{
-					x[cntr][ascntr]=0;
-				}
-			}
-			
-		}
-		double[] beta = null;
-		
-		for(int tryCntr=0; tryCntr<50;tryCntr++){
-			
-			try{
-			
-				OLSMultipleLinearRegression regression = new OLSMultipleLinearRegression();
-				
-				regression.setNoIntercept(true);
-				
-				
-				regression.newSampleData(y, x);
-				
-				beta = regression.estimateRegressionParameters();    
-				
-				double regressandVariance = regression.estimateRegressandVariance();
-		
-				double rSquared = regression.calculateRSquared();
-		
-				double sigma = regression.estimateRegressionStandardError();
-				
-				double adjRSquared = regression.calculateAdjustedRSquared();
-				
-				System.out.println("Regressand variance:" +regressandVariance + " Rsquared: "+ rSquared +" Adjusted RSquared: "+ adjRSquared+ " sigma: "+ sigma);
-			}catch(SingularMatrixException ex){
-				System.out.println("Singular Matrix Exception");
-				UtilityClass.DoubleShuffle(x, y);
-				continue;
-			}
-			break;
-		}
-		
-		
-		for(int cnt=0; cnt<allAtomicSets.size(); cnt++){
-			result.put(allAtomicSets.get(cnt), beta[cnt]);
-			System.out.println(beta[cnt]);
-		}
-		
-		List<AtomicSet> nsasl =  fasm.getUnchangableSelectionAtomicSets();
-		
-		for(int cnt=0; cnt<nsasl.size(); cnt++){
-			result.put(nsasl.get(cnt), 0d);
-		}
-		
-		return result;
-	}
-	
+//	
+//	public  Map<AtomicSet, Double> findAtomicSetContributionValue(FeatureAtomicSetMap fasm, ServiceNonfunctionalAnnotationMap am, NonfunctionalMetricType nmt, Map<FeatureModelConfiguration, FlowComponentNode> serviceMashupCache) throws Exception{
+//		Map<AtomicSet,Double> result = new HashMap<AtomicSet, Double>();
+//		
+//		Map<Service, ServiceNonfunctionalAnnotation> map = am.getAnnotationMap();
+//		
+//		
+//		
+//		// create the dataset
+//		
+//		List<FeatureModelConfiguration> observationFMCs  = getFeatureModel().generateRegressionConfigurations(noOfObservationPerRegressand,fasm);
+//		
+//		
+//		List<AtomicSet> allAtomicSets = fasm.getAllAtomicSets(false);
+//		
+//		int noOfRegressors = allAtomicSets.size();
+//		
+//		int noOfObservation =observationFMCs.size();
+//		
+//		
+//		
+//		
+//		// create the matrix
+//		
+//		double[] y = new double[noOfObservation];
+//		double[][] x = new double[noOfObservation][noOfRegressors];
+//		
+//		
+//		for(int cntr=0;cntr<noOfObservation; cntr++){
+//			
+//			
+//			
+//			
+//			System.out.println(observationFMCs.get(cntr).toString());
+//			
+//			y[cntr] = findFeatureModelConfigurationNonfunctionalValue(observationFMCs.get(cntr),  nmt,  map,serviceMashupCache);
+//			
+//			//find atomic set assignment array
+//			
+//			for(int ascntr =0; ascntr< allAtomicSets.size(); ascntr++){
+//				AtomicSet as = allAtomicSets.get(ascntr);
+//				if(observationFMCs.get(cntr).getFeatureAtomicSetStatus(as.getFeatureList())){
+//					x[cntr][ascntr]=1;
+//				}
+//				else
+//				{
+//					x[cntr][ascntr]=0;
+//				}
+//			}
+//			
+//		}
+//		
+//		
+//		
+//		OLSMultipleLinearRegression regression = new OLSMultipleLinearRegression();
+//		
+//		regression.setNoIntercept(true);
+//		
+//		
+//		regression.newSampleData(y, x);
+//		
+//		double[] beta = regression.estimateRegressionParameters();    
+//		
+//		double regressandVariance = regression.estimateRegressandVariance();
+//
+//		double rSquared = regression.calculateRSquared();
+//
+//		double sigma = regression.estimateRegressionStandardError();
+//		
+//		double adjRSquared = regression.calculateAdjustedRSquared();
+//		
+//		System.out.println("Regressand variance:" +regressandVariance + " Rsquared: "+ rSquared +" Adjusted RSquared: "+ adjRSquared+ " sigma: "+ sigma);
+//		
+//		
+//		
+//		for(int cnt=0; cnt<allAtomicSets.size(); cnt++){
+//			result.put(allAtomicSets.get(cnt), beta[cnt]);
+//		}
+//		
+//		return result;
+//	}
+//	
+//	
+//	public  Map<AtomicSet, Double> findAtomicSetContributionValue(FeatureAtomicSetMap fasm, ServiceNonfunctionalAnnotationMap am, NonfunctionalMetricType nmt, List<FeatureModelConfiguration> observationFMCs,Map<FeatureModelConfiguration, FlowComponentNode> serviceMashupCache) throws Exception{
+//		Map<AtomicSet,Double> result = new HashMap<AtomicSet, Double>();
+//		
+//		Map<Service, ServiceNonfunctionalAnnotation> map = am.getAnnotationMap();
+//		
+//		List<AtomicSet> allAtomicSets = fasm.getAllAtomicSets(true);
+//		
+//		int noOfRegressors = allAtomicSets.size();
+//		
+//		// create the dataset
+//		
+//		
+//		
+//		int noOfObservation =observationFMCs.size();
+//		
+//		
+//		
+//		
+//		// create the matrix
+//		
+//		double[] y = new double[noOfObservation];
+//		double[][] x = new double[noOfObservation][noOfRegressors];
+//		
+//		
+//		for(int cntr=0;cntr<noOfObservation; cntr++){
+//			
+//			
+//			System.out.println(observationFMCs.get(cntr).toString());
+//			
+//			y[cntr] = nmt.getRegressionValue(findFeatureModelConfigurationNonfunctionalValue(observationFMCs.get(cntr),  nmt,  map,serviceMashupCache));
+//			
+//			//find atomic set assignment array
+//			
+//			for(int ascntr =0; ascntr< allAtomicSets.size(); ascntr++){
+//				AtomicSet as = allAtomicSets.get(ascntr);
+//				if(observationFMCs.get(cntr).getFeatureAtomicSetStatus(as.getFeatureList())){
+//					x[cntr][ascntr]=1;
+//				}
+//				else
+//				{
+//					x[cntr][ascntr]=0;
+//				}
+//			}
+//			
+//		}
+//		double[] beta = null;
+//		
+//		for(int tryCntr=0; tryCntr<50;tryCntr++){
+//			
+//			try{
+//			
+//				OLSMultipleLinearRegression regression = new OLSMultipleLinearRegression();
+//				
+//				regression.setNoIntercept(true);
+//				
+//				
+//				regression.newSampleData(y, x);
+//				
+//				beta = regression.estimateRegressionParameters();    
+//				
+//				double regressandVariance = regression.estimateRegressandVariance();
+//		
+//				double rSquared = regression.calculateRSquared();
+//		
+//				double sigma = regression.estimateRegressionStandardError();
+//				
+//				double adjRSquared = regression.calculateAdjustedRSquared();
+//				
+//				System.out.println("Regressand variance:" +regressandVariance + " Rsquared: "+ rSquared +" Adjusted RSquared: "+ adjRSquared+ " sigma: "+ sigma);
+//			}catch(SingularMatrixException ex){
+//				System.out.println("Singular Matrix Exception");
+//				UtilityClass.DoubleShuffle(x, y);
+//				continue;
+//			}
+//			break;
+//		}
+//		
+//		
+//		for(int cnt=0; cnt<allAtomicSets.size(); cnt++){
+//			result.put(allAtomicSets.get(cnt), nmt.getInverseRegressionValue(beta[cnt]));
+//			System.out.println(beta[cnt]);
+//		}
+//		
+//		List<AtomicSet> nsasl =  fasm.getUnchangableSelectionAtomicSets();
+//		
+//		for(int cnt=0; cnt<nsasl.size(); cnt++){
+//			result.put(nsasl.get(cnt), 0d);
+//		}
+//		
+//		return result;
+//	}
+	/***
+	 * 
+	 * @param fasm
+	 * @param am
+	 * @param nmt
+	 * @param observationFMCs
+	 * @param serviceMashupCache
+	 * @param cv
+	 * @return RSquared
+	 * @throws Exception
+	 */
 	public  double findAtomicSetContributionValueOLS(FeatureAtomicSetMap fasm, ServiceNonfunctionalAnnotationMap am, NonfunctionalMetricType nmt, List<FeatureModelConfiguration> observationFMCs,Map<FeatureModelConfiguration, FlowComponentNode> serviceMashupCache, Map<AtomicSet, Double> cv) throws Exception{
 		
 		
@@ -484,7 +498,7 @@ public class DomainModels {
 			
 			System.out.println(observationFMCs.get(cntr).toString());
 			
-			y[cntr] = findFeatureModelConfigurationNonfunctionalValue(observationFMCs.get(cntr),  nmt,  map,serviceMashupCache);
+			y[cntr] = nmt.getRegressionValue( findFeatureModelConfigurationNonfunctionalValue(observationFMCs.get(cntr),  nmt,  map,serviceMashupCache));
 			
 			//find atomic set assignment array
 			int idx =0;
@@ -512,12 +526,12 @@ public class DomainModels {
 		int idx=0;
 		for(int cnt=0; cnt<allAtomicSets.size(); cnt++){
 			if(allAtomicSets.get(cnt).equals(fasm.getFasMap().get(getFeatureModel().getRootFeature()))){
-				cv.put(allAtomicSets.get(cnt), a.intercept());
+				cv.put(allAtomicSets.get(cnt), nmt.getInverseRegressionValue(  a.intercept()));
 				System.out.println(a.intercept());
 			}
 			else
 			{
-				cv.put(allAtomicSets.get(cnt), beta[idx]);
+				cv.put(allAtomicSets.get(cnt), nmt.getInverseRegressionValue( beta[idx]));
 				System.out.println(beta[idx]);
 				idx++;
 			}
@@ -527,7 +541,7 @@ public class DomainModels {
 		List<AtomicSet> nsasl =  fasm.getUnchangableSelectionAtomicSets();
 		
 		for(int cnt=0; cnt<nsasl.size(); cnt++){
-			cv.put(nsasl.get(cnt), 0d);
+			cv.put(nsasl.get(cnt),nmt.getNeutralValue());
 		}
 		
 		return a.RSquared();
@@ -564,7 +578,7 @@ public  double findAtomicSetContributionValueOLS(FeatureAtomicSetMap fasm, Servi
 			
 			System.out.println(trainingFMCs[cntr].toString());
 			
-			y[cntr] = findFeatureModelConfigurationNonfunctionalValue(trainingFMCs[cntr],  nmt,  map,trainingFMCServiceMashupMap);
+			y[cntr] = nmt.getRegressionValue(findFeatureModelConfigurationNonfunctionalValue(trainingFMCs[cntr],  nmt,  map,trainingFMCServiceMashupMap));
 			
 			//find atomic set assignment array
 			int idx =0;
@@ -592,12 +606,12 @@ public  double findAtomicSetContributionValueOLS(FeatureAtomicSetMap fasm, Servi
 		int idx=0;
 		for(int cnt=0; cnt<allAtomicSets.size(); cnt++){
 			if(allAtomicSets.get(cnt).equals(fasm.getFasMap().get(getFeatureModel().getRootFeature()))){
-				asnfam.getMap().get(allAtomicSets.get(cnt)).getAnnotation().put(nmt, new NonfunctionalMetric(nmt, a.intercept(), 0d)  );
+				asnfam.getMap().get(allAtomicSets.get(cnt)).getAnnotation().put(nmt, new NonfunctionalMetric(nmt, nmt.getInverseRegressionValue(a.intercept()), 0d)  );
 				System.out.println(a.intercept());
 			}
 			else
 			{
-				asnfam.getMap().get(allAtomicSets.get(cnt)).getAnnotation().put(nmt, new NonfunctionalMetric(nmt,  beta[idx], 0d)  );
+				asnfam.getMap().get(allAtomicSets.get(cnt)).getAnnotation().put(nmt, new NonfunctionalMetric(nmt, nmt.getInverseRegressionValue(beta[idx]), 0d)  );
 				System.out.println(beta[idx]);
 				idx++;
 			}
@@ -607,7 +621,7 @@ public  double findAtomicSetContributionValueOLS(FeatureAtomicSetMap fasm, Servi
 		List<AtomicSet> nsasl =  fasm.getUnchangableSelectionAtomicSets();
 		
 		for(int cnt=0; cnt<nsasl.size(); cnt++){
-			asnfam.getMap().get(nsasl.get(cnt)).getAnnotation().put(nmt, new NonfunctionalMetric(nmt,  0d, 0d)  );
+			asnfam.getMap().get(nsasl.get(cnt)).getAnnotation().put(nmt, new NonfunctionalMetric(nmt,  nmt.getNeutralValue(), 0d)  );
 			
 		}
 		

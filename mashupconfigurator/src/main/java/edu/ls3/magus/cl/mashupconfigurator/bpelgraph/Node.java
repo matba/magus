@@ -70,7 +70,7 @@ public abstract class Node {
 	abstract public AtomicNode getEndNode() ;
 	abstract public AtomicNode getStartNode() ;
 	
-	abstract public String serializeToXMLComponent(String tab,List<Link> plinks);
+	abstract public String serializeToBpelComponent(String tab,List<Link> plinks);
 	
 	abstract public List<Service> findAllCalledServices();
 	
