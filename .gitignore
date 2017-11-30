@@ -1,4 +1,6 @@
 */target/*
 .project
-.setting
+*/.settings/*
 .classpath
+/.metadata/
+*/.gitignore
