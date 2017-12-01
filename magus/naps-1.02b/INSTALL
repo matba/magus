@@ -1,0 +1,24 @@
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+gpw 2.x
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+NOTE! You need GNU make and GCC to compile this software.
+
+To make the 64-bit version, type
+
+    make rx
+
+To make the BigNum version, type
+ 
+    make rs
+
+To use them together (trying the faster 64-bit version first), use the script
+
+    gpw_script
+
+-----
+TIPS:
+For compile error related to gmp.h, install libgmp3-dev gmp-devel library.
+For compile error related to zlib.h, install zlib-devel library.
+
+On FreeBSD, use gmake for make.

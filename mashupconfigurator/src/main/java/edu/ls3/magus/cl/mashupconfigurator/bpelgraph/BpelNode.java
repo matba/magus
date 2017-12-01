@@ -109,7 +109,8 @@ public class BpelNode {
 			List<Link> links = new ArrayList<>();
 			for (String linkStr : nodeIds) {
 				if (!nodeSources.containsKey(linkStr) || !nodeTargets.containsKey(linkStr)) {
-					throw new IllegalStateException("The link should have both source and target.");
+					throw new IllegalStateException("The link should have both source and target. Link ID" + linkStr +
+							"Contains source: "+ nodeSources.containsKey(linkStr)+ "Contains target: "+  nodeTargets.containsKey(linkStr) );
 
 				}
 				links.add(new Link(nodeSources.get(linkStr), nodeTargets.get(linkStr)));
@@ -117,6 +118,7 @@ public class BpelNode {
 			FlowComponentNode fcn = new FlowComponentNode();
 			fcn.setNodes(flowChildNodes);
 			fcn.setLinks(links);
+			addLinks(fcn, node, nodeSources, nodeTargets);
 			return fcn;
 		case "bpel:sequence":
 			nl = node.getChildNodes();
@@ -124,6 +126,7 @@ public class BpelNode {
 					serviceCollection, nodeSources, nodeTargets);
 			SequenceComponentNode scn = new SequenceComponentNode();
 			scn.setNodes(sequenceChildNodes);
+			addLinks(scn, node, nodeSources, nodeTargets);
 			return scn;
 
 		case "bpel:invoke":
@@ -134,11 +137,39 @@ public class BpelNode {
 					Collections.emptyMap());
 			OperationNode on = new OperationNode(sc, false, false);
 			AtomicNode an = new AtomicNode(on);
+			addLinks(an, node, nodeSources, nodeTargets);
+			
 			return an;
 
 		}
 		return null;
 	}
+	
+ 	private static void addLinks(edu.ls3.magus.cl.mashupconfigurator.bpelgraph.Node bpelNode, Node node,
+			Map<String, edu.ls3.magus.cl.mashupconfigurator.bpelgraph.Node> nodeSources,
+			Map<String, edu.ls3.magus.cl.mashupconfigurator.bpelgraph.Node> nodeTargets) {
+ 		NodeList nodeList = node.getChildNodes();
+		for (int cntr = 0; cntr < nodeList.getLength(); cntr++) {
+			if (nodeList.item(cntr).getNodeName().equals("bpel:targets")) {
+				NodeList targetChidren = nodeList.item(cntr).getChildNodes();
+				for (int targetCntr = 0; targetCntr < targetChidren.getLength(); targetCntr++) {
+					if (targetChidren.item(targetCntr).getNodeName().equals("bpel:target")) {
+						nodeTargets.put(
+								targetChidren.item(targetCntr).getAttributes().getNamedItem("linkName").getNodeValue(), bpelNode);
+					}
+				}
+
+			} else if (nodeList.item(cntr).getNodeName().equals("bpel:sources")) {
+				NodeList sourceChidren = nodeList.item(cntr).getChildNodes();
+				for (int sourceCntr = 0; sourceCntr < sourceChidren.getLength(); sourceCntr++) {
+					if (sourceChidren.item(sourceCntr).getNodeName().equals("bpel:source")) {
+						nodeSources.put(
+								sourceChidren.item(sourceCntr).getAttributes().getNamedItem("linkName").getNodeValue(), bpelNode);
+					}
+				}
+			}				
+		}
+ 	}
 
 	private static List<edu.ls3.magus.cl.mashupconfigurator.bpelgraph.Node> processNode(NodeList nl,
 			ServiceCollection serviceCollection,
@@ -148,24 +179,7 @@ public class BpelNode {
 		for (int cntr = 0; cntr < nl.getLength(); cntr++) {
 			Set<String> sources = new HashSet<>();
 			Set<String> targets = new HashSet<>();
-			if (nl.item(cntr).getNodeName().equals("bpel:targets")) {
-				NodeList targetChidren = nl.item(cntr).getChildNodes();
-				for (int targetCntr = 0; targetCntr < targetChidren.getLength(); targetCntr++) {
-					if (targetChidren.item(targetCntr).getNodeName().equals("bpel:target")) {
-						targets.add(
-								targetChidren.item(targetCntr).getAttributes().getNamedItem("linkName").getNodeValue());
-					}
-				}
-
-			} else if (nl.item(cntr).getNodeName().equals("bpel:sources")) {
-				NodeList sourceChidren = nl.item(cntr).getChildNodes();
-				for (int sourceCntr = 0; sourceCntr < sourceChidren.getLength(); sourceCntr++) {
-					if (sourceChidren.item(sourceCntr).getNodeName().equals("bpel:source")) {
-						sources.add(
-								sourceChidren.item(sourceCntr).getAttributes().getNamedItem("linkName").getNodeValue());
-					}
-				}
-			} else if (ImmutableSet.of("bpel:flow", "bpel:sequence", "bpel:invoke", "bpel:recieve")
+			if (ImmutableSet.of("bpel:flow", "bpel:sequence", "bpel:invoke", "bpel:recieve")
 					.contains(nl.item(cntr).getNodeName())) {
 				edu.ls3.magus.cl.mashupconfigurator.bpelgraph.Node Node = readNode(nl.item(cntr), serviceCollection,
 						nodeSources, nodeTargets);

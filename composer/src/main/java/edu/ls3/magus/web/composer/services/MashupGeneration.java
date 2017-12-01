@@ -12,6 +12,7 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactoryConfigurationError;
 
 import edu.ls3.magus.web.composer.core.GenerateMashupProcess;
+import edu.ls3.magus.web.composer.core.GenerateTrainingSetProcess;
 import edu.ls3.magus.web.composer.core.SaveMashupProcess;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -75,8 +76,28 @@ public class MashupGeneration {
 			ex.printStackTrace();
 		}
 		
-		
 		return  r;
+	}
+	
+	@POST
+	@Path("/training")
+	@ApiOperation(value = "Generates Training Set for a Service Mashup Family",
+    notes = "Gets a the URI for a service mashup family and creates training set for estimating non-functional properties based on features.")	
+	public GenerateTrainingSetResponse MashupGenerateTrainingSet(@ApiParam(value = "The URI for the service mashup family.", required = true) 
+			GenerateTrainingSetRequest request) {
+		GenerateTrainingSetProcess process = new  GenerateTrainingSetProcess(request.mashupFamilyURI);
+		GenerateTrainingSetResponse response = new GenerateTrainingSetResponse();
+		try {
+			
+			response.statusCode = 0;
+			response.statueMessage = "Generating training set was successful";
+			
+		} catch (Exception ex) {
+			response.statusCode = -1;
+			response.statueMessage = "Generating training set failed with the following message: " + ex.getMessage();
+		}
+		return response;
+		
 	}
 	
 

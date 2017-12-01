@@ -11,6 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.rmi.CORBA.Util;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactoryConfigurationError;
@@ -40,6 +42,7 @@ import edu.ls3.magus.cl.fmconfigurator.model.FeatureAnnotationSet;
 import edu.ls3.magus.cl.fmconfigurator.model.FeatureAtomicSetMap;
 import edu.ls3.magus.cl.fmconfigurator.model.FeatureModel;
 import edu.ls3.magus.cl.fmconfigurator.model.FeatureModelConfiguration;
+import edu.ls3.magus.cl.mashupconfigurator.bpelgraph.BpelNode;
 import edu.ls3.magus.cl.mashupconfigurator.bpelgraph.ComponentNode;
 import edu.ls3.magus.cl.mashupconfigurator.bpelgraph.FlowComponentNode;
 import edu.ls3.magus.cl.mashupconfigurator.bpelgraph.Node;
@@ -4604,7 +4607,7 @@ public static void testFeatureContributionEstimation2() throws Exception{
 
 public static void testFeatureContributionEstimation3() throws Exception{
 	
-	DomainModels dm = DomainModels.readFromDirectory(new File( "/home/mbashari/Dropbox/Thesis/impl/magus/composer/src/main/webapp/repositories/uploadimage/"));
+	DomainModels dm = DomainModels.readFromDirectory(new File( "/home/mahdi/ws/magus/composer/src/main/webapp/repositories/uploadimage/"));
 	
 	
 	
@@ -4660,8 +4663,14 @@ public static void testFeatureContributionEstimation3() throws Exception{
 		
 		System.out.println(ReliabilityType.getInstance().getAggregatedValue(annotationMap.getAnnotationMap(), fcn));
 		
+		//String serialized = fcn.serializeToBpel(Collections.emptyList());
+		//System.out.println(serialized);
+		//FlowComponentNode fcn2 =  BpelNode.readFromBpelXml(serialized, dm.getServiceCollection());
+		//System.out.println(ReliabilityType.getInstance().getAggregatedValue(annotationMap.getAnnotationMap(), fcn2));
+		
 		}
-		catch(UnsuccessfulMashupGeneration ex){
+		catch(Exception ex){
+			ex.printStackTrace();
 			System.out.println("UNSUCCESSFUL MASHUP GENERATION!");
 		}
 		

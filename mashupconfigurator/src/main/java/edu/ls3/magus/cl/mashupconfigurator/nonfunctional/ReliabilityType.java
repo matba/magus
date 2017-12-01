@@ -24,14 +24,12 @@ public class ReliabilityType extends NonfunctionalMetricType {
 
     @Override
     public String getCode() {
-        // TODO Auto-generated method stub
         return "RELIABILITY";
     }
 
     @Override
     public double getAggregatedValue(Map<Service, ServiceNonfunctionalAnnotation> map, FlowComponentNode fcn)
             throws Exception {
-        // TODO Auto-generated method stub
         double result = 1d;
         if (fcn.getNodes().isEmpty())
             return result;
@@ -59,13 +57,11 @@ public class ReliabilityType extends NonfunctionalMetricType {
 
     @Override
     public double getRegressionValue(double actualValue) {
-        // TODO Auto-generated method stub
         return Math.log(actualValue);
     }
 
     @Override
     public double getInverseRegressionValue(double regressionValue) {
-        // TODO Auto-generated method stub
 
         // return regressionValue;
         return Math.pow(Math.E, regressionValue);
