@@ -88,7 +88,7 @@ public class MashupGeneration {
 		GenerateTrainingSetProcess process = new  GenerateTrainingSetProcess(request.mashupFamilyURI);
 		GenerateTrainingSetResponse response = new GenerateTrainingSetResponse();
 		try {
-			
+			process.process();
 			response.statusCode = 0;
 			response.statueMessage = "Generating training set was successful";
 			
