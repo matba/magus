@@ -723,6 +723,10 @@ public class FeatureModelConfiguration {
 	public Set<Feature> getCriticalFeatureSet() {
 		return criticalFeatureSet;
 	}
+	
+	public void addToCricitcalFeatures(Feature feature) {
+		criticalFeatureSet.add(feature);
+	}
 
 	public static FeatureModelConfiguration getFeatureModelConfigurationByFeatureNames(String[] fms,FeatureModel fm) {
 		List<Feature> fl = new ArrayList<Feature>();

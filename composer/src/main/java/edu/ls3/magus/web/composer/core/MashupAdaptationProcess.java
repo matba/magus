@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
@@ -18,6 +20,7 @@ import org.xml.sax.SAXException;
 import edu.ls3.magus.cl.fmconfigurator.ContextStateModel;
 import edu.ls3.magus.cl.fmconfigurator.DomainModels;
 import edu.ls3.magus.cl.fmconfigurator.FeatureModelConfigurationMashupGeneration;
+import edu.ls3.magus.cl.fmconfigurator.model.Feature;
 import edu.ls3.magus.cl.fmconfigurator.model.FeatureAtomicSetMap;
 import edu.ls3.magus.cl.fmconfigurator.model.FeatureModel;
 import edu.ls3.magus.cl.fmconfigurator.model.FeatureModelConfiguration;
@@ -97,6 +100,12 @@ public class MashupAdaptationProcess extends Process {
 				constraints.add(nfc);
 			}
 		}
+		
+		Map<String, Feature> featureMap = domainModels.getFeatureModel().getFeaturesUUIDMap();
+		Set<Feature> criticalFeatures = requestInfo.criticalFeatureUuids.stream()
+				.map(fmUuid -> featureMap.get(fmUuid)).collect(Collectors.toSet());
+		
+		criticalFeatures.forEach(value -> fmc.addToCricitcalFeatures(value));
 		
 		FeatureModelConfiguration alternateFMC = fmc.findAlternateConfigurationNF(domainModels, contextStateModel, constraints, trainingSetInfo.trainingSet, trainingSetInfo.fasm, holder);
 		
