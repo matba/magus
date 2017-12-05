@@ -1,6 +1,12 @@
 package edu.ls3.magus.cl.fmconfigurator.model;
 
+import java.io.IOException;
 import java.util.*;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPathExpressionException;
+
+import org.xml.sax.SAXException;
 
 public class FeatureAtomicSetMap {
 	
@@ -70,6 +76,18 @@ public class FeatureAtomicSetMap {
 		
 		for(Feature f:updatedFeatures)
 			fasMap.put(f, mergedAtomicSet);
+	}
+	
+	public static FeatureAtomicSetMap readFromXml(String xml, FeatureModel fm) throws XPathExpressionException, SAXException, IOException, ParserConfigurationException {
+		FeatureAtomicSetMap fasm = new FeatureAtomicSetMap();
+		Set<AtomicSet> asSet = AtomicSet.readFromXml(xml, fm);
+		
+		for(AtomicSet as : asSet) {
+			as.getFeatureList().forEach(value -> fasm.getFasMap().put(value, as));
+		}
+		
+		
+		return fasm;
 	}
 	
 	

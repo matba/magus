@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
+import javax.sound.sampled.AudioFormat.Encoding;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -30,7 +31,9 @@ import org.xml.sax.SAXException;
 import edu.ls3.magus.cl.fmconfigurator.ContextStateModel;
 import edu.ls3.magus.cl.fmconfigurator.DomainModels;
 import edu.ls3.magus.cl.fmconfigurator.FeatureModelConfigurationMashupGeneration;
+import edu.ls3.magus.cl.fmconfigurator.model.FeatureAtomicSetMap;
 import edu.ls3.magus.cl.fmconfigurator.model.FeatureModelConfiguration;
+import edu.ls3.magus.cl.mashupconfigurator.bpelgraph.BpelNode;
 import edu.ls3.magus.cl.mashupconfigurator.bpelgraph.FlowComponentNode;
 import edu.ls3.magus.cl.mashupconfigurator.bpelgraph.OperationNode;
 import edu.ls3.magus.cl.mashupconfigurator.nonfunctional.NonfunctionalMetric;
@@ -151,13 +154,14 @@ public class Process {
 		}
 
 		result.systemDirectory = mashupInstanceUri.replace(Configuration.domainAddress,
-				Configuration.defaultDeploymentDirectory);
+				Configuration.deploymentDirectory);
 
-		if (!result.systemDirectory.endsWith("/")) {
-			result.systemDirectory = result.systemDirectory + "/";
+		if (result.systemDirectory.endsWith(File.pathSeparator)) {
+			result.systemDirectory = result.systemDirectory.substring(0,
+					result.systemDirectory.length() - File.pathSeparator.length());
 		}
-
-		final String configurationFileAddress = result.systemDirectory + "mashupInfo.txt";
+		
+		final String configurationFileAddress = result.systemDirectory + File.pathSeparator + "mashupInfo.txt";
 
 		final String configuration = UtilityClass.readFile(new File(configurationFileAddress),
 				Charset.defaultCharset());
@@ -234,4 +238,45 @@ public class Process {
 		public Map<String, Double> constraints;
 	}
 
+	public TrainingSetInfo readTrainingSet(String trainingSetDirectory, DomainModels domainModel) throws IOException, XPathExpressionException, ParserConfigurationException, SAXException {
+		Map<FeatureModelConfiguration, FlowComponentNode> trainingSet = new HashMap<>();
+		File configurationFile = new File(trainingSetDirectory + File.pathSeparator + Configuration.configurationFileName);
+		if(!configurationFile.exists()) {
+			throw new IOException("Configuration file for training set does not exist.");
+			
+		}
+		
+		String configuration = UtilityClass.readFile(configurationFile, Charset.defaultCharset());
+		
+		String[] configurationLines = configuration.split(System.lineSeparator());
+		
+		if(configurationLines.length % 2 != 0) {
+			throw new IOException("Invalid Configuration file for training set.");
+		}
+		
+		for(int lineCntr=0; lineCntr < configurationLines.length; lineCntr+=2) {
+			String uuid = configurationLines[lineCntr];
+			final String[] featureUuids = configurationLines[lineCntr+1].split(",");
+			String bpelCode = UtilityClass.readFile(new File(trainingSetDirectory + File.pathSeparator + "FM" + uuid), Charset.defaultCharset());
+			final FlowComponentNode fcn = BpelNode.readFromBpelXml(bpelCode, domainModel.getServiceCollection());
+			final FeatureModelConfiguration fmc = new FeatureModelConfiguration(featureUuids, domainModel.getFeatureModel());
+			trainingSet.put(fmc, fcn);
+		}
+		
+		
+		TrainingSetInfo result = new TrainingSetInfo();
+		result.trainingSet = trainingSet;
+		
+		File fasmFile = new File(trainingSetDirectory+ File.pathSeparator + "fasm");
+		String xml = UtilityClass.readFile(fasmFile, Charset.defaultCharset());
+		result.fasm = FeatureAtomicSetMap.readFromXml(xml, domainModel.getFeatureModel());
+		
+		
+		return result;
+	}
+	
+	protected class TrainingSetInfo {
+		public Map<FeatureModelConfiguration, FlowComponentNode> trainingSet;
+		public FeatureAtomicSetMap fasm;
+	}
 }

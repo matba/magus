@@ -9,6 +9,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import edu.ls3.magus.web.composer.core.MashupAdaptationProcess;
+import edu.ls3.magus.web.composer.core.MashupAdaptationProcess.AdaptationResult;
 import edu.ls3.magus.web.composer.core.MashupContextStateModelUpdateProcess;
 import edu.ls3.magus.web.composer.core.MashupContextStateModelUpdateProcess.RequirementStatus;
 import edu.ls3.magus.web.composer.core.MashupRegisterProcess;
@@ -86,7 +88,22 @@ public class MashupAdaptation {
 	@Produces(MediaType.APPLICATION_JSON)
 	public MashupAdaptationResponse adaptMashup(
 			@ApiParam(value = "A running service mashup instance ID.", required = true) MashupAdaptationRequest request) {
-		throw new IllegalArgumentException();
+		MashupAdaptationProcess process = new MashupAdaptationProcess(request.runningMashupInstanceUri);
+		MashupAdaptationResponse response = new MashupAdaptationResponse();
+		try {
+			 AdaptationResult rs = process.adaptMashup();
+			response.statusCode = 0;
+			response.statueMessage = "Adaptation was successful";
+			response.bpelCodeXml = rs.bpelCodeXml;
+			response.providedFeaturesUuidAfterAdaptation = rs.providedFeaturesUuidAfterAdaptation;
+			response.predictedNonfunctionalAfterAdaptation = rs.predictedNonfunctionalAfterAdaptation;
+		} catch (Exception ex) {
+			response.statusCode = -1;
+			response.statueMessage = "Adaptation to failed to find alternate service mashup with following message: " + ex.getMessage();
+
+		}
+		
+		return response;
 
 	}
 }

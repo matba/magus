@@ -47,10 +47,12 @@ public class MashupContextStateModelUpdateProcess extends Process {
 		RequestInformation requestInfo = readRequestInfo(requestInfoAddress);
 
 		GeneratedMashupInfo mashupInfo = readGeneratedMashupInfo(requestInfo.mashupInstanceUri);
+		
+		final String configurationFileAddress = findSystemAddress(mashupInfo.mashupFamilyURI);
 
 		final DomainModels domainModels;
 		try {
-			domainModels = DomainModels.readFromConfigurationFile(mashupInfo.mashupFamilyURI);
+			domainModels = DomainModels.readFromConfigurationFile(configurationFileAddress);
 		} catch (Exception ex) {
 			throw new IOException("Reading configuration file failed with the following message: " + ex.getMessage(),
 					ex);

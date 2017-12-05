@@ -12,4 +12,6 @@ public class Configuration {
     public static final String defaultDeploymentDirectory = "ROOT/";
     public static final String generatedServiceMashupDirectory = "mashups/";
     public static final String runningServiceMashupDirectory = "running/";
+    public static final String trainingSetDirectory = "training";
+    public static final String configurationFileName = "configuration";
 }
