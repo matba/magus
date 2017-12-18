@@ -1,6 +1,7 @@
 
-function serviceMashupFamilyClass(){
+function serviceMashupFamilyClass(serviceMashupFamilyUri){
 	var smf ={};
+	smf.uri = serviceMashupFamilyUri;
 	smf.featureModelAddress=null;
 	smf.contextOntologyAddresses=[];
 	smf.serviceAddresses =[]
@@ -11,9 +12,6 @@ function serviceMashupFamilyClass(){
 		 
 		 xmlDoc = $.parseXML( xml );
 		 $xml = $( xmlDoc );
-		 
-		 
-		 
 		 
 		 
 			

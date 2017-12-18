@@ -17,7 +17,7 @@
     <owl:imports rdf:resource="http://www.daml.org/services/owl-s/1.2/Service.owl"/>
     <owl:imports rdf:resource="http://www.daml.org/services/owl-s/1.2/Process.owl"/>
     <owl:imports rdf:resource="http://www.daml.org/services/owl-s/1.2/Grounding.owl"/> 
-    <owl:imports rdf:resource="http://magus.online/repositories/orderprocessing/orderprocessing.xml"/>
+    <owl:imports rdf:resource="http://magus.online/repositories/orderprocessing/contextModel.xml"/>
   </owl:Ontology>
   <service:Service rdf:ID="SendTaxInfo">
         <service:describedBy >
@@ -25,7 +25,7 @@
 				<process:hasInput>
 				  <process:Input rdf:ID="taxInformationPart">
 					<process:parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI"
-					>http://magus.online/repositories/orderprocessing/orderprocessing.xml#TaxInfo</process:parameterType>
+					>http://magus.online/repositories/orderprocessing/contextModel.xml#TaxInfo</process:parameterType>
 					<rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
 					>taxInformationPart</rdfs:label>
 				  </process:Input>
@@ -47,7 +47,7 @@
 								  <swrl:AtomList>
 									<rdf:first>
 									  <swrl:ClassAtom>
-										<swrl:classPredicate rdf:resource="http://magus.online/repositories/orderprocessing/orderprocessing.xml#PurchaseOrder"/>
+										<swrl:classPredicate rdf:resource="http://magus.online/repositories/orderprocessing/contextModel.xml#PurchaseOrder"/>
 										<swrl:argument1>
 										  <swrl:Variable rdf:ID="po2"/>
 										</swrl:argument1>
@@ -58,7 +58,7 @@
 								</rdf:rest>
 								<rdf:first>
 								  <swrl:IndividualPropertyAtom>
-									<swrl:propertyPredicate rdf:resource="http://magus.online/repositories/orderprocessing/orderprocessing.xml#HasTaxInfo"/>
+									<swrl:propertyPredicate rdf:resource="http://magus.online/repositories/orderprocessing/contextModel.xml#HasTaxInfo"/>
 									<swrl:argument2 rdf:resource="http://magus.online/repositories/orderprocessing/services/SendTaxInfo.xml#taxInformationPart"/>
 									<swrl:argument1 rdf:resource="#po2"/>
 								  </swrl:IndividualPropertyAtom>
@@ -78,7 +78,7 @@
 						  <swrl:AtomList>
 							<rdf:first>
 							  <swrl:IndividualPropertyAtom>
-								<swrl:propertyPredicate rdf:resource="http://magus.online/repositories/orderprocessing/orderprocessing.xml#TaxInfoSentToInvoicing"/>
+								<swrl:propertyPredicate rdf:resource="http://magus.online/repositories/orderprocessing/contextModel.xml#TaxInfoSentToInvoicing"/>
 								<swrl:argument1 rdf:resource="#po2"/>
 								<swrl:argument2 rdf:resource="http://magus.online/repositories/orderprocessing/services/SendTaxInfo.xml#taxInformationPart"/>
 							  </swrl:IndividualPropertyAtom>

@@ -73,7 +73,7 @@ public class ExecutionTimeType extends NonfunctionalMetricType {
 					for (OperationNode gn2 : preNodes)
 						if ((timeAfterExecution == -1d) || (timeAfterExecution < executionTime.get(gn2)))
 							timeAfterExecution = executionTime.get(gn2);
-					if (!gn.isEndNode())
+					if (!gn.isEndNode() && map.containsKey(gn.getCalledService().getCalledService()))
 						timeAfterExecution += map.get(gn.getCalledService().getCalledService()).getAnnotation()
 								.get(this).getAverage();
 					executionTime.put(gn, timeAfterExecution);

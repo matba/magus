@@ -424,9 +424,9 @@ function toggleServiceAvailability(sno){
 function toggleServiceAvailabilityGraph(sno){
 	if(sno<0)
 		return;
-	$('#serviceAnnotationlink').click(); 
+	$('#serviceAnnotationtabLink').click(); 
 	$('#serviceEdit_serviceModal'+sno)[0].scrollIntoView(true)
-	//$('#serviceAnnotationtab').scrollTo('#serviceEdit_serviceModal'+sno);
+	// $('#serviceAnnotationtab').scrollTo('#serviceEdit_serviceModal'+sno);
 	utility.sleep(300).then(() => {
 		toggleServiceAvailability(sno);
 	});

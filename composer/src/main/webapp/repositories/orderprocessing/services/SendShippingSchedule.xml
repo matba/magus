@@ -17,7 +17,7 @@
     <owl:imports rdf:resource="http://www.daml.org/services/owl-s/1.2/Service.owl"/>
     <owl:imports rdf:resource="http://www.daml.org/services/owl-s/1.2/Process.owl"/>
     <owl:imports rdf:resource="http://www.daml.org/services/owl-s/1.2/Grounding.owl"/>
-    <owl:imports rdf:resource="http://magus.online/repositories/orderprocessing/orderprocessing.xml"/>
+    <owl:imports rdf:resource="http://magus.online/repositories/orderprocessing/contextModel.xml"/>
   </owl:Ontology>
   <service:Service rdf:ID="SendShippingSchedule">
         <service:presents rdf:resource="#SendShippingScheduleProfile"/>
@@ -28,7 +28,7 @@
                 <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
                 >schedule</rdfs:label>
                 <process:parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI"
-                >http://magus.online/repositories/orderprocessing/orderprocessing.xml#Schedule</process:parameterType>
+                >http://magus.online/repositories/orderprocessing/contextModel.xml#Schedule</process:parameterType>
               </process:Input>
             </process:hasInput>
 			<process:hasPrecondition>
@@ -37,7 +37,7 @@
 					  <swrl:AtomList>
 						<rdf:first>
 								  <swrl:ClassAtom>
-									<swrl:classPredicate rdf:resource="http://magus.online/repositories/orderprocessing/orderprocessing.xml#PurchaseOrder"/>
+									<swrl:classPredicate rdf:resource="http://magus.online/repositories/orderprocessing/contextModel.xml#PurchaseOrder"/>
 									<swrl:argument1>
 										  <swrl:Variable rdf:ID="po1"/>
 									</swrl:argument1>
@@ -47,7 +47,7 @@
 						  <swrl:AtomList>
 							<rdf:first>
 							  <swrl:IndividualPropertyAtom>
-								<swrl:propertyPredicate rdf:resource="http://magus.online/repositories/orderprocessing/orderprocessing.xml#HasShippingSchedule"/>
+								<swrl:propertyPredicate rdf:resource="http://magus.online/repositories/orderprocessing/contextModel.xml#HasShippingSchedule"/>
 								<swrl:argument1 rdf:resource="#po1"/>
 								<swrl:argument2 rdf:resource="http://magus.online/repositories/orderprocessing/services/SendShippingSchedule.xml#shippingSchedule"/>
 							  </swrl:IndividualPropertyAtom>
@@ -56,7 +56,7 @@
 							  <swrl:AtomList>
 								<rdf:first>
 								  <swrl:ClassAtom>
-									<swrl:classPredicate rdf:resource="http://magus.online/repositories/orderprocessing/orderprocessing.xml#Schedule"/>
+									<swrl:classPredicate rdf:resource="http://magus.online/repositories/orderprocessing/contextModel.xml#Schedule"/>
 									<swrl:argument1 rdf:resource="http://magus.online/repositories/orderprocessing/services/SendShippingSchedule.xml#shippingSchedule"/>
 								  </swrl:ClassAtom>
 								</rdf:first>
@@ -80,7 +80,7 @@
 						  <swrl:IndividualPropertyAtom>
 							<swrl:argument1 rdf:resource="#po1"/>
 							<swrl:argument2 rdf:resource="http://magus.online/repositories/orderprocessing/services/SendShippingSchedule.xml#shippingSchedule"/>
-							<swrl:propertyPredicate rdf:resource="http://magus.online/repositories/orderprocessing/orderprocessing.xml#ShippingScheduleSentToInvoicing"/>
+							<swrl:propertyPredicate rdf:resource="http://magus.online/repositories/orderprocessing/contextModel.xml#ShippingScheduleSentToInvoicing"/>
 						  </swrl:IndividualPropertyAtom>
 						</rdf:first>
 						<rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>

@@ -16,7 +16,7 @@
     <owl:imports rdf:resource="http://www.daml.org/services/owl-s/1.2/Service.owl"/>
     <owl:imports rdf:resource="http://www.daml.org/services/owl-s/1.2/Process.owl"/>
     <owl:imports rdf:resource="http://www.daml.org/services/owl-s/1.2/Grounding.owl"/>
-    <owl:imports rdf:resource="http://magus.online/repositories/orderprocessing/orderprocessing.xml"/>
+    <owl:imports rdf:resource="http://magus.online/repositories/orderprocessing/contextModel.xml"/>
   </owl:Ontology>
   <service:Service rdf:ID="ConvertCurrency">
     <service:describedBy >
@@ -26,7 +26,7 @@
 				<process:hasInput>
 				  <process:Input rdf:ID="inv">
 					<process:parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI"
-					>http://magus.online/repositories/orderprocessing/orderprocessing.xml#Invoice</process:parameterType>
+					>http://magus.online/repositories/orderprocessing/contextModel.xml#Invoice</process:parameterType>
 					<rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
 					>Invoice</rdfs:label>
 				  </process:Input>
@@ -34,7 +34,7 @@
 				<process:hasInput>
 				  <process:Input rdf:ID="purchaseOrder">
 					<process:parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI"
-					>http://magus.online/repositories/orderprocessing/orderprocessing.xml#PurchaseOrder</process:parameterType>
+					>http://magus.online/repositories/orderprocessing/contextModel.xml#PurchaseOrder</process:parameterType>
 					<rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
 					>purchaseOrder</rdfs:label>
 				  </process:Input>
@@ -45,7 +45,7 @@
 						  <swrl:AtomList>
 							<rdf:first>
 							  <swrl:IndividualPropertyAtom>
-								<swrl:propertyPredicate rdf:resource="http://magus.online/repositories/orderprocessing/orderprocessing.xml#HasInvoice"/>
+								<swrl:propertyPredicate rdf:resource="http://magus.online/repositories/orderprocessing/contextModel.xml#HasInvoice"/>
 								<swrl:argument2 rdf:resource="http://magus.online/repositories/orderprocessing/services/ConvertCurrency.xml#inv"/>
 								<swrl:argument1 rdf:resource="http://magus.online/repositories/orderprocessing/services/ConvertCurrency.xml#purchaseOrder"/>
 							  </swrl:IndividualPropertyAtom>
@@ -64,7 +64,7 @@
 						  <swrl:AtomList>
 							<rdf:first>
 							  <swrl:IndividualPropertyAtom>
-								<swrl:propertyPredicate rdf:resource="http://magus.online/repositories/orderprocessing/orderprocessing.xml#HasCurrency"/>
+								<swrl:propertyPredicate rdf:resource="http://magus.online/repositories/orderprocessing/contextModel.xml#HasCurrency"/>
 								<swrl:argument1 rdf:resource="http://magus.online/repositories/orderprocessing/services/ConvertCurrency.xml#inv"/>
 								<swrl:argument2 rdf:resource="http://magus.online/repositories/orderprocessing/services/ConvertCurrency.xml#purchaseOrder"/>
 							  </swrl:IndividualPropertyAtom>

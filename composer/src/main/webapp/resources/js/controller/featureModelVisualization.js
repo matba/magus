@@ -10,14 +10,17 @@ function featureModelVis(md,divid,tabid, svgid,nm){
 	featureModelVis.svgH =460;
 	featureModelVis.offsetX = featureModelVis.svgW/2;
 	featureModelVis.offsetY = 40;
-	featureModelVis.vis={v:0, l:'?', uuid:'', optional: false, orgroup:false, altchilds: false, selected:false, p:{x:featureModelVis.cx, y:featureModelVis.cy},c:[]};	
+	featureModelVis.vis={v:0, l:'?', uuid:'', optional: false, orgroup:false, altchilds: false, selected:false, critical:false, p:{x:featureModelVis.cx, y:featureModelVis.cy},c:[]};	
 	featureModelVis.size=1;
 	featureModelVis.configurationMode = md;
 	featureModelVis.tabId = tabid;
 	featureModelVis.divId = divid;
 	featureModelVis.svgId =svgid;
-	featureModelVis.selFeatures =null;
-	featureModelVis.reqFeatures =null;
+	featureModelVis.selFeatures =[];
+	featureModelVis.reqFeatures =[];
+	featureModelVis.criticalFeatures = [];
+	featureModelVis.disableCriticalFeatureToggle = false;
+	
 	featureModelVis.formatter = function(inp){
 		if(inp==null)
 			return ["New","Feature"];
@@ -59,7 +62,7 @@ function featureModelVis(md,divid,tabid, svgid,nm){
 	featureModelVis.getVertices =  function(){
 		var v =[];
 		function getVertices(t,f){	
-			v.push({v:t.v, l:t.l, p:t.p, f:f, optional:t.optional, selected: t.selected,uuid:t.uuid});	
+			v.push({v:t.v, l:t.l, p:t.p, f:f, optional:t.optional, selected: t.selected,uuid:t.uuid, critical:t.critical});	
 			t.c.forEach(function(d){ return getVertices(d,{v:t.v, p:t.p}); });
 		}
 		getVertices(featureModelVis.vis,{});
@@ -71,7 +74,7 @@ function featureModelVis(md,divid,tabid, svgid,nm){
 		var v =[];
 		function getVerticesExceptRoot(t,f, include){
 			if(include)
-				v.push({v:t.v, l:t.l, p:t.p, f:f, optional:t.optional,selected:t.selected});	
+				v.push({v:t.v, l:t.l, p:t.p, f:f, optional:t.optional,selected:t.selected, critical:t.critical});	
 			t.c.forEach(function(d){ return getVerticesExceptRoot(d,{v:t.v, p:t.p},true); });
 		}
 		getVerticesExceptRoot(featureModelVis.vis,{},false);
@@ -82,7 +85,7 @@ function featureModelVis(md,divid,tabid, svgid,nm){
 		var v =[];
 		function getVerticesExceptRootAndGroupsRec(t,f, include){
 			if(include)
-				v.push({v:t.v, l:t.l, p:t.p, f:f, optional:t.optional,selected:t.selected});	
+				v.push({v:t.v, l:t.l, p:t.p, f:f, optional:t.optional,selected:t.selected, critical:t.critical});	
 			t.c.forEach(function(d){ 
 				if(t.altchilds||t.orgroup)
 					return getVerticesExceptRootAndGroupsRec(d,{v:t.v, p:t.p},false);
@@ -172,7 +175,7 @@ function featureModelVis(md,divid,tabid, svgid,nm){
 		function getVertices2(t,f){	
 			var fstrArray = featureModelVis.formatter(t.l);
 			for( i=0; i<fstrArray.length; i++){
-				v.push({v:t.v, l:fstrArray[i], n:i , p:t.p, f:f, selected:t.selected,uuid:t.uuid});	
+				v.push({v:t.v, l:fstrArray[i], n:i , p:t.p, f:f, selected:t.selected,uuid:t.uuid, critical:t.critical});	
 			}
 			t.c.forEach(function(d){ return getVertices2(d,{v:t.v, p:t.p}); });
 		}
@@ -183,7 +186,7 @@ function featureModelVis(md,divid,tabid, svgid,nm){
 	featureModelVis.getEdges =  function(){
 		var e =[];
 		function getEdges(_){
-			_.c.forEach(function(d){ e.push({v1:_.v, l1:_.l, p1:_.p, v2:d.v, l2:d.l, p2:d.p, selected:d.selected});});
+			_.c.forEach(function(d){ e.push({v1:_.v, l1:_.l, p1:_.p, v2:d.v, l2:d.l, p2:d.p, selected:d.selected, critical:d.critical});});
 			_.c.forEach(getEdges);
 		}
 		getEdges(featureModelVis.vis);
@@ -195,11 +198,11 @@ function featureModelVis(md,divid,tabid, svgid,nm){
 			var no = -1;
 			if(t.v==_){
 				no = featureModelVis.size++; 
-				t.c.push({v:no, l:text,optional:opt, altchilds: alternative,orgroup:orgroup,uuid:uuid , selected:false, p:{},c:[]}); 
+				t.c.push({v:no, l:text,optional:opt, altchilds: alternative,orgroup:orgroup,uuid:uuid , selected:false, critical: (featureModelVis.criticalFeatures.indexOf(uuid)!=-1), p:{},c:[]}); 
 				return no; 
 			}
 			else{
-				//console.log(t);
+				// console.log(t);
 				$.each(t.c,function( index, value ) {
 					var currv = addLeaf(value)
 					if(currv!=-1)
@@ -261,6 +264,25 @@ function featureModelVis(md,divid,tabid, svgid,nm){
 		
 		featureModelVis.redraw();
 	}
+	
+	featureModelVis.getFeature = function(t,curfno){
+		
+		var returnVal = null;
+		
+		if(t.v==curfno)
+		{
+			returnVal =  t;
+		}
+		
+		for(var cnt=0; cnt< t.c.length;cnt++)
+		{
+			var result =  featureModelVis.getFeature(t.c[cnt],curfno);
+			if(result!=null)
+				returnVal =result;
+		}
+		return returnVal;
+		
+	};
 	
 	featureModelVis.selectionChanged = function(_){
 		function changeSelected(t,fno,newState){
@@ -446,6 +468,43 @@ function featureModelVis(md,divid,tabid, svgid,nm){
 		featureModelVis.redraw();
 	}
 	
+	featureModelVis.toggleSelectionCritical = function (_) {
+		function toggleSelectionC(t,fno){
+			if(t.v==fno)
+			{
+				t.critical = !t.critical;
+			}
+			else{
+				$.each(t.c,function( index, value ) {
+					toggleSelectionC(value,fno)
+				});
+			}
+
+		}
+		let feature = featureModelVis.getFeature(featureModelVis.vis, _);
+		
+		if(featureModelVis.selFeatures.indexOf(feature.uuid) == -1) {
+			return;
+		}
+		
+		if(featureModelVis.disableCriticalFeatureToggle) {
+			return;
+		}
+		
+		toggleSelectionC(featureModelVis.vis,_);
+		
+		let idx = featureModelVis.criticalFeatures.indexOf(feature.uuid);
+		
+		if(idx == -1) {
+			featureModelVis.criticalFeatures.push(feature.uuid);
+		} else {
+			featureModelVis.criticalFeatures.splice(feature.idx, 1);
+		}
+		
+		
+		featureModelVis.redraw();
+	}
+	
 	featureModelVis.getSelectedFeatureListUUID= function(){
 		function getSelectedFeatureListUUID(t){
 			var returnVal =[];
@@ -491,7 +550,7 @@ function featureModelVis(md,divid,tabid, svgid,nm){
 		var minX = d3.min(featureModelVis.getVertices(), function(d) {  return d.p.x;});
 		var maxY = d3.max(featureModelVis.getVertices(), function(d) {  return d.p.y;});
 		var minY = d3.min(featureModelVis.getVertices(), function(d) {  return d.p.y;});
-		//console.log(featureModelVis.divId);
+		// console.log(featureModelVis.divId);
 		if( maxX-minX+fRecHeight+50 < $("#"+featureModelVis.tabId).width())
 			featureModelVis.svgW = $("#"+featureModelVis.tabId).width();
 		else
@@ -532,6 +591,13 @@ function featureModelVis(md,divid,tabid, svgid,nm){
 			newEdges.classed("selected",function(d){return d.selected;} );
 		}
 		
+		if(featureModelVis.configurationMode==3){
+			edges.classed("notselected",function(d){return !featureModelVis.selFeatures.includes(d.uuid);} );
+			newEdges.classed("notselected",function(d){return !featureModelVis.selFeatures.includes(d.uuid);}  );
+			edges.classed("selected",function(d){return featureModelVis.selFeatures.includes(d.uuid);}  );
+			newEdges.classed("selected",function(d){return featureModelVis.selFeatures.includes(d.uuid);}  );
+		}
+		
 		edges.exit().remove();
 		var featueRect = d3.select("#g_rect_"+featureModelVis.svgId).selectAll('rect').data(featureModelVis.getVertices());
 
@@ -549,7 +615,14 @@ function featureModelVis(md,divid,tabid, svgid,nm){
 			newFeatureRect.classed("selected",function(d){return d.selected;} );
 			featueRect.classed("selected",function(d){return d.selected;} );
 			newFeatureRect.on('click',function(d){return featureModelVis.toggleSelection(d.v);})
+		}if(featureModelVis.configurationMode==3){
+			newFeatureRect.classed("notselected",function(d){return !featureModelVis.selFeatures.includes(d.uuid);} );
+			featueRect.classed("notselected",function(d){return !featureModelVis.selFeatures.includes(d.uuid);} );
+			newFeatureRect.classed("selected",function(d){return featureModelVis.selFeatures.includes(d.uuid);} );
+			featueRect.classed("selected",function(d){return featureModelVis.selFeatures.includes(d.uuid);} );
+			newFeatureRect.on('click',function(d){return featureModelVis.toggleSelectionCritical(d.v);})
 		}
+		
 		if(featureModelVis.configurationMode==0){
 			newFeatureRect.on('click',function(d){return featureModelVis.showAnnotation(d.l,d.p,d.v,d.uuid);})
 		}
@@ -600,19 +673,30 @@ function featureModelVis(md,divid,tabid, svgid,nm){
 			newOptionalCirc.classed("selected",function(d){return d.selected;} );
 		}
 		
+		if(featureModelVis.configurationMode==3){
+			optionalCirc.classed("notselected",function(d){return !featureModelVis.selFeatures.includes(d.uuid);} );
+			newOptionalCirc.classed("notselected",function(d){return !featureModelVis.selFeatures.includes(d.uuid);} );
+			optionalCirc.classed("selected",function(d){return featureModelVis.selFeatures.includes(d.uuid);} );
+			newOptionalCirc.classed("selected",function(d){return featureModelVis.selFeatures.includes(d.uuid);} );
+		}
+		
 		optionalCirc.exit().remove();
 		/*
-		d3.select("#fmedittab").selectAll('p').data(featureModelVis.getVertices()).text(function(d){return d.l;})
-		.transition().duration(500)
-		.style('left',function(d){ return offsetX+d.p.x-(fRecWidth/2)+"px";}).style('top',function(d){ return offsetY+d.p.y-(fRecHeight/2)+"px";});
-		
-		d3.select("#fmedittab").selectAll('p').data(featureModelVis.getVertices()).enter().append('p').attr('class','fmlabels')
-			.style('width',fRecWidth+"px").style('height',fRecHeight+"px").text(function(d){return d.l;})
-			.on('click',function(d){return featureModelVis.addLeaf(d.v);})
-			.style('left',function(d){ return offsetX+d.f.p.x-(fRecWidth/2)+"px";}).style('top',function(d){ return offsetY+d.f.p.y-(fRecHeight/2)+"px";})
-			.transition().duration(500)
-			.style('left',function(d){ return offsetX+d.p.x-(fRecWidth/2)+"px";}).style('top',function(d){ return offsetY+d.p.y-(fRecHeight/2)+"px";});
-		*/
+		 * d3.select("#fmedittab").selectAll('p').data(featureModelVis.getVertices()).text(function(d){return
+		 * d.l;}) .transition().duration(500) .style('left',function(d){ return
+		 * offsetX+d.p.x-(fRecWidth/2)+"px";}).style('top',function(d){ return
+		 * offsetY+d.p.y-(fRecHeight/2)+"px";});
+		 * 
+		 * d3.select("#fmedittab").selectAll('p').data(featureModelVis.getVertices()).enter().append('p').attr('class','fmlabels')
+		 * .style('width',fRecWidth+"px").style('height',fRecHeight+"px").text(function(d){return
+		 * d.l;}) .on('click',function(d){return featureModelVis.addLeaf(d.v);})
+		 * .style('left',function(d){ return
+		 * offsetX+d.f.p.x-(fRecWidth/2)+"px";}).style('top',function(d){ return
+		 * offsetY+d.f.p.y-(fRecHeight/2)+"px";}) .transition().duration(500)
+		 * .style('left',function(d){ return
+		 * offsetX+d.p.x-(fRecWidth/2)+"px";}).style('top',function(d){ return
+		 * offsetY+d.p.y-(fRecHeight/2)+"px";});
+		 */
 		var labels = d3.select("#g_labels_"+featureModelVis.svgId).selectAll('text').data(featureModelVis.getVertices2());
 
 		labels.text(function(d){return d.l;}).transition().duration(500)
@@ -634,6 +718,14 @@ function featureModelVis(md,divid,tabid, svgid,nm){
 			newlabels.classed("selected",function(d){return d.selected;} );
 			newlabels.on('click',function(d){return featureModelVis.toggleSelection(d.v);});
 		}
+		
+		if(featureModelVis.configurationMode==3){
+			labels.classed("notselected",function(d){return !featureModelVis.selFeatures.includes(d.uuid);} );
+			newlabels.classed("notselected",function(d){return !featureModelVis.selFeatures.includes(d.uuid);} );
+			labels.classed("selected",function(d){return featureModelVis.selFeatures.includes(d.uuid);} );
+			newlabels.classed("selected",function(d){return featureModelVis.selFeatures.includes(d.uuid);} );
+			newlabels.on('click',function(d){return featureModelVis.toggleSelectionCritical(d.v);});
+		}
 		if(featureModelVis.configurationMode==2){
 			labels.classed("noselection",function(d){return (featureModelVis.selFeatures.indexOf(d.uuid)==-1)&&(featureModelVis.reqFeatures.indexOf(d.uuid)==-1);} );
 			newlabels.classed("noselection",function(d){return (featureModelVis.selFeatures.indexOf(d.uuid)==-1)&&(featureModelVis.reqFeatures.indexOf(d.uuid)==-1);} );
@@ -649,6 +741,33 @@ function featureModelVis(md,divid,tabid, svgid,nm){
 			newlabels.on('click',function(d){return featureModelVis.showAnnotation(d.l,d.p,d.v,d.uuid);});
 		}
 		labels.exit().remove();
+		
+		if(featureModelVis.configurationMode==3) {
+			
+			let criticalRectangles = d3.select('#g_criticalLabels_'+featureModelVis.svgId).selectAll('rect').data(featureModelVis.getVertices())
+			.attr('style', function(d) { return d.critical?'fill:#ff0000':'display:none'}).attr('x',function(d){ return d.p.x+40;})
+			.attr('y',function(d){ return d.p.y-10;})
+			.attr('width',40).attr('height', 12);
+			
+			
+			criticalRectangles.enter().append('rect').attr('x',function(d){ return d.p.x+40;})
+			.attr('y',function(d){ return d.p.y-10;})
+			.attr('width',40).attr('height', 12).attr('style', function(d) { return d.critical?'fill:#ff0000':'display:none'});
+			
+			criticalRectangles.exit().remove();
+			
+			let criticalFeatures = d3.select('#g_criticalLabels_'+featureModelVis.svgId).selectAll('text').data(featureModelVis.getVertices())
+			.text('Critical').attr('x',function(d){return d.p.x+60;}).attr('y',function(d){return d.p.y;})
+			.attr('style',function(d){return d.critical?'text-anchor:middle; font-size:0.8em; stroke: #ffffff':'display:none'});
+			
+			criticalFeatures.enter().append('text').text('Critical').attr('x',function(d){return d.p.x+60;}).attr('y',function(d){return d.p.y;})
+			.attr('style',function(d){return d.critical?'text-anchor:middle; font-size:0.8em; stroke: #ffffff':'display:none'});
+			
+		    criticalFeatures.exit().remove();
+
+		}
+		
+		
 	}
 
 	featureModelVis.showAnnotation = function(label,loc, fno,uuid){
@@ -688,7 +807,7 @@ function featureModelVis(md,divid,tabid, svgid,nm){
 	}
 
 	featureModelVis.initialize = function(){
-		//d3.select("body").append("div").attr('id','navdiv');
+		// d3.select("body").append("div").attr('id','navdiv');
 		d3.select("#"+featureModelVis.divId).append("svg").attr("width", featureModelVis.svgW).attr("height", featureModelVis.svgH).attr('id',featureModelVis.svgId).append('g').attr('id','featureModelVisgrp'+"_"+featureModelVis.svgId).attr('transform',function(){ return 'translate('+featureModelVis.offsetX+','+featureModelVis.offsetY+')';});
 		d3.select("#featureModelVisgrp_"+featureModelVis.svgId).append('g').attr('id','g_lines_'+featureModelVis.svgId).selectAll('line').data(featureModelVis.getEdges()).enter().append('line')
 			.attr('x1',function(d){ return d.p1.x;}).attr('y1',function(d){ return d.p1.y;})
@@ -699,21 +818,31 @@ function featureModelVis(md,divid,tabid, svgid,nm){
 		
 		
 		/*
-		d3.select("#fmedittab").selectAll('p').data(featureModelVis.getVertices()).enter().append('p').attr('class','fmlabels')
-		.style('width',fRecWidth+"px").style('height',fRecHeight+"px").style('left',function(d){ return offsetX+ d.p.x-(fRecWidth/2)+"px";}).style('top',function(d){ return offsetY+d.p.y-(fRecHeight/2)+"px";}).text(function(d){return d.l;})
-			.on('click',function(d){return featureModelVis.addLeaf(d.v);});
-		*/
+		 * d3.select("#fmedittab").selectAll('p').data(featureModelVis.getVertices()).enter().append('p').attr('class','fmlabels')
+		 * .style('width',fRecWidth+"px").style('height',fRecHeight+"px").style('left',function(d){
+		 * return offsetX+ d.p.x-(fRecWidth/2)+"px";}).style('top',function(d){
+		 * return offsetY+d.p.y-(fRecHeight/2)+"px";}).text(function(d){return
+		 * d.l;}) .on('click',function(d){return
+		 * featureModelVis.addLeaf(d.v);});
+		 */
 		
-		
+
 		
 		var ftext = d3.select("#featureModelVisgrp_"+featureModelVis.svgId).append('g').attr('id','g_labels_'+featureModelVis.svgId).selectAll('text').data(featureModelVis.getVertices2()).enter().append('text')
 			.attr('x',function(d){ return d.p.x;}).attr('y',function(d){ return d.p.y+(15*d.n);}).text(function(d){return d.l;})
 			.attr("class","featurelabels").attr('style','text-anchor:middle;	font-size: 0.8em;')
 			.on('click',function(d){return featureModelVis.showAnnotation(d.l,d.p,d.v,d.uuid);});	
+
 		
 		if(featureModelVis.configurationMode==1){
 			frect.on('click',function(d){return  featureModelVis.toggleSelection(d.v);});
 			ftext.on('click',function(d){return  featureModelVis.toggleSelection(d.v);});
+			
+		}
+		
+		if(featureModelVis.configurationMode==3){
+			frect.on('click',function(d){return  featureModelVis.toggleSelectionCritical(d.v);});
+			ftext.on('click',function(d){return  featureModelVis.toggleSelectionCritical(d.v);});
 			
 		}
 		if(featureModelVis.configurationMode==0)
@@ -728,6 +857,8 @@ function featureModelVis(md,divid,tabid, svgid,nm){
 		
 		d3.select("#featureModelVisgrp_"+featureModelVis.svgId).append('g').attr('id','g_altcurv_'+featureModelVis.svgId);
 		d3.select("#featureModelVisgrp_"+featureModelVis.svgId).append('g').attr('id','g_orcurv_'+featureModelVis.svgId);
+		
+		d3.select("#featureModelVisgrp_"+featureModelVis.svgId).append('g').attr('id','g_criticalLabels_'+featureModelVis.svgId);
 
 	}
 	
@@ -749,7 +880,7 @@ function featureModelVis(md,divid,tabid, svgid,nm){
 			featureModelVis.vis.l = str;
 			featureModelVis.vis.altchilds = alternative
 			featureModelVis.vis.orgroup = orgroup
-			//console.log(featureModelVis.vis);
+			// console.log(featureModelVis.vis);
 		}else
 		{	
 			curNo = featureModelVis.addLeaf(fno,str,optional,alternative,orgroup);
@@ -795,6 +926,7 @@ function featureModelVis(md,divid,tabid, svgid,nm){
 				featureModelVis.vis.altchilds = feature.alternative;
 				featureModelVis.vis.orgroup = feature.orgroup;
 				featureModelVis.vis.uuid =  feature.uuid;
+				featureModelVis.vis.critical = (featureModelVis.criticalFeatures.indexOf(feature.uuid)!=-1);
 				
 			}else
 			{	
@@ -810,7 +942,7 @@ function featureModelVis(md,divid,tabid, svgid,nm){
 			
 		}
 		featureModelVis.size=1;
-		featureModelVis.vis={v:0, l:'?', optional: false, orgroup:false, altchilds: false, selected:false, p:{x:featureModelVis.cx, y:featureModelVis.cy},c:[]};
+		featureModelVis.vis={v:0, l:'?', optional: false, orgroup:false, altchilds: false, selected:false, critical:false, p:{x:featureModelVis.cx, y:featureModelVis.cy},c:[]};
 		dfsread(feature, -1);
 		
 	

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <configuration base="http://magus.online/repositories/orderprocessing/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://magus.online/resources/schema/servicemashupconfiguration.xsd" >
 <ontologies>
-<ontology address="orderprocessing.xml" />
+<ontology address="contextModel.xml" />
 </ontologies>
 <featuremodel address="featureModel.xml" />
 <services>

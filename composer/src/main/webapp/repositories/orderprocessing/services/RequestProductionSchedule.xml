@@ -16,7 +16,7 @@
     <owl:imports rdf:resource="http://www.daml.org/services/owl-s/1.2/Process.owl"/>
     <owl:imports rdf:resource="http://www.daml.org/services/owl-s/1.2/Service.owl"/>
     <owl:imports rdf:resource="http://www.daml.org/services/owl-s/1.2/Profile.owl"/>
-	<owl:imports rdf:resource="http://magus.online/repositories/orderprocessing/orderprocessing.xml"/>
+	<owl:imports rdf:resource="http://magus.online/repositories/orderprocessing/contextModel.xml"/>
   </owl:Ontology>
   <service:Service rdf:ID="RequestProductionSchedule">
     <service:describedBy  rdf:ID="RequestProductionScheduleProcess1"> 
@@ -26,7 +26,7 @@
             <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
             >purchaseOrder</rdfs:label>
             <process:parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI"
-            >http://magus.online/repositories/orderprocessing/orderprocessing.xml#PurchaseOrder</process:parameterType>
+            >http://magus.online/repositories/orderprocessing/contextModel.xml#PurchaseOrder</process:parameterType>
           </process:Input>
         </process:hasInput>
         <service:describes rdf:resource="#RequestProductionSchedule"/>
@@ -42,14 +42,14 @@
 							<swrl:argument1>
 							  <swrl:Variable rdf:ID="customerInfo"/>
 							</swrl:argument1>
-							<swrl:classPredicate rdf:resource="http://magus.online/repositories/orderprocessing/orderprocessing.xml#Customer"/>
+							<swrl:classPredicate rdf:resource="http://magus.online/repositories/orderprocessing/contextModel.xml#Customer"/>
 						  </swrl:ClassAtom>
 						</rdf:first>
 						<rdf:rest>
 						  <swrl:AtomList>
 							<rdf:first>
 							  <swrl:IndividualPropertyAtom>
-								<swrl:propertyPredicate rdf:resource="http://magus.online/repositories/orderprocessing/orderprocessing.xml#InvoiceCreationRequested"/>
+								<swrl:propertyPredicate rdf:resource="http://magus.online/repositories/orderprocessing/contextModel.xml#InvoiceCreationRequested"/>
 								<swrl:argument1 rdf:resource="#customerInfo"/>
 								<swrl:argument2 rdf:resource="http://magus.online/repositories/orderprocessing/services/RequestProductionSchedule.xml#purchaseOrder"/>
 							  </swrl:IndividualPropertyAtom>
@@ -59,7 +59,7 @@
 							<rdf:first>
 							  <swrl:ClassAtom>
 								<swrl:argument1 rdf:resource="http://magus.online/repositories/orderprocessing/services/RequestProductionSchedule.xml#purchaseOrder"/>
-								<swrl:classPredicate rdf:resource="http://magus.online/repositories/orderprocessing/orderprocessing.xml#PurchaseOrder"/>
+								<swrl:classPredicate rdf:resource="http://magus.online/repositories/orderprocessing/contextModel.xml#PurchaseOrder"/>
 							  </swrl:ClassAtom>
 							</rdf:first>
 							<rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
@@ -91,7 +91,7 @@
 			<rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
 			>schedule</rdfs:label>
 			<process:parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI"
-			>http://magus.online/repositories/orderprocessing/orderprocessing.xml#ProductionSchedule</process:parameterType>
+			>http://magus.online/repositories/orderprocessing/contextModel.xml#ProductionSchedule</process:parameterType>
 		  </process:Output>
         </process:hasOutput>
 		  <process:hasResult>
@@ -101,7 +101,7 @@
 					<rdf:first>
 					  <swrl:ClassAtom>
 						<swrl:argument1 rdf:resource="http://magus.online/repositories/orderprocessing/services/RequestProductionSchedule.xml#productionSchedule"/>
-						<swrl:classPredicate rdf:resource="http://magus.online/repositories/orderprocessing/orderprocessing.xml#ProductionSchedule"/>
+						<swrl:classPredicate rdf:resource="http://magus.online/repositories/orderprocessing/contextModel.xml#ProductionSchedule"/>
 					  </swrl:ClassAtom>
 					</rdf:first>
 					<rdf:rest>
@@ -110,7 +110,7 @@
 						  <swrl:IndividualPropertyAtom>
 							<swrl:argument2 rdf:resource="http://magus.online/repositories/orderprocessing/services/RequestProductionSchedule.xml#productionSchedule"/>
 							<swrl:argument1 rdf:resource="http://magus.online/repositories/orderprocessing/services/RequestProductionSchedule.xml#purchaseOrder"/>
-							<swrl:propertyPredicate rdf:resource="http://magus.online/repositories/orderprocessing/orderprocessing.xml#HasProductionSchedule"/>
+							<swrl:propertyPredicate rdf:resource="http://magus.online/repositories/orderprocessing/contextModel.xml#HasProductionSchedule"/>
 						  </swrl:IndividualPropertyAtom>
 						</rdf:first>
 						<rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>

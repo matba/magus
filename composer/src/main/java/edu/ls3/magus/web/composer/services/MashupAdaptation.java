@@ -28,18 +28,18 @@ public class MashupAdaptation {
 	@Produces(MediaType.APPLICATION_JSON)
 	public MashupRegisterResponse registerMashup(
 			@ApiParam(value = "A generated mashup instance ID, the context model which is made up the list of service their availablity and their list of non-functional properties, and user functional and non-functional requirements which consists of critical featurs and list of non-functional constraints.", required = true) MashupRegisterRequest request) {
-		MashupRegisterProcess process = new MashupRegisterProcess(request.mashupInstanceUri, request.contextStateModel,
+		MashupRegisterProcess process = new MashupRegisterProcess(request.mashupInstanceUri,
 				request.criticalFeatureUUIDs, request.constraints);
 		MashupRegisterResponse response = new MashupRegisterResponse();
 		try {
 			String uri = process.registerMashup();
 			response.statusCode = 0;
-			response.statueMessage = "Registration was successful";
+			response.statusMessage = "Registration was successful. Running mashup URI:" + uri;
 			response.runningInstanceUri = uri;
 
 		} catch (Exception ex) {
 			response.statusCode = -1;
-			response.statueMessage = "Registration failed with the following message: " + ex.getMessage();
+			response.statusMessage = "Registration failed with the following message: " + ex.getMessage();
 			response.runningInstanceUri = "";
 		}
 		return response;
@@ -61,21 +61,23 @@ public class MashupAdaptation {
 		try {
 			RequirementStatus rs = process.updateContextStateModel();
 			response.statusCode = 0;
-			response.statueMessage = "Update was successful";
+			response.statusMessage = "Update was successful";
 			response.functionalPropertiesSatisfcation = rs.isFunctionalSatisfied;
 			List<NonfunctionalPropertiesSatisfaction> nsl = new ArrayList<NonfunctionalPropertiesSatisfaction>();
 			for (String nfmt : rs.nfSatisfaction.keySet()) {
 				NonfunctionalPropertiesSatisfaction nfs = new NonfunctionalPropertiesSatisfaction();
 				nfs.nonfunctionalPropertiesID = nfmt;
 				nfs.nonfunctionalPropertiesSatisfaction = rs.nfSatisfaction.get(nfmt);
+				nfs.value = rs.nfValue.get(nfmt);
 				nsl.add(nfs);
 			}
 			response.nonfunctionaPropetiesSatisfaction = nsl.toArray(new NonfunctionalPropertiesSatisfaction[0]);
 			response.adaptationIsRecommended = rs.adaptationRecommended;
 
 		} catch (Exception ex) {
+			ex.printStackTrace();
 			response.statusCode = -1;
-			response.statueMessage = "Update failed with the following message: " + ex.getMessage();
+			response.statusMessage = "Update failed with the following message: " + ex.getMessage();
 
 		}
 		return response;
@@ -91,18 +93,19 @@ public class MashupAdaptation {
 		MashupAdaptationProcess process = new MashupAdaptationProcess(request.runningMashupInstanceUri);
 		MashupAdaptationResponse response = new MashupAdaptationResponse();
 		try {
-			 AdaptationResult rs = process.adaptMashup();
+			AdaptationResult rs = process.adaptMashup();
 			response.statusCode = 0;
-			response.statueMessage = "Adaptation was successful";
+			response.statusMessage = "Adaptation was successful";
 			response.bpelCodeXml = rs.bpelCodeXml;
 			response.providedFeaturesUuidAfterAdaptation = rs.providedFeaturesUuidAfterAdaptation;
 			response.predictedNonfunctionalAfterAdaptation = rs.predictedNonfunctionalAfterAdaptation;
 		} catch (Exception ex) {
 			response.statusCode = -1;
-			response.statueMessage = "Adaptation to failed to find alternate service mashup with following message: " + ex.getMessage();
+			response.statusMessage = "Adaptation to failed to find alternate service mashup with following message: "
+					+ ex.getMessage();
 
 		}
-		
+
 		return response;
 
 	}

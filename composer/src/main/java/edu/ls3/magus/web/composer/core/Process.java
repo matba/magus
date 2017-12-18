@@ -3,6 +3,7 @@ package edu.ls3.magus.web.composer.core;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
+import java.io.StringWriter;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,16 +14,22 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-import javax.sound.sampled.AudioFormat.Encoding;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
@@ -60,7 +67,7 @@ public class Process {
 		final String defaultRepositoriesAddress = Configuration.domainAddress
 				+ Configuration.defaultRepositoriesWebAddress;
 		if (mashupFamilyURI.startsWith(defaultRepositoriesAddress)) {
-			mashupFamilyDirectory = Configuration.deploymentDirectory + "/" + Configuration.defaultDeploymentDirectory
+			mashupFamilyDirectory = Configuration.deploymentDirectory + Configuration.defaultDeploymentDirectory
 					+ Configuration.defaultRepositoriesWebAddress;
 			addressfragment = mashupFamilyURI.substring(defaultRepositoriesAddress.length());
 		} else {
@@ -156,12 +163,12 @@ public class Process {
 		result.systemDirectory = mashupInstanceUri.replace(Configuration.domainAddress,
 				Configuration.deploymentDirectory);
 
-		if (result.systemDirectory.endsWith(File.pathSeparator)) {
+		if (result.systemDirectory.endsWith(File.separator)) {
 			result.systemDirectory = result.systemDirectory.substring(0,
-					result.systemDirectory.length() - File.pathSeparator.length());
+					result.systemDirectory.length() - File.separator.length());
 		}
-		
-		final String configurationFileAddress = result.systemDirectory + File.pathSeparator + "mashupInfo.txt";
+
+		final String configurationFileAddress = result.systemDirectory + File.separator + "mashupInfo.txt";
 
 		final String configuration = UtilityClass.readFile(new File(configurationFileAddress),
 				Charset.defaultCharset());
@@ -189,6 +196,7 @@ public class Process {
 		RequestInformation requestInformation = new RequestInformation();
 		requestInformation.criticalFeatureUuids = new HashSet<>();
 		requestInformation.constraints = new HashMap<>();
+		requestInformation.relations = new HashMap<>();
 
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -223,6 +231,11 @@ public class Process {
 										.getNodeValue(),
 								Double.valueOf(constraintsNodes.item(constraintsCntr).getAttributes()
 										.getNamedItem("value").getNodeValue()));
+						requestInformation.relations.put(
+								constraintsNodes.item(constraintsCntr).getAttributes().getNamedItem("id")
+										.getNodeValue(),
+								constraintsNodes.item(constraintsCntr).getAttributes().getNamedItem("relation")
+										.getNodeValue());
 					}
 				}
 
@@ -236,47 +249,156 @@ public class Process {
 		public String mashupInstanceUri;
 		public Set<String> criticalFeatureUuids;
 		public Map<String, Double> constraints;
+		public Map<String, String> relations;
 	}
 
-	public TrainingSetInfo readTrainingSet(String trainingSetDirectory, DomainModels domainModel) throws IOException, XPathExpressionException, ParserConfigurationException, SAXException {
+	public TrainingSetInfo readTrainingSet(String trainingSetDirectory, DomainModels domainModel)
+			throws IOException, XPathExpressionException, ParserConfigurationException, SAXException {
 		Map<FeatureModelConfiguration, FlowComponentNode> trainingSet = new HashMap<>();
-		File configurationFile = new File(trainingSetDirectory + File.pathSeparator + Configuration.configurationFileName);
-		if(!configurationFile.exists()) {
+		File configurationFile = new File(trainingSetDirectory + File.separator + Configuration.configurationFileName);
+		if (!configurationFile.exists()) {
 			throw new IOException("Configuration file for training set does not exist.");
-			
+
 		}
-		
+
 		String configuration = UtilityClass.readFile(configurationFile, Charset.defaultCharset());
-		
+
 		String[] configurationLines = configuration.split(System.lineSeparator());
-		
-		if(configurationLines.length % 2 != 0) {
+
+		if (configurationLines.length % 2 != 0) {
 			throw new IOException("Invalid Configuration file for training set.");
 		}
-		
-		for(int lineCntr=0; lineCntr < configurationLines.length; lineCntr+=2) {
+
+		for (int lineCntr = 0; lineCntr < configurationLines.length; lineCntr += 2) {
 			String uuid = configurationLines[lineCntr];
-			final String[] featureUuids = configurationLines[lineCntr+1].split(",");
-			String bpelCode = UtilityClass.readFile(new File(trainingSetDirectory + File.pathSeparator + "FM" + uuid), Charset.defaultCharset());
+			final String[] featureUuids = configurationLines[lineCntr + 1].split(",");
+			String bpelCode = UtilityClass.readFile(new File(trainingSetDirectory + File.separator + "FM" + uuid),
+					Charset.defaultCharset());
 			final FlowComponentNode fcn = BpelNode.readFromBpelXml(bpelCode, domainModel.getServiceCollection());
-			final FeatureModelConfiguration fmc = new FeatureModelConfiguration(featureUuids, domainModel.getFeatureModel());
+			final FeatureModelConfiguration fmc = new FeatureModelConfiguration(featureUuids,
+					domainModel.getFeatureModel());
 			trainingSet.put(fmc, fcn);
 		}
-		
-		
+
 		TrainingSetInfo result = new TrainingSetInfo();
 		result.trainingSet = trainingSet;
-		
-		File fasmFile = new File(trainingSetDirectory+ File.pathSeparator + "fasm");
+
+		File fasmFile = new File(trainingSetDirectory + File.separator + "fasm");
 		String xml = UtilityClass.readFile(fasmFile, Charset.defaultCharset());
 		result.fasm = FeatureAtomicSetMap.readFromXml(xml, domainModel.getFeatureModel());
-		
-		
+
 		return result;
 	}
-	
+
 	protected class TrainingSetInfo {
 		public Map<FeatureModelConfiguration, FlowComponentNode> trainingSet;
 		public FeatureAtomicSetMap fasm;
+	}
+
+	protected String createMashupStatusXml(MashupStatus status)
+			throws TransformerException, ParserConfigurationException {
+		String result = "";
+		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+
+		// root elements
+		Document doc = docBuilder.newDocument();
+
+		Element rootElement = doc.createElement("requestInformation");
+
+		Attr attr = doc.createAttribute("xmlns:xsi");
+		attr.setValue("http://www.w3.org/2001/XMLSchema-instance");
+		rootElement.setAttributeNode(attr);
+
+		rootElement.setAttribute("working", String.valueOf(status.isWorking));
+
+		doc.appendChild(rootElement);
+
+		Element criticalFeaturesElement = doc.createElement("criticalFeatures");
+
+		for (String featureUuid : status.mashupFeatures) {
+			Element featureElement = doc.createElement("feature");
+			featureElement.setAttribute("uuid", featureUuid);
+			criticalFeaturesElement.appendChild(featureElement);
+		}
+
+		rootElement.appendChild(criticalFeaturesElement);
+
+		if (status.isWorking) {
+
+			Element constraintsElement = doc.createElement("constraints");
+
+			for (NonfunctionalProperty nfp : status.nfProperties) {
+				Element nonFunctionalElement = doc.createElement("constraint");
+				nonFunctionalElement.setAttribute("id", nfp.nonfunctionalPropertyID);
+				nonFunctionalElement.setAttribute("value", String.valueOf(nfp.value));
+				constraintsElement.appendChild(nonFunctionalElement);
+			}
+
+			rootElement.appendChild(constraintsElement);
+		}
+
+		StringWriter output = new StringWriter();
+
+		Transformer transformer = TransformerFactory.newInstance().newTransformer();
+		transformer.transform(new DOMSource(doc), new StreamResult(output));
+
+		result = output.toString();
+		return result;
+	}
+
+	protected MashupStatus readMashupStatus(String xml)
+			throws XPathExpressionException, ParserConfigurationException, SAXException, IOException {
+		MashupStatus mashupStatus = new MashupStatus();
+		mashupStatus.mashupFeatures = new ArrayList<>();
+		mashupStatus.nfProperties = new ArrayList<>();
+		mashupStatus.isWorking = true;
+
+		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+		InputSource is = new InputSource(new StringReader(xml));
+		Document doc = dBuilder.parse(is);
+
+		String rootExpression = "//*[name()='requestInformation']";
+		XPath xPath = XPathFactory.newInstance().newXPath();
+		Node root = (Node) xPath.compile(rootExpression).evaluate(doc, XPathConstants.NODE);
+
+		mashupStatus.isWorking = Boolean.valueOf(root.getAttributes().getNamedItem("working").getNodeValue());
+
+		NodeList childNodes = root.getChildNodes();
+
+		for (int rootChildCntr = 0; rootChildCntr < childNodes.getLength(); rootChildCntr++) {
+			if (childNodes.item(rootChildCntr).getNodeName().equals("criticalFeatures")) {
+				NodeList featureNodes = childNodes.item(rootChildCntr).getChildNodes();
+				for (int featureCntr = 0; featureCntr < featureNodes.getLength(); featureCntr++) {
+					if (featureNodes.item(featureCntr).getNodeName().equals("feature")) {
+						mashupStatus.mashupFeatures.add(
+								featureNodes.item(featureCntr).getAttributes().getNamedItem("uuid").getNodeValue());
+
+					}
+				}
+
+			} else if (childNodes.item(rootChildCntr).getNodeName().equals("constraints")) {
+				NodeList constraintsNodes = childNodes.item(rootChildCntr).getChildNodes();
+				for (int constraintsCntr = 0; constraintsCntr < constraintsNodes.getLength(); constraintsCntr++) {
+					if (constraintsNodes.item(constraintsCntr).getNodeName().equals("constraint")) {
+						mashupStatus.nfProperties.add(new NonfunctionalProperty(
+								constraintsNodes.item(constraintsCntr).getAttributes().getNamedItem("id")
+										.getNodeValue(),
+								Double.valueOf(constraintsNodes.item(constraintsCntr).getAttributes()
+										.getNamedItem("value").getNodeValue())));
+					}
+				}
+
+			}
+		}
+
+		return mashupStatus;
+	}
+
+	protected class MashupStatus {
+		public boolean isWorking;
+		public List<String> mashupFeatures;
+		public List<NonfunctionalProperty> nfProperties;
 	}
 }

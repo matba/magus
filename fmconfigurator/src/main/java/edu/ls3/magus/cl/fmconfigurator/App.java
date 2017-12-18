@@ -2725,7 +2725,7 @@ public class App
 		//String fmStr =UtilityClass.readFile("/home/mbashari/Dropbox/Thesis/impl/magus/composer/src/main/webapp/repositories/orderprocessing/featureModel.xml");
 		//String fmStr =UtilityClass.readFile("/home/mbashari/serializedFM3.txt");
 		String cmStr= UtilityClass.readFile("/home/mbashari/EVAL_FOLDER/eval-rep/ontology.xml");
-		//String cmStr= UtilityClass.readFile("/home/mbashari/Dropbox/Thesis/impl/magus/composer/src/main/webapp/repositories/orderprocessing/orderprocessing.xml");
+		//String cmStr= UtilityClass.readFile("/home/mbashari/Dropbox/Thesis/impl/magus/composer/src/main/webapp/repositories/orderprocessing/contextModel.xml");
 		
 		
 		ContextModel cm = new ContextModel();
@@ -2799,7 +2799,7 @@ public class App
 		//String fmStr =UtilityClass.readFile("/home/mbashari/serializedFM3.txt");
 		String fmStr =UtilityClass.readFile("/home/mbashari/evaluation/service/featuremodels/fm048.xml");
 		String cmStr= UtilityClass.readFile("/home/mbashari/Dropbox/Thesis/impl/magus/composer/src/main/webapp/repositories/test/contextModel.xml");
-		//String cmStr= UtilityClass.readFile("/home/mbashari/Dropbox/Thesis/impl/magus/composer/src/main/webapp/repositories/orderprocessing/orderprocessing.xml");
+		//String cmStr= UtilityClass.readFile("/home/mbashari/Dropbox/Thesis/impl/magus/composer/src/main/webapp/repositories/orderprocessing/contextModel.xml");
 		ContextModel cm = new ContextModel();
 		cm.AddToContextModel(cmStr);
 		FeatureAnnotationSet fma = new FeatureAnnotationSet();
@@ -3063,7 +3063,7 @@ public class App
 		 
 		String fmStr =UtilityClass.readFile(dirAddress+ "fm.xml");
 		String cmStr= UtilityClass.readFile(dirAddress+ "contextModel.xml");
-		//String cmStr= UtilityClass.readFile("/homes/mbashari/Dropbox/Thesis/impl/magus/composer/src/main/webapp/repositories/orderprocessing/orderprocessing.xml");
+		//String cmStr= UtilityClass.readFile("/homes/mbashari/Dropbox/Thesis/impl/magus/composer/src/main/webapp/repositories/orderprocessing/contextModel.xml");
 		ContextModel cm = new ContextModel();
 		cm.AddToContextModel(cmStr);
 		FeatureAnnotationSet fma = new FeatureAnnotationSet();
@@ -4361,7 +4361,7 @@ public class App
 		//String fmStr =UtilityClass.readFile("/home/mbashari/Dropbox/Thesis/impl/magus/composer/src/main/webapp/repositories/orderprocessing/featureModel.xml");
 		//String fmStr =UtilityClass.readFile("/home/mbashari/serializedFM3.txt");
 		String cmStr= UtilityClass.readFile("/home/mbashari/Dropbox/Thesis/impl/magus/composer/src/main/webapp/repositories/uploadimage/contextModel.xml");
-		//String cmStr= UtilityClass.readFile("/home/mbashari/Dropbox/Thesis/impl/magus/composer/src/main/webapp/repositories/orderprocessing/orderprocessing.xml");
+		//String cmStr= UtilityClass.readFile("/home/mbashari/Dropbox/Thesis/impl/magus/composer/src/main/webapp/repositories/orderprocessing/contextModel.xml");
 		
 		
 		ContextModel cm = new ContextModel();

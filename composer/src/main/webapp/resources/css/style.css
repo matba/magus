@@ -100,3 +100,13 @@ padding-bottom:0px;
     margin-top: 20px;
     border-radius: 5px;
 }
+
+
+.dottedRoundBorder {
+
+	border-width:1px;
+	border-style:dotted; 
+	border-color:black;
+	border-radius:5px; 
+
+}

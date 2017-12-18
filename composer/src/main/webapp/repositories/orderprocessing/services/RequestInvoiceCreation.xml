@@ -16,7 +16,7 @@
     <owl:imports rdf:resource="http://www.daml.org/services/owl-s/1.2/Service.owl"/>
     <owl:imports rdf:resource="http://www.daml.org/services/owl-s/1.2/Process.owl"/>
     <owl:imports rdf:resource="http://www.daml.org/services/owl-s/1.2/Grounding.owl"/>
-    <owl:imports rdf:resource="http://magus.online/repositories/orderprocessing/orderprocessing.xml"/>
+    <owl:imports rdf:resource="http://magus.online/repositories/orderprocessing/contextModel.xml"/>
   </owl:Ontology>
   <service:Service rdf:ID="RequestInvoiceCreation">
     <service:describedBy >
@@ -26,7 +26,7 @@
 				<process:hasInput>
 				  <process:Input rdf:ID="customerInfo">
 					<process:parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI"
-					>http://magus.online/repositories/orderprocessing/orderprocessing.xml#Customer</process:parameterType>
+					>http://magus.online/repositories/orderprocessing/contextModel.xml#Customer</process:parameterType>
 					<rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
 					>customerInfo</rdfs:label>
 				  </process:Input>
@@ -34,7 +34,7 @@
 				<process:hasInput>
 				  <process:Input rdf:ID="purchaseOrder">
 					<process:parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI"
-					>http://magus.online/repositories/orderprocessing/orderprocessing.xml#PurchaseOrder</process:parameterType>
+					>http://magus.online/repositories/orderprocessing/contextModel.xml#PurchaseOrder</process:parameterType>
 					<rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
 					>purchaseOrder</rdfs:label>
 				  </process:Input>
@@ -45,7 +45,7 @@
 						  <swrl:AtomList>
 							<rdf:first>
 							  <swrl:IndividualPropertyAtom>
-								<swrl:propertyPredicate rdf:resource="http://magus.online/repositories/orderprocessing/orderprocessing.xml#Ordered"/>
+								<swrl:propertyPredicate rdf:resource="http://magus.online/repositories/orderprocessing/contextModel.xml#Ordered"/>
 								<swrl:argument1 rdf:resource="http://magus.online/repositories/orderprocessing/services/RequestInvoiceCreation.xml#customerInfo"/>
 								<swrl:argument2 rdf:resource="http://magus.online/repositories/orderprocessing/services/RequestInvoiceCreation.xml#purchaseOrder"/>
 							  </swrl:IndividualPropertyAtom>
@@ -54,7 +54,7 @@
 								<swrl:AtomList>
 									<rdf:first>
 									  <swrl:IndividualPropertyAtom>
-										<swrl:propertyPredicate rdf:resource="http://magus.online/repositories/orderprocessing/orderprocessing.xml#!InvoiceCreationRequested"/>
+										<swrl:propertyPredicate rdf:resource="http://magus.online/repositories/orderprocessing/contextModel.xml#!InvoiceCreationRequested"/>
 										<swrl:argument1 rdf:resource="http://magus.online/repositories/orderprocessing/services/RequestInvoiceCreation.xml#customerInfo"/>
 										<swrl:argument2 rdf:resource="http://magus.online/repositories/orderprocessing/services/RequestInvoiceCreation.xml#purchaseOrder"/>
 									  </swrl:IndividualPropertyAtom>
@@ -75,7 +75,7 @@
 						  <swrl:AtomList>
 							<rdf:first>
 							  <swrl:IndividualPropertyAtom>
-								<swrl:propertyPredicate rdf:resource="http://magus.online/repositories/orderprocessing/orderprocessing.xml#InvoiceCreationRequested"/>
+								<swrl:propertyPredicate rdf:resource="http://magus.online/repositories/orderprocessing/contextModel.xml#InvoiceCreationRequested"/>
 								<swrl:argument1 rdf:resource="http://magus.online/repositories/orderprocessing/services/RequestInvoiceCreation.xml#customerInfo"/>
 								<swrl:argument2 rdf:resource="http://magus.online/repositories/orderprocessing/services/RequestInvoiceCreation.xml#purchaseOrder"/>
 							  </swrl:IndividualPropertyAtom>
@@ -102,7 +102,7 @@
                 <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
                 >IVC</rdfs:label>
                 <process:parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI"
-                >http://magus.online/repositories/orderprocessing/orderprocessing.xml#Invoice</process:parameterType>
+                >http://magus.online/repositories/orderprocessing/contextModel.xml#Invoice</process:parameterType>
               </process:Output>
             </process:hasOutput>
 			 
@@ -115,7 +115,7 @@
 								<rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
 							<rdf:first>
 							  <swrl:IndividualPropertyAtom>
-								<swrl:propertyPredicate rdf:resource="http://magus.online/repositories/orderprocessing/orderprocessing.xml#HasInvoice"/>
+								<swrl:propertyPredicate rdf:resource="http://magus.online/repositories/orderprocessing/contextModel.xml#HasInvoice"/>
 								<swrl:argument2 rdf:resource="#IVC"/>
 								<swrl:argument1 rdf:resource="http://magus.online/repositories/orderprocessing/services/RequestInvoiceCreation.xml#purchaseOrder"/>
 							  </swrl:IndividualPropertyAtom>

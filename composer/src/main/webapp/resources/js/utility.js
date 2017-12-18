@@ -1,5 +1,11 @@
 function utilityClass(){
 	var utility ={};
+	
+	utility.getRequestParameter = function(name){
+		if(name=(new RegExp('[?&]'+encodeURIComponent(name)+'=([^&]*)')).exec(location.search))
+		      return decodeURIComponent(name[1]);
+	}
+	
 	utility.getEntityFragment = function(uri){
 		if(uri.lastIndexOf("#")!=-1)
 			return uri.substring(uri.lastIndexOf("#")+1);
