@@ -8,12 +8,14 @@
 
 .notselected{
 	opacity: 0.25;
+	stroke:grey;
 }
 .noselection{
-	
+	stroke:grey;
 }
 .selected{
 	stroke:#ff0000;
+	border-color:red;
 }
 .mashupselected{
 	stroke:#0000ff;
@@ -99,5 +101,5 @@
 }
 
 .rfmLegend{
-	height:30px;border-color:black;border-width:1px;border-style:solid;text-align:center;vertical-align: middle;display:inline-block;font-size:0.8em;padding:7px;
+	height:30px;color:black;border-width:1px;border-style:solid;text-align:center;vertical-align: middle;display:inline-block;font-size:0.8em;padding:7px;
 }
