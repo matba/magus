@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<configuration base="http://magus.online/repositories/orderprocessing/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://magus.online/resources/schema/servicemashupconfiguration.xsd" >
+<configuration base="http://bashari.ca/magus/repositories/orderprocessing/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://bashari.ca/magus/resources/schema/servicemashupconfiguration.xsd" >
 <ontologies>
 <ontology address="contextModel.xml" />
 </ontologies>

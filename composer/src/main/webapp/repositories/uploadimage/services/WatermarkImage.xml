@@ -4,26 +4,26 @@
 	xmlns:owl="http://www.w3.org/2002/07/owl#" xmlns:daml="http://www.daml.org/2001/03/daml+oil"
 	xmlns:expr="http://www.daml.org/services/owl-s/1.2/generic/Expression.owl#"
 	xmlns:swrl="http://www.w3.org/2003/11/swrl#"
-	xml:base="http://magus.online/repositories/uploadimage/services/WatermarkImage.xml">
+	xml:base="http://bashari.ca/magus/repositories/uploadimage/services/WatermarkImage.xml">
 	<service:Service rdf:ID="WatermarkImage">
 		<service:describedBy>
 			<process:AtomicProcess rdf:ID="WatermarkImageProcess">
 				<service:describes rdf:resource="#WatermarkImage" />
 				<process:hasInput>
 					<process:Input rdf:ID="image">
-						<process:parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://magus.online/repositories/uploadimage/contextModel.xml#Image
+						<process:parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://bashari.ca/magus/repositories/uploadimage/contextModel.xml#Image
 						</process:parameterType>
 					</process:Input>
 				</process:hasInput>
 				<process:hasInput>
 					<process:Input rdf:ID="watermarkText">
-						<process:parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://magus.online/repositories/uploadimage/contextModel.xml#Text
+						<process:parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://bashari.ca/magus/repositories/uploadimage/contextModel.xml#Text
 						</process:parameterType>
 					</process:Input>
 				</process:hasInput>
 				<process:hasOutput>
 					<process:Output rdf:ID="watermarkedImage">
-						<process:parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://magus.online/repositories/uploadimage/contextModel.xml#Image
+						<process:parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://bashari.ca/magus/repositories/uploadimage/contextModel.xml#Image
 						</process:parameterType>
 					</process:Output>
 				</process:hasOutput>
@@ -34,9 +34,9 @@
 								<rdf:first>
 									<swrl:ClassAtom>
 										<swrl:classPredicate
-											rdf:resource="http://magus.online/repositories/uploadimage/contextModel.xml#Image&#10;&#9;&#9;&#9;&#9;&#9;&#9;" />
+											rdf:resource="http://bashari.ca/magus/repositories/uploadimage/contextModel.xml#Image&#10;&#9;&#9;&#9;&#9;&#9;&#9;" />
 										<swrl:argument1
-											rdf:resource="http://magus.online/repositories/uploadimage/services/WatermarkImage.xml#image" />
+											rdf:resource="http://bashari.ca/magus/repositories/uploadimage/services/WatermarkImage.xml#image" />
 									</swrl:ClassAtom>
 								</rdf:first>
 								<rdf:rest>
@@ -44,9 +44,9 @@
 										<rdf:first>
 											<swrl:ClassAtom>
 												<swrl:classPredicate
-													rdf:resource="http://magus.online/repositories/uploadimage/contextModel.xml#Text&#10;&#9;&#9;&#9;&#9;&#9;&#9;" />
+													rdf:resource="http://bashari.ca/magus/repositories/uploadimage/contextModel.xml#Text&#10;&#9;&#9;&#9;&#9;&#9;&#9;" />
 												<swrl:argument1
-													rdf:resource="http://magus.online/repositories/uploadimage/services/WatermarkImage.xml#watermarkText" />
+													rdf:resource="http://bashari.ca/magus/repositories/uploadimage/services/WatermarkImage.xml#watermarkText" />
 											</swrl:ClassAtom>
 										</rdf:first>
 										<rdf:rest>
@@ -54,7 +54,7 @@
 												<rdf:first>
 													<swrl:ClassAtom>
 														<swrl:classPredicate
-															rdf:resource="http://magus.online/repositories/uploadimage/contextModel.xml#URL" />
+															rdf:resource="http://bashari.ca/magus/repositories/uploadimage/contextModel.xml#URL" />
 														<swrl:argument1>
 															<swrl:Variable rdf:ID="url" />
 														</swrl:argument1>
@@ -65,11 +65,11 @@
 														<rdf:first>
 															<swrl:IndividualPropertyAtom>
 																<swrl:propertyPredicate
-																	rdf:resource="http://magus.online/repositories/uploadimage/contextModel.xml#WatermarkRequested" />
+																	rdf:resource="http://bashari.ca/magus/repositories/uploadimage/contextModel.xml#WatermarkRequested" />
 																<swrl:argument1
-																	rdf:resource="http://magus.online/repositories/uploadimage/services/WatermarkImage.xml#image" />
+																	rdf:resource="http://bashari.ca/magus/repositories/uploadimage/services/WatermarkImage.xml#image" />
 																<swrl:argument2
-																	rdf:resource="http://magus.online/repositories/uploadimage/services/WatermarkImage.xml#watermarkText" />
+																	rdf:resource="http://bashari.ca/magus/repositories/uploadimage/services/WatermarkImage.xml#watermarkText" />
 															</swrl:IndividualPropertyAtom>
 														</rdf:first>
 														<rdf:rest>
@@ -77,11 +77,11 @@
 																<rdf:first>
 																	<swrl:IndividualPropertyAtom>
 																		<swrl:propertyPredicate
-																			rdf:resource="http://magus.online/repositories/uploadimage/contextModel.xml#!Stored" />
+																			rdf:resource="http://bashari.ca/magus/repositories/uploadimage/contextModel.xml#!Stored" />
 																		<swrl:argument1
-																			rdf:resource="http://magus.online/repositories/uploadimage/services/WatermarkImage.xml#image" />
+																			rdf:resource="http://bashari.ca/magus/repositories/uploadimage/services/WatermarkImage.xml#image" />
 																		<swrl:argument2
-																			rdf:resource="http://magus.online/repositories/uploadimage/services/WatermarkImage.xml#url" />
+																			rdf:resource="http://bashari.ca/magus/repositories/uploadimage/services/WatermarkImage.xml#url" />
 																	</swrl:IndividualPropertyAtom>
 																</rdf:first>
 																<rdf:rest
@@ -107,11 +107,11 @@
 								<rdf:first>
 									<swrl:IndividualPropertyAtom>
 										<swrl:propertyPredicate
-											rdf:resource="http://magus.online/repositories/uploadimage/contextModel.xml#Watermarked" />
+											rdf:resource="http://bashari.ca/magus/repositories/uploadimage/contextModel.xml#Watermarked" />
 										<swrl:argument1
-											rdf:resource="http://magus.online/repositories/uploadimage/services/WatermarkImage.xml#watermarkedImage" />
+											rdf:resource="http://bashari.ca/magus/repositories/uploadimage/services/WatermarkImage.xml#watermarkedImage" />
 										<swrl:argument2
-											rdf:resource="http://magus.online/repositories/uploadimage/services/WatermarkImage.xml#watermarkText" />
+											rdf:resource="http://bashari.ca/magus/repositories/uploadimage/services/WatermarkImage.xml#watermarkText" />
 									</swrl:IndividualPropertyAtom>
 								</rdf:first>
 								<rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil" />

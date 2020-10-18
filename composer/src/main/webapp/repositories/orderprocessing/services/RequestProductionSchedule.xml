@@ -10,27 +10,27 @@
     xmlns:daml="http://www.daml.org/2001/03/daml+oil#"
 	xmlns:expr="http://www.daml.org/services/owl-s/1.2/generic/Expression.owl#"
 	xmlns:swrl="http://www.w3.org/2003/11/swrl#"
-  xml:base="http://magus.online/repositories/orderprocessing/services/RequestProductionSchedule.xml">
+  xml:base="http://bashari.ca/magus/repositories/orderprocessing/services/RequestProductionSchedule.xml">
   <owl:Ontology rdf:about="">
     <owl:imports rdf:resource="http://www.daml.org/services/owl-s/1.2/Grounding.owl"/>
     <owl:imports rdf:resource="http://www.daml.org/services/owl-s/1.2/Process.owl"/>
     <owl:imports rdf:resource="http://www.daml.org/services/owl-s/1.2/Service.owl"/>
     <owl:imports rdf:resource="http://www.daml.org/services/owl-s/1.2/Profile.owl"/>
-	<owl:imports rdf:resource="http://magus.online/repositories/orderprocessing/contextModel.xml"/>
+	<owl:imports rdf:resource="http://bashari.ca/magus/repositories/orderprocessing/contextModel.xml"/>
   </owl:Ontology>
   <service:Service rdf:ID="RequestProductionSchedule">
-    <service:describedBy  rdf:ID="RequestProductionScheduleProcess1"> 
+    <service:describedBy  rdf:ID="RequestProductionScheduleProcess1">
       <process:AtomicProcess rdf:ID="RequestProductionScheduleProcess">
         <process:hasInput>
           <process:Input rdf:ID="purchaseOrder">
             <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
             >purchaseOrder</rdfs:label>
             <process:parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI"
-            >http://magus.online/repositories/orderprocessing/contextModel.xml#PurchaseOrder</process:parameterType>
+            >http://bashari.ca/magus/repositories/orderprocessing/contextModel.xml#PurchaseOrder</process:parameterType>
           </process:Input>
         </process:hasInput>
         <service:describes rdf:resource="#RequestProductionSchedule"/>
-        
+
 		 <process:hasPrecondition>
 			  <expr:SWRL-Condition rdf:ID="RequestProductionScheduleServicePrec">
 				<expr:expressionObject>
@@ -42,24 +42,24 @@
 							<swrl:argument1>
 							  <swrl:Variable rdf:ID="customerInfo"/>
 							</swrl:argument1>
-							<swrl:classPredicate rdf:resource="http://magus.online/repositories/orderprocessing/contextModel.xml#Customer"/>
+							<swrl:classPredicate rdf:resource="http://bashari.ca/magus/repositories/orderprocessing/contextModel.xml#Customer"/>
 						  </swrl:ClassAtom>
 						</rdf:first>
 						<rdf:rest>
 						  <swrl:AtomList>
 							<rdf:first>
 							  <swrl:IndividualPropertyAtom>
-								<swrl:propertyPredicate rdf:resource="http://magus.online/repositories/orderprocessing/contextModel.xml#InvoiceCreationRequested"/>
+								<swrl:propertyPredicate rdf:resource="http://bashari.ca/magus/repositories/orderprocessing/contextModel.xml#InvoiceCreationRequested"/>
 								<swrl:argument1 rdf:resource="#customerInfo"/>
-								<swrl:argument2 rdf:resource="http://magus.online/repositories/orderprocessing/services/RequestProductionSchedule.xml#purchaseOrder"/>
+								<swrl:argument2 rdf:resource="http://bashari.ca/magus/repositories/orderprocessing/services/RequestProductionSchedule.xml#purchaseOrder"/>
 							  </swrl:IndividualPropertyAtom>
 							</rdf:first>
 							<rdf:rest>
 						  <swrl:AtomList>
 							<rdf:first>
 							  <swrl:ClassAtom>
-								<swrl:argument1 rdf:resource="http://magus.online/repositories/orderprocessing/services/RequestProductionSchedule.xml#purchaseOrder"/>
-								<swrl:classPredicate rdf:resource="http://magus.online/repositories/orderprocessing/contextModel.xml#PurchaseOrder"/>
+								<swrl:argument1 rdf:resource="http://bashari.ca/magus/repositories/orderprocessing/services/RequestProductionSchedule.xml#purchaseOrder"/>
+								<swrl:classPredicate rdf:resource="http://bashari.ca/magus/repositories/orderprocessing/contextModel.xml#PurchaseOrder"/>
 							  </swrl:ClassAtom>
 							</rdf:first>
 							<rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
@@ -76,14 +76,14 @@
 				>Precondition for Request Shipping Service</rdfs:comment>
 			  </expr:SWRL-Condition>
 		 </process:hasPrecondition>
-		  
+
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
         >RequestProductionScheduleProcess</rdfs:label>
       </process:AtomicProcess>
     </service:describedBy>
   </service:Service>
   <service:Service rdf:ID="RequestProductionScheduleCallback">
-    <service:describedBy  rdf:ID="RequestProductionScheduleCallbackProcess1"> 
+    <service:describedBy  rdf:ID="RequestProductionScheduleCallbackProcess1">
       <process:AtomicProcess rdf:ID="RequestProductionScheduleCallbackProcess">
         <service:describes rdf:resource="#RequestProductionScheduleCallback"/>
         <process:hasOutput>
@@ -91,7 +91,7 @@
 			<rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
 			>schedule</rdfs:label>
 			<process:parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI"
-			>http://magus.online/repositories/orderprocessing/contextModel.xml#ProductionSchedule</process:parameterType>
+			>http://bashari.ca/magus/repositories/orderprocessing/contextModel.xml#ProductionSchedule</process:parameterType>
 		  </process:Output>
         </process:hasOutput>
 		  <process:hasResult>
@@ -100,17 +100,17 @@
 				  <swrl:AtomList>
 					<rdf:first>
 					  <swrl:ClassAtom>
-						<swrl:argument1 rdf:resource="http://magus.online/repositories/orderprocessing/services/RequestProductionSchedule.xml#productionSchedule"/>
-						<swrl:classPredicate rdf:resource="http://magus.online/repositories/orderprocessing/contextModel.xml#ProductionSchedule"/>
+						<swrl:argument1 rdf:resource="http://bashari.ca/magus/repositories/orderprocessing/services/RequestProductionSchedule.xml#productionSchedule"/>
+						<swrl:classPredicate rdf:resource="http://bashari.ca/magus/repositories/orderprocessing/contextModel.xml#ProductionSchedule"/>
 					  </swrl:ClassAtom>
 					</rdf:first>
 					<rdf:rest>
 					  <swrl:AtomList>
 						<rdf:first>
 						  <swrl:IndividualPropertyAtom>
-							<swrl:argument2 rdf:resource="http://magus.online/repositories/orderprocessing/services/RequestProductionSchedule.xml#productionSchedule"/>
-							<swrl:argument1 rdf:resource="http://magus.online/repositories/orderprocessing/services/RequestProductionSchedule.xml#purchaseOrder"/>
-							<swrl:propertyPredicate rdf:resource="http://magus.online/repositories/orderprocessing/contextModel.xml#HasProductionSchedule"/>
+							<swrl:argument2 rdf:resource="http://bashari.ca/magus/repositories/orderprocessing/services/RequestProductionSchedule.xml#productionSchedule"/>
+							<swrl:argument1 rdf:resource="http://bashari.ca/magus/repositories/orderprocessing/services/RequestProductionSchedule.xml#purchaseOrder"/>
+							<swrl:propertyPredicate rdf:resource="http://bashari.ca/magus/repositories/orderprocessing/contextModel.xml#HasProductionSchedule"/>
 						  </swrl:IndividualPropertyAtom>
 						</rdf:first>
 						<rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
@@ -127,7 +127,7 @@
         >RequestProductionScheduleCallbackProcess</rdfs:label>
       </process:AtomicProcess>
     </service:describedBy>
-    
+
   </service:Service>
 </rdf:RDF>
 

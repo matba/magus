@@ -403,10 +403,10 @@
 									refX="2" refY="6" orient="auto" markerUnits="strokeWidth">
 							<path d="M2,2 L2,11 L10,6 L2,2" style="fill: #999;" />
 							</marker>
-							
+
 							</defs>
 							<g id="maingroup">
-								
+
 								</g>
 							</svg>
 
@@ -473,12 +473,12 @@
 							<path d="M2,2 L2,11 L10,6 L2,2" style="fill: #FA1414;" />
 							</marker>
 								</defs>
-								
+
 								<g id="maingroup">
-								
+
 								</g>
-								
-							
+
+
 							</svg>
 						</div>
 						<!-- BPEL Code Tab -->
@@ -632,10 +632,10 @@
 											aria-labelledby="serviceMashupFamilyButton"
 											id="serviceMashupFamilyCombo">
 											<li data-text="Order Processing"
-												data-uri="http://magus.online/repositories/orderprocessing/configuration.xml"><a
+												data-uri="http://bashari.ca/magus/repositories/orderprocessing/configuration.xml"><a
 												href="#">Order Processing</a></li>
 											<li data-text="Upload Image"
-												data-uri="http://magus.online/repositories/uploadimage/configuration.xml"><a
+												data-uri="http://bashari.ca/magus/repositories/uploadimage/configuration.xml"><a
 												href="#">Upload Image</a></li>
 										</ul>
 									</div>
@@ -690,10 +690,10 @@
 											aria-labelledby="serviceMashupFamilyConfButton"
 											id="serviceMashupFamilyConfCombo">
 											<li data-text="Order Processing"
-												data-uri="http://magus.online/repositories/orderprocessing/configuration.xml"><a
+												data-uri="http://bashari.ca/magus/repositories/orderprocessing/configuration.xml"><a
 												href="#">Order Processing</a></li>
 											<li data-text="Upload Image"
-												data-uri="http://magus.online/repositories/uploadimage/configuration.xml"><a
+												data-uri="http://bashari.ca/magus/repositories/uploadimage/configuration.xml"><a
 												href="#">Upload Image</a></li>
 										</ul>
 									</div>
@@ -1020,7 +1020,7 @@
 						<div class="form-group">
 							<label>The requirements has been successfully saved in
 								the following URI. The mashup context state model can be updated
-								using the API (http://magus.online/swagger-api) using this URI
+								using the API (http://bashari.ca/magus/swagger-api) using this URI
 								or using the state model tab.</label> <input id="runningMashupInstanse"
 								type="text" readonly class="form-control">
 						</div>
@@ -1127,24 +1127,24 @@
 		<div id="serviceEdit_serviceModal{{no}}" class="modal-dialog" role="document" style="width:95%;margin-top: 10px;display:block">
 	    <div class="modal-content">
 	      <div class="modal-header">
-	        
+
 	        <h4 class="modal-title" id="serviceEdit_Name{{no}}">Service</h4>
 	      </div>
 	      <div class="modal-body">
 				<form>
-		         
+
 				  <!-- service inputs -->
 				  <div class="form-group">
 				    <label for="serviceEdit_inputList{{no}}">Inputs</label>
 				    <div  class="form-control" id="serviceEdit_inputList{{no}}"  style="height:auto; width:100%;  padding:2px">
-				    
-					
+
+
 				    </div>
 				    <span class="glyphicon  glyphicon-plus" style="color:green;float: right" aria-hidden="true" onclick="addToServiceAnnotation('input',{{no}});"></span>
 
 				  </div>
 				  <div id="serviceEdit_InputAddDiv{{no}}" class="addDivContainer">
-				  
+
 					  <div class="form-group" >
 						    <label for="serviceEdit_inputTypeInput{{no}}">Input Type</label>
 						    <input type="text" class="form-control" id="serviceEdit_inputTypeInput{{no}}" style="height:30px;" placeholder="Input Type">
@@ -1155,19 +1155,19 @@
 						    <span class="glyphicon  glyphicon-arrow-up" style="color:green;float: right" aria-hidden="true" onclick="commitServiceAnnotation('input',{{no}});"></span>
 					  </div>
 				  </div>
-				  
+
 				  <!-- service output -->
 				  <div class="form-group">
 				    <label for="serviceEdit_outputList{{no}}">Outputs</label>
 				    <div  class="form-control" id="serviceEdit_outputList{{no}}"  style="height:auto; width:100%;  padding:2px">
-				    
-					
+
+
 				    </div>
 				    <span class="glyphicon  glyphicon-plus" style="color:green;float: right" aria-hidden="true" onclick="addToServiceAnnotation('output',{{no}});"></span>
 
 				  </div>
 				  <div id="serviceEdit_outputAddDiv{{no}}" class="addDivContainer">
-				  
+
 					  <div class="form-group" >
 						    <label for="serviceEdit_outputTypeInput{{no}}">Output Type</label>
 						    <input type="text" class="form-control" id="serviceEdit_outputTypeInput{{no}}" style="height:30px;" placeholder="Output Type">
@@ -1178,20 +1178,20 @@
 						    <span class="glyphicon  glyphicon-arrow-up" style="color:green;float: right" aria-hidden="true" onclick="commitServiceAnnotation('output',{{no}});"></span>
 					  </div>
 				  </div>
-				 
-				 
+
+
 				 <!-- service vars -->
 				  <div class="form-group">
 				    <label for="serviceEdit_varList{{no}}">Variables</label>
 				    <div  class="form-control" id="serviceEdit_varList{{no}}"  style="height:auto; width:100%;  padding:2px">
-				    
-					
+
+
 				    </div>
 				    <span class="glyphicon  glyphicon-plus" style="color:green;float: right" aria-hidden="true" onclick="addToServiceAnnotation('var',{{no}});"></span>
 
 				  </div>
 				  <div id="serviceEdit_VarAddDiv{{no}}" class="addDivContainer">
-				  
+
 					  <div class="form-group" >
 						    <label for="serviceEdit_varTypeInput{{no}}">Variable Type</label>
 						    <input type="text" class="form-control" id="serviceEdit_varTypeInput{{no}}" style="height:30px;" placeholder="Variable Type">
@@ -1202,16 +1202,16 @@
 						    <span class="glyphicon  glyphicon-arrow-up" style="color:green;float: right" aria-hidden="true" onclick="commitServiceAnnotation('var',{{no}});"></span>
 					  </div>
 				  </div>
-				  
-				  <!-- service preconditions -->
-				  
 
-				  
+				  <!-- service preconditions -->
+
+
+
 				  <div class="form-group">
 				    <label for="serviceEdit_preconditionList{{no}}">Preconditions</label>
 				    <div  class="form-control" id="serviceEdit_preconditionList{{no}}"  style="height:auto; width:100%;  padding:2px">
-				    
-					
+
+
 				    </div>
 				    <span class="glyphicon  glyphicon-plus" style="color:green;float: right" aria-hidden="true" onclick="addToServiceAnnotation('precondition',{{no}});"></span>
 
@@ -1236,14 +1236,14 @@
 					    <span class="glyphicon  glyphicon-arrow-up" style="color:green;float: right" aria-hidden="true" onclick="commitServiceAnnotation('precondition',{{no}});"></span>
 				  </div>
 				  </div>
-				  
+
 				  <!-- service effect -->
-				  
+
 				  <div class="form-group">
 				    <label for="serviceEdit_effectList{{no}}">Effects</label>
 				    <div  class="form-control" id="serviceEdit_effectList{{no}}"  style="height:auto; width:100%;  padding:2px">
-				    
-					
+
+
 				    </div>
 				    <span class="glyphicon  glyphicon-plus" style="color:green;float: right" aria-hidden="true" onclick="addToServiceAnnotation('effect',{{no}});"></span>
 
@@ -1268,29 +1268,29 @@
 					    <span class="glyphicon  glyphicon-arrow-up" style="color:green;float: right" aria-hidden="true" onclick="commitServiceAnnotation('effect',{{no}});"></span>
 				  </div>
 				  </div>
-				  
+
 				</form>
 			</div>
-			
+
 				<div id="serviceEdit_callbackDiv{{no}}" style="display:none">
 				  <div class="modal-header">
-			        
+
 			        <h4 class="modal-title" id="serviceEdit_callbackName{{no}}">Service Callback</h4>
 			      </div>
 			      <div class="modal-body">
-						
+
 						 <!-- service output -->
 						  <div class="form-group">
 						    <label for="serviceEdit_callbackoutputList{{no}}">Outputs</label>
 						    <div  class="form-control" id="serviceEdit_callbackoutputList{{no}}"  style="height:auto; width:100%;  padding:2px">
-						    
-							
+
+
 						    </div>
 						    <span class="glyphicon  glyphicon-plus" style="color:green;float: right" aria-hidden="true" onclick="addToServiceAnnotation('coutput',{{no}});"></span>
 
 						  </div>
 						  <div id="serviceEdit_callbackOutputAddDiv{{no}}" class="addDivContainer">
-						  
+
 							  <div class="form-group" >
 								    <label for="serviceEdit_callbackOutputTypeInput{{no}}">Output Type</label>
 								    <input type="text" class="form-control" id="serviceEdit_callbackOutputTypeInput{{no}}" style="height:30px;" placeholder="Output Type">
@@ -1301,14 +1301,14 @@
 								    <span class="glyphicon  glyphicon-arrow-up" style="color:green;float: right" aria-hidden="true" onclick="commitServiceAnnotation('coutput',{{no}});"></span>
 							  </div>
 						  </div>
-						
+
 						<!-- service preconditions -->
-						  
+
 						  <div class="form-group">
 						    <label for="serviceEdit_callbackpreconditionList{{no}}">Preconditions</label>
 						    <div  class="form-control" id="serviceEdit_callbackpreconditionList{{no}}"  style="height:auto; width:100%;  padding:2px">
-						    
-							
+
+
 						    </div>
 						    <span class="glyphicon  glyphicon-plus" style="color:green;float: right" aria-hidden="true" onclick="addToServiceAnnotation('cprecondition',{{no}});"></span>
 
@@ -1333,14 +1333,14 @@
 							    <span class="glyphicon  glyphicon-arrow-up" style="color:green;float: right" aria-hidden="true" onclick="commitServiceAnnotation('cprecondition',{{no}});"></span>
 						  </div>
 						  </div>
-						  
+
 						  <!-- service effect -->
-						  
+
 						  <div class="form-group">
 						    <label for="serviceEdit_callbackeffectList{{no}}">Effects</label>
 						    <div  class="form-control" id="serviceEdit_callbackeffectList{{no}}"  style="height:auto; width:100%;  padding:2px">
-						    
-							
+
+
 						    </div>
 						    <span class="glyphicon  glyphicon-plus" style="color:green;float: right" aria-hidden="true" onclick="addToServiceAnnotation('ceffect',{{no}});"></span>
 
@@ -1365,16 +1365,16 @@
 							    <span class="glyphicon  glyphicon-arrow-up" style="color:green;float: right" aria-hidden="true" onclick="commitServiceAnnotation('ceffect',{{no}});"></span>
 						  </div>
 						  </div>
-						
+
 				  </div>
 
-			</div>	
+			</div>
 <div class="modal-footer">
-									        	
+
 									        <button type="button" class="btn btn-default btn-xs" onclick="downloadService({{no}});"><span class="glyphicon glyphicon-arrow-down" aria-hidden="true" ></span> Download</button>
-									    </div>  
+									    </div>
 		</div>
-	</div>					
+	</div>
 
 
 	</script>
@@ -1400,7 +1400,7 @@
   					</ul>
 				</div>
 
-				
+
 				<button class="btn btn-default btn-xs" onclick="removeFeature('{{uuid}}',{{featureNumber}});" > <span class="glyphicon  glyphicon-minus" style="color:red" aria-hidden="true"></span> Delete</button>
 				<button class="btn btn-default btn-xs" onclick="loadFMAnnotationDialog('{{uuid}}');$('#featureEdit').modal('show')" > <span class="glyphicon  glyphicon-pencil" style="color:orange" aria-hidden="true"></span> Edit</button>
 			</div>
@@ -1439,7 +1439,7 @@
 				aria-expanded="true">
 				<span>lower</span> <span class="caret"></span>
 			</button>
-			<ul class="dropdown-menu" id="nfRequirementRelationList{{no}}" 
+			<ul class="dropdown-menu" id="nfRequirementRelationList{{no}}"
 			  aria-labelledby="nfRequirementRelation{{no}}" data-selected="l">
 				<li data-text="greater" data-code="g"><a href="#">greater</a></li>
 				<li data-text="lower" data-code="l"><a href="#">lower</a></li>
@@ -1462,7 +1462,7 @@
 			aria-hidden="true"></span></a>
 	</div>
 </form>
-	
+
 	</script>
 
 	<script id="nfValueTemplate" type="x-tmpl-mustache">
@@ -1486,7 +1486,7 @@
 										</form>
 									</div>
 									<div class="modal-footer">
-									
+
 									</div>
 								</div>
 							</div>
@@ -1505,12 +1505,12 @@
 	<div class="form-group">
 		<label>
 		{{nfName}}
-Current: <span class="label label-{{stateLabel}}">{{nfValue}} {{nfUnit}}</span> Constraint: {{constraint}} {{nfUnit}} 
+Current: <span class="label label-{{stateLabel}}">{{nfValue}} {{nfUnit}}</span> Constraint: {{constraint}} {{nfUnit}}
 		</label>
 	</div>
-	
+
 </form>
-	
+
 	</script>
 
 
@@ -1528,7 +1528,7 @@ Current: <span class="label label-{{stateLabel}}">{{nfValue}} {{nfUnit}}</span> 
 	<script src="./resources/ext/codemirror/xml.js"></script>
 	<script src="./resources/ext/dlfile/download.js"></script>
 
-	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug 
+	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug
     <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>-->
 	<script src="./resources/js/controller/globals.js"></script>
 	<script src="./resources/js/utility.js"></script>
@@ -1553,7 +1553,7 @@ Current: <span class="label label-{{stateLabel}}">{{nfValue}} {{nfUnit}}</span> 
 	<!--
 	<script src="./resources/ext/codemirror/runmode.js"></script>
 	<script src="./resources/ext/codemirror/colorize.js"></script>
-	
+
 	<script src="./resources/ext/codemirror/css.js"></script>
 	<script src="./resources/ext/codemirror/htmlmixed.js"></script>-->
 	<script src="./resources/js/scripts.js"></script>

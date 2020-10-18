@@ -205,7 +205,7 @@ function loadServices() {
 
 function addServiceMashupFamily() {
 	$('#editorselector').modal('hide');
-	let smUriPrefix = "http://magus.online/user-repositories/" + utility.guid();
+	let smUriPrefix = "http://bashari.ca/magus/user-repositories/" + utility.guid();
 	serviceMashupFamily = serviceMashupFamilyClass(smUriPrefix
 			+ "/configuration.xml");
 	let newSMName = $('#newServiceMashupFamilyName').val();

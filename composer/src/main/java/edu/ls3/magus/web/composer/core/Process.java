@@ -161,7 +161,7 @@ public class Process {
 		}
 
 		result.systemDirectory = mashupInstanceUri.replace(Configuration.domainAddress,
-				Configuration.deploymentDirectory);
+				Configuration.deploymentDirectory + Configuration.defaultDeploymentDirectory);
 
 		if (result.systemDirectory.endsWith(File.separator)) {
 			result.systemDirectory = result.systemDirectory.substring(0,

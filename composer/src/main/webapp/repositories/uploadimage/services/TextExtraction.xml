@@ -4,19 +4,19 @@
 	xmlns:owl="http://www.w3.org/2002/07/owl#" xmlns:daml="http://www.daml.org/2001/03/daml+oil"
 	xmlns:expr="http://www.daml.org/services/owl-s/1.2/generic/Expression.owl#"
 	xmlns:swrl="http://www.w3.org/2003/11/swrl#"
-	xml:base="http://magus.online/repositories/uploadimage/services/TextExtraction.xml">
+	xml:base="http://bashari.ca/magus/repositories/uploadimage/services/TextExtraction.xml">
 	<service:Service rdf:ID="TextExtraction">
 		<service:describedBy>
 			<process:AtomicProcess rdf:ID="TextExtractionProcess">
 				<service:describes rdf:resource="#TextExtraction" />
 				<process:hasInput>
 					<process:Input rdf:ID="image">
-						<process:parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://magus.online/repositories/uploadimage/contextModel.xml#Image</process:parameterType>
+						<process:parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://bashari.ca/magus/repositories/uploadimage/contextModel.xml#Image</process:parameterType>
 					</process:Input>
 				</process:hasInput>
 				<process:hasOutput>
 					<process:Output rdf:ID="texts">
-						<process:parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://magus.online/repositories/uploadimage/contextModel.xml#InImageTextList</process:parameterType>
+						<process:parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://bashari.ca/magus/repositories/uploadimage/contextModel.xml#InImageTextList</process:parameterType>
 					</process:Output>
 				</process:hasOutput>
 				<process:hasPrecondition>
@@ -26,9 +26,9 @@
 								<rdf:first>
 									<swrl:ClassAtom>
 										<swrl:classPredicate
-											rdf:resource="http://magus.online/repositories/uploadimage/contextModel.xml#Image" />
+											rdf:resource="http://bashari.ca/magus/repositories/uploadimage/contextModel.xml#Image" />
 										<swrl:argument1
-											rdf:resource="http://magus.online/repositories/uploadimage/services/TextExtraction.xml#image" />
+											rdf:resource="http://bashari.ca/magus/repositories/uploadimage/services/TextExtraction.xml#image" />
 									</swrl:ClassAtom>
 								</rdf:first>
 								<rdf:rest>
@@ -36,7 +36,7 @@
 										<rdf:first>
 											<swrl:ClassAtom>
 												<swrl:classPredicate
-													rdf:resource="http://magus.online/repositories/uploadimage/contextModel.xml#ObjectType" />
+													rdf:resource="http://bashari.ca/magus/repositories/uploadimage/contextModel.xml#ObjectType" />
 												<swrl:argument1>
 													<swrl:Variable rdf:ID="type" />
 												</swrl:argument1>
@@ -47,7 +47,7 @@
 												<rdf:first>
 													<swrl:ClassAtom>
 														<swrl:classPredicate
-															rdf:resource="http://magus.online/repositories/uploadimage/contextModel.xml#Text" />
+															rdf:resource="http://bashari.ca/magus/repositories/uploadimage/contextModel.xml#Text" />
 														<swrl:argument1>
 															<swrl:Variable rdf:ID="text" />
 														</swrl:argument1>
@@ -58,11 +58,11 @@
 														<rdf:first>
 															<swrl:IndividualPropertyAtom>
 																<swrl:propertyPredicate
-																	rdf:resource="http://magus.online/repositories/uploadimage/contextModel.xml#!Blurred" />
+																	rdf:resource="http://bashari.ca/magus/repositories/uploadimage/contextModel.xml#!Blurred" />
 																<swrl:argument1
-																	rdf:resource="http://magus.online/repositories/uploadimage/services/TextExtraction.xml#image" />
+																	rdf:resource="http://bashari.ca/magus/repositories/uploadimage/services/TextExtraction.xml#image" />
 																<swrl:argument2
-																	rdf:resource="http://magus.online/repositories/uploadimage/services/TextExtraction.xml#type" />
+																	rdf:resource="http://bashari.ca/magus/repositories/uploadimage/services/TextExtraction.xml#type" />
 															</swrl:IndividualPropertyAtom>
 														</rdf:first>
 														<rdf:rest>
@@ -70,11 +70,11 @@
 																<rdf:first>
 																	<swrl:IndividualPropertyAtom>
 																		<swrl:propertyPredicate
-																			rdf:resource="http://magus.online/repositories/uploadimage/contextModel.xml#!Watermarked" />
+																			rdf:resource="http://bashari.ca/magus/repositories/uploadimage/contextModel.xml#!Watermarked" />
 																		<swrl:argument1
-																			rdf:resource="http://magus.online/repositories/uploadimage/services/TextExtraction.xml#image" />
+																			rdf:resource="http://bashari.ca/magus/repositories/uploadimage/services/TextExtraction.xml#image" />
 																		<swrl:argument2
-																			rdf:resource="http://magus.online/repositories/uploadimage/services/TextExtraction.xml#text" />
+																			rdf:resource="http://bashari.ca/magus/repositories/uploadimage/services/TextExtraction.xml#text" />
 																	</swrl:IndividualPropertyAtom>
 																</rdf:first>
 																<rdf:rest
@@ -100,11 +100,11 @@
 								<rdf:first>
 									<swrl:IndividualPropertyAtom>
 										<swrl:propertyPredicate
-											rdf:resource="http://magus.online/repositories/uploadimage/contextModel.xml#HasText" />
+											rdf:resource="http://bashari.ca/magus/repositories/uploadimage/contextModel.xml#HasText" />
 										<swrl:argument1
-											rdf:resource="http://magus.online/repositories/uploadimage/services/TextExtraction.xml#image" />
+											rdf:resource="http://bashari.ca/magus/repositories/uploadimage/services/TextExtraction.xml#image" />
 										<swrl:argument2
-											rdf:resource="http://magus.online/repositories/uploadimage/services/TextExtraction.xml#texts" />
+											rdf:resource="http://bashari.ca/magus/repositories/uploadimage/services/TextExtraction.xml#texts" />
 									</swrl:IndividualPropertyAtom>
 								</rdf:first>
 								<rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil" />

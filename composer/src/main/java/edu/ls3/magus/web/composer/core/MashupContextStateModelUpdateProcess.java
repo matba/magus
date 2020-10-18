@@ -41,7 +41,7 @@ public class MashupContextStateModelUpdateProcess extends Process {
 		}
 
 		String systemAddress = mashupRunningInstanceUri.replace(Configuration.domainAddress,
-				Configuration.deploymentDirectory);
+				Configuration.deploymentDirectory + Configuration.defaultDeploymentDirectory);
 
 		if (!systemAddress.endsWith("/")) {
 			systemAddress = systemAddress + "/";

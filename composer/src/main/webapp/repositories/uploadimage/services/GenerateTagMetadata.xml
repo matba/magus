@@ -4,32 +4,32 @@
 	xmlns:owl="http://www.w3.org/2002/07/owl#" xmlns:daml="http://www.daml.org/2001/03/daml+oil"
 	xmlns:expr="http://www.daml.org/services/owl-s/1.2/generic/Expression.owl#"
 	xmlns:swrl="http://www.w3.org/2003/11/swrl#"
-	xml:base="http://magus.online/repositories/uploadimage/services/GenerateTagMetadata.xml">
+	xml:base="http://bashari.ca/magus/repositories/uploadimage/services/GenerateTagMetadata.xml">
 	<service:Service rdf:ID="GenerateTagMetadata">
 		<service:describedBy>
 			<process:AtomicProcess rdf:ID="GenerateTagMetadataProcess">
 				<service:describes rdf:resource="#GenerateTagMetadata" />
 				<process:hasInput>
 					<process:Input rdf:ID="image">
-						<process:parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://magus.online/repositories/uploadimage/contextModel.xml#Image
+						<process:parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://bashari.ca/magus/repositories/uploadimage/contextModel.xml#Image
 						</process:parameterType>
 					</process:Input>
 				</process:hasInput>
 				<process:hasInput>
 					<process:Input rdf:ID="objects">
-						<process:parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://magus.online/repositories/uploadimage/contextModel.xml#InImageObjectList
+						<process:parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://bashari.ca/magus/repositories/uploadimage/contextModel.xml#InImageObjectList
 						</process:parameterType>
 					</process:Input>
 				</process:hasInput>
 				<process:hasInput>
 					<process:Input rdf:ID="texts">
-						<process:parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://magus.online/repositories/uploadimage/contextModel.xml#InImageTextList
+						<process:parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://bashari.ca/magus/repositories/uploadimage/contextModel.xml#InImageTextList
 						</process:parameterType>
 					</process:Input>
 				</process:hasInput>
 				<process:hasOutput>
 					<process:Output rdf:ID="tagList">
-						<process:parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://magus.online/repositories/uploadimage/contextModel.xml#TagList
+						<process:parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://bashari.ca/magus/repositories/uploadimage/contextModel.xml#TagList
 						</process:parameterType>
 					</process:Output>
 				</process:hasOutput>
@@ -40,9 +40,9 @@
 								<rdf:first>
 									<swrl:ClassAtom>
 										<swrl:classPredicate
-											rdf:resource="http://magus.online/repositories/uploadimage/contextModel.xml#Image" />
+											rdf:resource="http://bashari.ca/magus/repositories/uploadimage/contextModel.xml#Image" />
 										<swrl:argument1
-											rdf:resource="http://magus.online/repositories/uploadimage/services/GenerateTagMetadata.xml#image" />
+											rdf:resource="http://bashari.ca/magus/repositories/uploadimage/services/GenerateTagMetadata.xml#image" />
 									</swrl:ClassAtom>
 								</rdf:first>
 								<rdf:rest>
@@ -50,9 +50,9 @@
 										<rdf:first>
 											<swrl:ClassAtom>
 												<swrl:classPredicate
-													rdf:resource="http://magus.online/repositories/uploadimage/contextModel.xml#InImageObjectList" />
+													rdf:resource="http://bashari.ca/magus/repositories/uploadimage/contextModel.xml#InImageObjectList" />
 												<swrl:argument1
-													rdf:resource="http://magus.online/repositories/uploadimage/services/GenerateTagMetadata.xml#objects" />
+													rdf:resource="http://bashari.ca/magus/repositories/uploadimage/services/GenerateTagMetadata.xml#objects" />
 											</swrl:ClassAtom>
 										</rdf:first>
 										<rdf:rest>
@@ -60,9 +60,9 @@
 												<rdf:first>
 													<swrl:ClassAtom>
 														<swrl:classPredicate
-															rdf:resource="http://magus.online/repositories/uploadimage/contextModel.xml#InImageTextList" />
+															rdf:resource="http://bashari.ca/magus/repositories/uploadimage/contextModel.xml#InImageTextList" />
 														<swrl:argument1
-															rdf:resource="http://magus.online/repositories/uploadimage/services/GenerateTagMetadata.xml#texts" />
+															rdf:resource="http://bashari.ca/magus/repositories/uploadimage/services/GenerateTagMetadata.xml#texts" />
 													</swrl:ClassAtom>
 												</rdf:first>
 												<rdf:rest>
@@ -70,11 +70,11 @@
 														<rdf:first>
 															<swrl:IndividualPropertyAtom>
 																<swrl:propertyPredicate
-																	rdf:resource="http://magus.online/repositories/uploadimage/contextModel.xml#HasObject" />
+																	rdf:resource="http://bashari.ca/magus/repositories/uploadimage/contextModel.xml#HasObject" />
 																<swrl:argument1
-																	rdf:resource="http://magus.online/repositories/uploadimage/services/GenerateTagMetadata.xml#image" />
+																	rdf:resource="http://bashari.ca/magus/repositories/uploadimage/services/GenerateTagMetadata.xml#image" />
 																<swrl:argument2
-																	rdf:resource="http://magus.online/repositories/uploadimage/services/GenerateTagMetadata.xml#objects" />
+																	rdf:resource="http://bashari.ca/magus/repositories/uploadimage/services/GenerateTagMetadata.xml#objects" />
 															</swrl:IndividualPropertyAtom>
 														</rdf:first>
 														<rdf:rest>
@@ -82,11 +82,11 @@
 																<rdf:first>
 																	<swrl:IndividualPropertyAtom>
 																		<swrl:propertyPredicate
-																			rdf:resource="http://magus.online/repositories/uploadimage/contextModel.xml#HasText" />
+																			rdf:resource="http://bashari.ca/magus/repositories/uploadimage/contextModel.xml#HasText" />
 																		<swrl:argument1
-																			rdf:resource="http://magus.online/repositories/uploadimage/services/GenerateTagMetadata.xml#image" />
+																			rdf:resource="http://bashari.ca/magus/repositories/uploadimage/services/GenerateTagMetadata.xml#image" />
 																		<swrl:argument2
-																			rdf:resource="http://magus.online/repositories/uploadimage/services/GenerateTagMetadata.xml#texts" />
+																			rdf:resource="http://bashari.ca/magus/repositories/uploadimage/services/GenerateTagMetadata.xml#texts" />
 																	</swrl:IndividualPropertyAtom>
 																</rdf:first>
 																<rdf:rest
@@ -112,11 +112,11 @@
 								<rdf:first>
 									<swrl:IndividualPropertyAtom>
 										<swrl:propertyPredicate
-											rdf:resource="http://magus.online/repositories/uploadimage/contextModel.xml#HasMetadataTags" />
+											rdf:resource="http://bashari.ca/magus/repositories/uploadimage/contextModel.xml#HasMetadataTags" />
 										<swrl:argument1
-											rdf:resource="http://magus.online/repositories/uploadimage/services/GenerateTagMetadata.xml#image" />
+											rdf:resource="http://bashari.ca/magus/repositories/uploadimage/services/GenerateTagMetadata.xml#image" />
 										<swrl:argument2
-											rdf:resource="http://magus.online/repositories/uploadimage/services/GenerateTagMetadata.xml#tagList" />
+											rdf:resource="http://bashari.ca/magus/repositories/uploadimage/services/GenerateTagMetadata.xml#tagList" />
 									</swrl:IndividualPropertyAtom>
 								</rdf:first>
 								<rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil" />

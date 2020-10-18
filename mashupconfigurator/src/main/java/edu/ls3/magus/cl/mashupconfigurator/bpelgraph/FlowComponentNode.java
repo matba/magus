@@ -912,10 +912,10 @@ public class FlowComponentNode extends ComponentNode {
 
 		result.append(currentTab + "<bpel:process name=\"process1\"" + System.lineSeparator());
 		currentTab = "\t\t";
-		result.append(currentTab + "targetNamespace=\"http://magus.online/repositories/orderprocessing/wsdl/process1\""
+		result.append(currentTab + "targetNamespace=\"http://bashari.ca/magus/repositories/orderprocessing/wsdl/process1\""
 				+ System.lineSeparator());
 		result.append(currentTab + "suppressJoinFailure=\"yes\"" + System.lineSeparator());
-		result.append(currentTab + "xmlns:tns=\"http://magus.online/repositories/orderprocessing/wsdl/process1\""
+		result.append(currentTab + "xmlns:tns=\"http://bashari.ca/magus/repositories/orderprocessing/wsdl/process1\""
 				+ System.lineSeparator());
 		result.append(currentTab + "xmlns:bpel=\"http://docs.oasis-open.org/wsbpel/2.0/process/executable\""
 				+ System.lineSeparator());

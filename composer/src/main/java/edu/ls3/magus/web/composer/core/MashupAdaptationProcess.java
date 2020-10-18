@@ -37,7 +37,7 @@ public class MashupAdaptationProcess extends Process {
 		}
 
 		String systemAddress = runningInstanceUri.replace(Configuration.domainAddress,
-				Configuration.deploymentDirectory);
+				Configuration.deploymentDirectory + Configuration.defaultDeploymentDirectory);
 
 		if (!systemAddress.endsWith(File.separator)) {
 			systemAddress = systemAddress + File.separator;

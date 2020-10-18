@@ -28,35 +28,35 @@ import edu.ls3.magus.configuration.Configuration;
 import edu.ls3.magus.utility.UtilityClass;
 
 public class FeatureModelConfigurationMashupGeneration {
-	
-	
+
+
 	private FeatureModelConfiguration fmc;
 	private DomainModels dm;
 	private ContextStateModel contextStateModel;
-	
+
 	private String problemAddress;
 	private String domainAddress;
-	
+
 	private List<Instance> planningProblemInstances;
 	private Condition planningProblemPreconditions ;
 	private Condition planningProblemEffects ;
 	private List<String[]> rawPlan;
 	private List<OperationNode> serviceMashupWorkflow;
 	private FlowComponentNode serviceMashupBPELProcess;
-	
+
 	public FeatureModelConfigurationMashupGeneration( DomainModels dm, FeatureModelConfiguration fmc){
 		this.dm =dm;
 		this.fmc = fmc;
 		this.contextStateModel = new ContextStateModel();
-		
+
 	}
-	
+
 	public FeatureModelConfigurationMashupGeneration( DomainModels dm, FeatureModelConfiguration fmc,ContextStateModel contextStateModel){
 		this.dm =dm;
 		this.fmc = fmc;
 		this.contextStateModel = contextStateModel;
 	}
-	
+
 	public FlowComponentNode buildServiceMashup() throws Exception {
 		try{
 			this.convertToPDDL();
@@ -68,14 +68,14 @@ public class FeatureModelConfigurationMashupGeneration {
 		this.AnalyzePlan();
 		this.OptimizeGraph();
 		return this.GenerateBPEL();
-		
+
 	}
-	
+
 	public List<String> convertToPDDL() throws EmptyEffects, Exception{
-		
+
 		planningProblemPreconditions = dm.getFeatureModelAnnotation().findPrecondition(this.fmc);
 		planningProblemEffects =  dm.getFeatureModelAnnotation().findEffect(this.fmc);
-		
+
 		if(planningProblemEffects.getConditions().isEmpty())
 			throw new EmptyEffects();
 		planningProblemInstances = dm.getFeatureModelAnnotation().findEntities(this.fmc, dm.getContextModel());
@@ -85,26 +85,26 @@ public class FeatureModelConfigurationMashupGeneration {
 			svList = svList.FilterByAvailability(contextStateModel.getServiceAvailabilty());
 		}
 		List<InstanceType> negpType =svList.GetAllNotPreconditionVars(insType);
-		
+
 		for(InstanceType it : negpType){
-			Instance newIt = new Instance(it, "vvdummy"+it.getTypeName(), new URI( "http://magus.online/#"+"vvdummy"+it.getTypeName()));
+			Instance newIt = new Instance(it, "vvdummy"+it.getTypeName(), new URI( "http://bashari.ca/magus/#"+"vvdummy"+it.getTypeName()));
 			dm.getContextModel().getInstances().add(newIt);
 		}
 		planningProblemInstances = dm.getFeatureModelAnnotation().findEntities(this.fmc, dm.getContextModel());
 		insType = Instance.getAllTypes(planningProblemInstances);
 		Problem pr = new Problem(planningProblemInstances, planningProblemPreconditions, planningProblemEffects);
-		
+
 		String problemPDDL = pr.PDDL3Serialize(null);
 		 svList =  svList.FilterByUsedType(insType);
-		
+
 		ProblemDomain pd = new ProblemDomain(dm.getContextModel(),svList);
-		
+
 		List<StateFactType> sftl = svList.getAllUsedFactTypes();
-		
-		for(StateFactInstanceS sfis:planningProblemPreconditions.getConditions() ) 
+
+		for(StateFactInstanceS sfis:planningProblemPreconditions.getConditions() )
 			if(!sftl.contains(sfis.getStateFactInstance().getType()))
 				sftl.add(sfis.getStateFactInstance().getType());
-		for(StateFactInstanceS sfis:planningProblemEffects.getConditions() ) 
+		for(StateFactInstanceS sfis:planningProblemEffects.getConditions() )
 			if(!sftl.contains(sfis.getStateFactInstance().getType()))
 				sftl.add(sfis.getStateFactInstance().getType());
 		String problemDomainPDDL =  pd.PDDL3Serialize(null,sftl,insType);
@@ -114,28 +114,28 @@ public class FeatureModelConfigurationMashupGeneration {
 
 		UtilityClass.writeFile(new File(problemAddress),problemPDDL);
 		UtilityClass.writeFile(new File(domainAddress),problemDomainPDDL);
-		
+
 		List<String> result = new ArrayList<String>();
-		
+
 		result.add(problemAddress);
 		result.add(domainAddress);
-		
+
 		return result;
-		
+
 	}
-	
-	
+
+
 	public List<String[]> Callplanner() throws UnsuccessfulMashupGeneration, IOException, InterruptedException {
-		
+
 		rawPlan = new ArrayList<String[]>();
 
 		Process p = Runtime.getRuntime().exec(Configuration.plannerAddress+ "FF-v2.32/ff -o "+this.domainAddress+" -f "+this.problemAddress);
 		p.waitFor();
 
-		BufferedReader reader = 
+		BufferedReader reader =
 				new BufferedReader(new InputStreamReader(p.getInputStream()));
 
-		String line = "";			
+		String line = "";
 		boolean inPlan =false;
 		boolean planRead = false;
 		while ((line = reader.readLine())!= null) {
@@ -159,11 +159,11 @@ public class FeatureModelConfigurationMashupGeneration {
 			//System.out.println("Plan not found!");
 			throw new UnsuccessfulMashupGeneration();
 			//throw new Exception("Plan not found!");
-			
+
 		}
 		return rawPlan;
 	}
-	
+
 	public List<OperationNode> AnalyzePlan() throws Exception{
 		List<ServiceCall> plan  = new ArrayList<ServiceCall>();
 
@@ -232,11 +232,11 @@ public class FeatureModelConfigurationMashupGeneration {
 
 			plan.add(new ServiceCall(calledService,paramsin, paramsout,paramsvar));
 		}
-		
+
 		boolean deletableServiceFound=true;
 		while(deletableServiceFound){
 			deletableServiceFound = false;
-			
+
 			for(int pcnt=0; pcnt< plan.size();pcnt++){
 				List<ServiceCall> newplan  = new ArrayList<ServiceCall>();
 				newplan.addAll(plan);
@@ -249,13 +249,13 @@ public class FeatureModelConfigurationMashupGeneration {
 					break;
 				}
 			}
-			
+
 		}
-		
-		
-		
-		
-		
+
+
+
+
+
 		//    	for(ServiceCall sc:plan)
 		//    		System.out.println(sc.getCalledService().getName());
 
@@ -265,18 +265,18 @@ public class FeatureModelConfigurationMashupGeneration {
 
 
 	public List<OperationNode> OptimizeGraph() throws Exception {
-		
+
 		OperationNode.optimizeNew(getServiceMashupWorkflow());
 		return getServiceMashupWorkflow();
 	}
 
 
 	public FlowComponentNode GenerateBPEL() {
-		
+
 		setServiceMashupBPELProcess(FlowComponentNode.convertToFlowWithLink(getServiceMashupWorkflow()));
-		
-		
-		
+
+
+
 		getServiceMashupBPELProcess().OptimizeNo2();
 		return getServiceMashupBPELProcess();
 	}

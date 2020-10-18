@@ -1,7 +1,7 @@
-<rdf:RDF xmlns="http://magus.online/repositories/uploadimage/contextModel.xml"
+<rdf:RDF xmlns="http://bashari.ca/magus/repositories/uploadimage/contextModel.xml"
 	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:owl="http://www.w3.org/2002/07/owl#"
 	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
-	xml:base="http://magus.online/repositories/uploadimage/contextModel.xml">
+	xml:base="http://bashari.ca/magus/repositories/uploadimage/contextModel.xml">
 	<owl:Class rdf:ID="Image" />
 	<owl:Class rdf:ID="TagList" />
 	<owl:Class rdf:ID="ObjectType" />

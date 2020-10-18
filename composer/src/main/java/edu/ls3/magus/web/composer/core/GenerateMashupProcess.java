@@ -68,7 +68,8 @@ public class GenerateMashupProcess extends Process {
 
 		String relativeAddressFragment = Configuration.generatedServiceMashupDirectory + mashupUUID;
 
-		String mashupDirectoryAddress = Configuration.deploymentDirectory + relativeAddressFragment;
+		String mashupDirectoryAddress = Configuration.deploymentDirectory
+				+ Configuration.defaultDeploymentDirectory + relativeAddressFragment;
 
 		File mashupDirectory = new File(mashupDirectoryAddress);
 

@@ -10,13 +10,13 @@
     xmlns:daml="http://www.daml.org/2001/03/daml+oil#"
 	xmlns:expr="http://www.daml.org/services/owl-s/1.2/generic/Expression.owl#"
 	xmlns:swrl="http://www.w3.org/2003/11/swrl#"
-  xml:base="http://magus.online/repositories/orderprocessing/services/CalculateTaxforOrder.xml">
+  xml:base="http://bashari.ca/magus/repositories/orderprocessing/services/CalculateTaxforOrder.xml">
   <owl:Ontology rdf:about="">
     <owl:imports rdf:resource="http://www.daml.org/services/owl-s/1.2/Service.owl"/>
     <owl:imports rdf:resource="http://www.daml.org/services/owl-s/1.2/Grounding.owl"/>
     <owl:imports rdf:resource="http://www.daml.org/services/owl-s/1.2/Profile.owl"/>
     <owl:imports rdf:resource="http://www.daml.org/services/owl-s/1.2/Process.owl"/>
-    <owl:imports rdf:resource="http://magus.online/repositories/orderprocessing/contextModel.xml"/>
+    <owl:imports rdf:resource="http://bashari.ca/magus/repositories/orderprocessing/contextModel.xml"/>
   </owl:Ontology>
   <service:Service rdf:ID="CalculateTaxforOrder">
       <service:describedBy>
@@ -29,7 +29,7 @@
 				<rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
 				>purchaseOrder</rdfs:label>
 				<process:parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI"
-				>http://magus.online/repositories/orderprocessing/contextModel.xml#PurchaseOrder</process:parameterType>
+				>http://bashari.ca/magus/repositories/orderprocessing/contextModel.xml#PurchaseOrder</process:parameterType>
             </process:Input>
 		</process:hasInput>
 		<process:hasPrecondition>
@@ -42,7 +42,7 @@
 						  <swrl:AtomList>
 							<rdf:first>
 							  <swrl:ClassAtom>
-								<swrl:classPredicate rdf:resource="http://magus.online/repositories/orderprocessing/contextModel.xml#Customer"/>
+								<swrl:classPredicate rdf:resource="http://bashari.ca/magus/repositories/orderprocessing/contextModel.xml#Customer"/>
 								<swrl:argument1>
 								  <swrl:Variable rdf:ID="cu"/>
 								</swrl:argument1>
@@ -54,16 +54,16 @@
 						<rdf:first>
 						  <swrl:IndividualPropertyAtom>
 							<swrl:argument1 rdf:resource="#cu"/>
-							<swrl:propertyPredicate rdf:resource="http://magus.online/repositories/orderprocessing/contextModel.xml#InvoiceCreationRequested"/>
-							<swrl:argument2 rdf:resource="http://magus.online/repositories/orderprocessing/services/CalculateTaxforOrder.xml#purchaseOrder"/>
+							<swrl:propertyPredicate rdf:resource="http://bashari.ca/magus/repositories/orderprocessing/contextModel.xml#InvoiceCreationRequested"/>
+							<swrl:argument2 rdf:resource="http://bashari.ca/magus/repositories/orderprocessing/services/CalculateTaxforOrder.xml#purchaseOrder"/>
 						  </swrl:IndividualPropertyAtom>
 						</rdf:first>
 					  </swrl:AtomList>
 					</rdf:rest>
 					<rdf:first>
 					  <swrl:ClassAtom>
-						<swrl:classPredicate rdf:resource="http://magus.online/repositories/orderprocessing/contextModel.xml#PurchaseOrder"/>
-						<swrl:argument1 rdf:resource="http://magus.online/repositories/orderprocessing/services/CalculateTaxforOrder.xml#purchaseOrder"/>
+						<swrl:classPredicate rdf:resource="http://bashari.ca/magus/repositories/orderprocessing/contextModel.xml#PurchaseOrder"/>
+						<swrl:argument1 rdf:resource="http://bashari.ca/magus/repositories/orderprocessing/services/CalculateTaxforOrder.xml#purchaseOrder"/>
 					  </swrl:ClassAtom>
 					</rdf:first>
 				  </swrl:AtomList>
@@ -85,7 +85,7 @@
 		<process:hasOutput>
 		  <process:Output rdf:ID="taxInformationPart">
 			<process:parameterType rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI"
-			>http://magus.online/repositories/orderprocessing/contextModel.xml#TaxInfo</process:parameterType>
+			>http://bashari.ca/magus/repositories/orderprocessing/contextModel.xml#TaxInfo</process:parameterType>
 			<rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
 			>taxInformationPart</rdfs:label>
 		  </process:Output>
@@ -96,17 +96,17 @@
 					<swrl:AtomList>
 						<rdf:first>
 						  <swrl:ClassAtom>
-							<swrl:argument1 rdf:resource="http://magus.online/repositories/orderprocessing/services/CalculateTaxforOrder.xml#taxInformationPart"/>
-							<swrl:classPredicate rdf:resource="http://magus.online/repositories/orderprocessing/contextModel.xml#TaxInfo"/>
+							<swrl:argument1 rdf:resource="http://bashari.ca/magus/repositories/orderprocessing/services/CalculateTaxforOrder.xml#taxInformationPart"/>
+							<swrl:classPredicate rdf:resource="http://bashari.ca/magus/repositories/orderprocessing/contextModel.xml#TaxInfo"/>
 						  </swrl:ClassAtom>
 						</rdf:first>
 						<rdf:rest>
 						  <swrl:AtomList>
 							<rdf:first>
 							  <swrl:IndividualPropertyAtom>
-								<swrl:argument2 rdf:resource="http://magus.online/repositories/orderprocessing/services/CalculateTaxforOrder.xml#taxInformationPart"/>
-								<swrl:propertyPredicate rdf:resource="http://magus.online/repositories/orderprocessing/contextModel.xml#HasTaxInfo"/>
-								<swrl:argument1 rdf:resource="http://magus.online/repositories/orderprocessing/services/CalculateTaxforOrder.xml#purchaseOrder"/>
+								<swrl:argument2 rdf:resource="http://bashari.ca/magus/repositories/orderprocessing/services/CalculateTaxforOrder.xml#taxInformationPart"/>
+								<swrl:propertyPredicate rdf:resource="http://bashari.ca/magus/repositories/orderprocessing/contextModel.xml#HasTaxInfo"/>
+								<swrl:argument1 rdf:resource="http://bashari.ca/magus/repositories/orderprocessing/services/CalculateTaxforOrder.xml#purchaseOrder"/>
 							  </swrl:IndividualPropertyAtom>
 							</rdf:first>
 							<rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
@@ -118,6 +118,6 @@
 		</process:hasResult>
 	  </process:AtomicProcess>
     </service:describedBy>
-    
+
   </service:Service>
 </rdf:RDF>

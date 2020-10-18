@@ -68,14 +68,15 @@ public class MashupRegisterProcess extends Process {
 
 		String relativeAddressFragment = Configuration.runningServiceMashupDirectory + mashupUUID;
 
-		String mashupDirectoryAddress = Configuration.deploymentDirectory + relativeAddressFragment;
+		String mashupDirectoryAddress = Configuration.deploymentDirectory
+				+ Configuration.defaultDeploymentDirectory + relativeAddressFragment;
 
 		File mashupDirectory = new File(mashupDirectoryAddress);
 
 		mashupDirectory.mkdirs();
 
 		String mashupSystemAddress = mashupInstanceUri.replace(Configuration.domainAddress,
-				Configuration.deploymentDirectory);
+				Configuration.deploymentDirectory + Configuration.defaultDeploymentDirectory);
 
 		if (!mashupSystemAddress.endsWith("/")) {
 			mashupSystemAddress += "/";
